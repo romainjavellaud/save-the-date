@@ -29,14 +29,12 @@
     --blush-rgb:232,181,192;
     --torn-a:polygon(0.0% 0.36%,2.0% 0.72%,3.8% 0.59%,6.3% 0.06%,9.3% 0.04%,12.0% 0.08%,13.8% 0.47%,17.6% 0.14%,19.7% 0.69%,23.8% 0.63%,26.4% 1.07%,28.2% 0.94%,30.5% 0.16%,32.4% 0.34%,36.1% 0.20%,39.3% 0.70%,41.8% 0.60%,43.6% 0.07%,45.7% 0.75%,48.4% 0.35%,51.6% 0.50%,53.9% 0.87%,57.4% 0.27%,60.4% 0.58%,64.3% 0.80%,66.7% 1.08%,68.6% 0.46%,72.1% 0.17%,75.0% 0.04%,78.4% 0.84%,81.4% 0.96%,83.9% 0.76%,87.0% 0.64%,89.8% 0.92%,93.8% 0.52%,97.2% 0.07%,100.0% 0.71%,99.5% 22.00%,99.6% 48.00%,99.9% 74.00%,100.0% 99.61%,96.7% 99.98%,93.9% 99.83%,92.0% 99.94%,88.4% 99.87%,86.1% 99.61%,82.2% 99.92%,79.5% 99.45%,75.6% 99.18%,71.7% 99.72%,69.1% 99.64%,65.2% 99.04%,63.2% 99.82%,61.0% 99.77%,58.1% 99.41%,55.8% 100.00%,53.1% 99.63%,50.1% 99.05%,46.7% 99.48%,43.5% 99.32%,41.7% 99.10%,38.1% 99.13%,34.4% 99.61%,31.8% 99.90%,28.5% 99.94%,26.8% 99.79%,24.7% 99.66%,23.0% 100.00%,21.0% 99.90%,18.5% 99.97%,14.6% 99.39%,12.6% 99.75%,10.1% 99.64%,8.2% 99.15%,4.0% 99.53%,1.1% 99.91%,0.0% 99.66%,0.1% 76.00%,0.4% 50.00%,0.1% 24.00%);
     --torn-b:polygon(0.0% 0.16%,3.4% 0.63%,6.2% 0.22%,9.9% 0.81%,12.8% 0.51%,15.0% 0.00%,17.6% 0.59%,19.4% 0.79%,21.6% 0.23%,23.3% 1.00%,26.8% 0.88%,30.0% 0.03%,32.5% 0.50%,34.4% 0.95%,36.9% 0.15%,40.7% 0.12%,44.7% 0.45%,47.7% 0.34%,50.6% 0.19%,52.3% 0.87%,54.5% 0.78%,56.6% 0.97%,60.5% 0.75%,64.1% 0.58%,67.6% 0.12%,70.5% 0.83%,72.6% 0.92%,76.5% 0.41%,79.0% 0.45%,81.7% 0.99%,84.3% 0.03%,86.1% 0.72%,90.3% 0.50%,93.2% 0.55%,96.7% 0.22%,99.9% 0.56%,100.0% 0.18%,99.9% 22.00%,99.8% 48.00%,99.5% 74.00%,100.0% 99.58%,96.8% 99.63%,95.0% 99.92%,91.3% 99.07%,88.7% 99.18%,85.3% 98.92%,81.2% 99.51%,77.1% 98.85%,73.9% 98.94%,71.1% 99.55%,68.8% 98.95%,66.8% 99.92%,63.1% 99.07%,60.2% 99.00%,58.5% 99.69%,56.2% 99.50%,54.1% 99.92%,51.6% 98.92%,47.5% 99.10%,44.6% 99.70%,40.5% 99.37%,37.0% 99.97%,34.9% 98.99%,31.2% 98.94%,28.1% 99.49%,24.9% 98.98%,22.5% 99.36%,20.2% 99.08%,18.6% 99.18%,14.5% 99.97%,11.4% 99.23%,7.6% 99.30%,5.3% 99.51%,1.2% 98.91%,0.0% 99.89%,0.0% 76.00%,0.0% 50.00%,0.2% 24.00%);
-    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    --emboss:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z' stroke-opacity='0.07'/%3E%3Ccircle cx='24' cy='24' r='5' stroke-opacity='0.07'/%3E%3C/g%3E%3C/svg%3E");
+    --grain:url("grain.png");
     color-scheme:light;
   }
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  html.locked, html.locked body{overflow:hidden;}
   body{
     margin:0;
     background:var(--paper);
@@ -55,132 +53,10 @@
   }
   .serif{font-family:"Bodoni Moda", Georgia, serif;}
 
-  /* ===== intro: ivory envelope with wax seal ===== */
-  .intro{
-    position:fixed;
-    inset:0;
-    z-index:200;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:30px;
-    padding:20px;
-    background:var(--ink);
-    color:var(--paper-raised);
-    overflow:hidden;
-    cursor:pointer;
-    transition:opacity 700ms ease;
-  }
-  .intro::before{
-    content:"";
-    position:absolute;
-    inset:-40px;
-    background:url("photo-hero.jpg") center 30% / cover no-repeat;
-    filter:blur(22px) brightness(0.5) saturate(0.85);
-  }
-  .intro > *{position:relative;z-index:1;}
-  .intro[data-closing]{opacity:0;}
-  .intro.is-gone{display:none;}
-  .intro-to{
-    margin:0;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:1.2rem;
-    color:rgba(var(--cream-rgb),0.9);
-    text-align:center;
-  }
-  .intro-to strong{font-style:normal;font-weight:500;color:var(--blush);}
-  .intro-hint{margin:0;color:rgba(var(--cream-rgb),0.75);}
-
-  .env{
-    position:relative;
-    width:min(340px, 82vw);
-    aspect-ratio:3 / 2;
-    perspective:1000px;
-    filter:drop-shadow(0 26px 30px rgba(0,0,0,0.5));
-  }
-  .env-body{
-    position:absolute;
-    inset:0;
-    border-radius:6px;
-    background:var(--grain), linear-gradient(165deg, #faf4ea 0%, var(--paper-raised) 60%, #e9dfcf 100%);
-    overflow:hidden;
-  }
-  .env-body svg{position:absolute;inset:0;width:100%;height:100%;}
-  .env-card{
-    position:absolute;
-    left:8%;right:8%;
-    top:14%;
-    height:72%;
-    z-index:1;
-    border-radius:3px;
-    background:var(--grain), var(--paper-raised);
-    box-shadow:0 2px 10px rgba(0,0,0,0.2);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:1.4rem;
-    color:var(--burgundy);
-    transition:transform 800ms cubic-bezier(.22,.8,.2,1);
-  }
-  .env-front{
-    position:absolute;
-    inset:0;
-    z-index:2;
-    border-radius:6px;
-    overflow:hidden;
-    pointer-events:none;
-  }
-  .env-front svg{width:100%;height:100%;display:block;}
-  .env-flap{
-    position:absolute;
-    top:0;left:0;right:0;
-    height:62%;
-    z-index:3;
-    background:var(--grain), linear-gradient(180deg, #f1e8d9 0%, #e7dcc9 100%);
-    clip-path:polygon(0 0, 100% 0, 50% 100%);
-    transform-origin:top center;
-    transition:transform 750ms cubic-bezier(.4,0,.2,1);
-  }
-  .seal{
-    position:absolute;
-    top:62%;
-    left:50%;
-    z-index:4;
-    width:64px;
-    height:64px;
-    transform:translate(-50%,-50%);
-    border-radius:50% 47% 50% 46% / 47% 50% 46% 50%;
-    background:radial-gradient(circle at 34% 28%, var(--burgundy-soft) 0%, var(--burgundy) 55%, var(--burgundy-strong) 100%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:1.05rem;
-    color:rgba(var(--blush-rgb),0.85);
-    text-shadow:0 1px 0 rgba(255,255,255,0.18), 0 -1px 0 rgba(0,0,0,0.35);
-    box-shadow:0 5px 12px rgba(20,2,8,0.55), inset 0 0 0 3px rgba(255,255,255,0.1), inset 0 -4px 8px rgba(0,0,0,0.3);
-    transition:transform 300ms ease, opacity 300ms ease;
-  }
-  .seal::before{
-    content:"";
-    position:absolute;
-    inset:8px;
-    border-radius:50%;
-    border:1px solid rgba(var(--blush-rgb),0.35);
-  }
-  .env.is-open .env-flap{transform:rotateX(180deg);z-index:0;}
-  .env.is-open .env-card{transform:translateY(-52%);z-index:5;}
-  .env.is-open .seal{transform:translate(-50%,-50%) scale(0.2);opacity:0;}
-
   /* ===== hero: full-frame photo with the names crossing it ===== */
   .hero{
     position:relative;
-    background:var(--ink);
+    background:var(--paper);
     overflow:hidden;
     display:flex;
     justify-content:center;
@@ -190,7 +66,8 @@
     position:absolute;
     inset:-40px;
     background:url("photo-hero.jpg") center / cover no-repeat;
-    filter:blur(26px) brightness(0.5);
+    filter:blur(30px) saturate(1.05);
+    opacity:0.5;
   }
   .hero-frame{
     position:relative;
@@ -200,7 +77,7 @@
     max-height:940px;
     min-height:560px;
     overflow:hidden;
-    box-shadow:0 0 70px rgba(0,0,0,0.55);
+    box-shadow:0 0 60px rgba(23,17,15,0.3);
   }
   .hero-frame img{
     position:absolute;
@@ -209,6 +86,13 @@
     height:100%;
     object-fit:cover;
     object-position:46% 60%;
+  }
+  /* a soft copy of the photo sits underneath; the sharp one fades in on top */
+  .hero-frame .ph-blur{
+    inset:-8%;
+    width:116%;
+    height:116%;
+    filter:blur(20px);
   }
   .hero-frame::after{
     content:"";
@@ -259,13 +143,13 @@
     gap:14px;
   }
   .hero-date::before, .hero-date::after{content:"";width:34px;height:1px;background:rgba(var(--blush-rgb),0.7);}
-  .hero.reveal .name.lola{animation:rise 1.3s cubic-bezier(.22,.8,.2,1) both;}
-  .hero.reveal .name.romain{animation:rise 1.3s cubic-bezier(.22,.8,.2,1) 0.25s both;}
-  .hero.reveal .hero-top, .hero.reveal .hero-date{animation:fade 1.6s ease 0.6s both;}
-  .hero.reveal .hero-frame img{animation:settle 3s ease-out both;}
+  .name.lola{animation:rise 1.2s cubic-bezier(.22,.8,.2,1) 0.15s both;}
+  .name.romain{animation:rise 1.2s cubic-bezier(.22,.8,.2,1) 0.4s both;}
+  .hero-top, .hero-date{animation:fade 1.4s ease 0.5s both;}
+  .hero-frame .ph-sharp{animation:clear 3.2s ease-in-out 0.9s both;}
   @keyframes rise{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
   @keyframes fade{from{opacity:0;}to{opacity:1;}}
-  @keyframes settle{from{transform:scale(1.08);}to{transform:scale(1);}}
+  @keyframes clear{from{opacity:0;}to{opacity:1;}}
 
   /* ===== sections ===== */
   .wrap{width:100%;max-width:520px;margin:0 auto;padding-inline:22px;}
@@ -282,7 +166,7 @@
 
   /* date */
   .date-sec{
-    background:var(--emboss), radial-gradient(ellipse at 50% 30%, var(--burgundy-soft) 0%, var(--burgundy) 55%, var(--burgundy-strong) 100%);
+    background:var(--grain), var(--paper);
     padding-block:64px 70px;
   }
   .kicker{color:var(--burgundy);margin:0 0 6px;}
@@ -339,7 +223,7 @@
   .cal-btn:hover{background:var(--burgundy);color:var(--paper-raised);}
 
   /* rsvp */
-  .rsvp-sec{padding-block:72px 64px;text-align:center;background:var(--grain), var(--paper);}
+  .rsvp-sec{padding-block:72px 150px;text-align:center;background:var(--grain), var(--paper-raised);}
   .rsvp-title{
     margin:10px 0 14px;
     font-family:"Bodoni Moda", Georgia, serif;
@@ -367,14 +251,32 @@
   .share a{color:var(--burgundy);font-weight:500;text-decoration:none;border-bottom:1px solid var(--rose);padding-bottom:1px;}
   .share a:hover{border-bottom-color:var(--burgundy);}
 
-  /* closing */
-  .close-sec{background:var(--grey);padding-block:56px 44px;text-align:center;}
-  .close-sec img{width:min(230px, 62%);height:auto;display:block;margin:0 auto 18px;}
-  .close-line{margin:0;font-family:"Bodoni Moda", Georgia, serif;font-style:italic;font-size:1.15rem;color:var(--ink);}
-  .close-small{margin:10px 0 0;font-size:0.82rem;color:var(--ink-soft);}
+  /* footer: slides up once the photo has scrolled away */
+  .foot{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    padding:9px 16px calc(9px + env(safe-area-inset-bottom));
+    background:rgba(var(--cream-rgb),0.9);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    transform:translateY(105%);
+    opacity:0;
+    pointer-events:none;
+    transition:transform 700ms cubic-bezier(.22,.8,.2,1), opacity 500ms ease;
+  }
+  .foot.is-visible{transform:none;opacity:1;pointer-events:auto;}
+  .foot img{height:46px;width:auto;display:block;}
+  .foot-names{margin:0;font-family:"Bodoni Moda", Georgia, serif;font-style:italic;font-size:1.1rem;color:var(--ink);}
+  .foot-date{margin:0;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-soft);}
+  @media (max-width:420px){ .foot{gap:10px;} .foot-date{display:none;} }
 
-  a:focus-visible, button:focus-visible, .intro:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
-  .intro:focus-visible{outline-color:var(--blush);outline-offset:-6px;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
 
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important;animation:none !important;}
@@ -387,34 +289,11 @@
 </head>
 <body>
 
-<!-- Intro: ivory envelope sealed with wax -->
-<div class="intro" id="intro" role="button" tabindex="0" aria-label="Ouvrir l'invitation">
-  <p class="intro-to" id="intro-to">Une invitation vous attend</p>
-  <div class="env" id="env">
-    <div class="env-body">
-      <svg viewBox="0 0 340 227" fill="none" stroke="#17110f" stroke-opacity="0.07" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
-        <path d="M18 214C60 190 96 160 118 120"/><path d="M60 188c-8-12-4-24 8-30M82 170c-2-13 6-22 18-24M100 150c0-12 8-20 19-20"/>
-        <path d="M322 14C282 36 248 66 226 106"/><path d="M280 40c8 12 4 24-8 30M258 58c2 13-6 22-18 24M240 78c0 12-8 20-19 20"/>
-      </svg>
-    </div>
-    <div class="env-card">Lola &amp; Romain</div>
-    <div class="env-front">
-      <svg viewBox="0 0 340 227" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 227 L170 118 L0 20Z" fill="#f4ebdd" stroke="#17110f" stroke-opacity="0.1"/>
-        <path d="M340 227 L170 118 L340 20Z" fill="#f4ebdd" stroke="#17110f" stroke-opacity="0.1"/>
-        <path d="M0 227 L170 118 L340 227Z" fill="#efe5d4" stroke="#17110f" stroke-opacity="0.1"/>
-      </svg>
-    </div>
-    <div class="env-flap"></div>
-    <div class="seal" aria-hidden="true">L&amp;R</div>
-  </div>
-  <p class="caps intro-hint">Touchez le sceau pour ouvrir</p>
-</div>
-
 <!-- 1. Hero -->
 <header class="hero" id="hero">
   <div class="hero-frame">
-    <img src="photo-hero.jpg" width="1100" height="1350" alt="Lola et Romain sur un bateau, face à la côte" decoding="async" fetchpriority="high">
+    <img class="ph-blur" src="photo-hero.jpg" alt="" aria-hidden="true" decoding="async">
+    <img class="ph-sharp" src="photo-hero.jpg" width="1100" height="1350" alt="Lola et Romain sur un bateau, face à la côte" decoding="async" fetchpriority="high">
     <div class="hero-top">
       <p class="caps">Save the date</p>
       <p class="greeting" id="greeting" hidden></p>
@@ -469,13 +348,11 @@
   </section>
 </main>
 
-<!-- 4. Closing -->
-<footer class="close-sec">
-  <div class="wrap">
-    <img src="logo/logo.svg" width="400" height="520" alt="Monogramme L & R, 21 août 2027">
-    <p class="close-line">Avec tout notre amour</p>
-    <p class="close-small">Lola &amp; Romain</p>
-  </div>
+<!-- 4. Footer: appears after the photo -->
+<footer class="foot" id="foot" aria-label="Lola et Romain, 21 août 2027">
+  <img src="logo/logo.svg" width="400" height="520" alt="">
+  <p class="foot-names">Lola &amp; Romain</p>
+  <p class="foot-date">21 · 08 · 2027</p>
 </footer>
 
 <script>
@@ -505,8 +382,6 @@
   (function(){
     const name = (new URLSearchParams(location.search).get("to") || "").trim();
     if (!name) return;
-    const esc = name.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-    document.getElementById("intro-to").innerHTML = "Pour <strong>" + esc + "</strong>";
     const g = document.getElementById("greeting");
     g.textContent = "Cher·ère " + name + ",";
     g.hidden = false;
@@ -516,27 +391,14 @@
     cta.href = u.toString();
   })();
 
-  /* intro: open the envelope, then reveal the hero */
+  /* footer: show it once the photo has mostly scrolled out of view */
   (function(){
-    const root = document.documentElement;
-    const intro = document.getElementById("intro");
-    const env = document.getElementById("env");
+    const foot = document.getElementById("foot");
     const hero = document.getElementById("hero");
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      intro.classList.add("is-gone");
-      return;
-    }
-    root.classList.add("locked");
-    let opened = false;
-    function open(){
-      if (opened) return;
-      opened = true;
-      env.classList.add("is-open");
-      setTimeout(() => { hero.classList.add("reveal"); intro.setAttribute("data-closing", ""); }, 1000);
-      setTimeout(() => { intro.classList.add("is-gone"); root.classList.remove("locked"); }, 1750);
-    }
-    intro.addEventListener("click", open);
-    intro.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+    if (!("IntersectionObserver" in window)) { foot.classList.add("is-visible"); return; }
+    new IntersectionObserver(entries => {
+      foot.classList.toggle("is-visible", entries[0].intersectionRatio < 0.3);
+    }, {threshold:[0, 0.15, 0.3, 0.5, 1]}).observe(hero);
   })();
 </script>
 </body>
