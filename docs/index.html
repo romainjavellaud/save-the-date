@@ -5,155 +5,353 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>Lola &amp; Romain</title>
+<meta name="description" content="Lola et Romain se marient le 21 août 2027. Gardez la date !">
+<meta property="og:title" content="Lola &amp; Romain — Save the date">
+<meta property="og:description" content="Nous nous marions le 21 août 2027. Gardez la date !">
+<meta property="og:image" content="logo/logo-beige.png">
 <style>
   :root{
     --ink:#17110f;
     --ink-soft:#5b4f49;
     --paper:#eadbc8;
     --paper-raised:#f5ede2;
+    --grey:#dcd6cf;
     --burgundy:#6d1229;
     --burgundy-strong:#4c0b1c;
     --burgundy-soft:#82203a;
     --rose:#b9798a;
     --powder:#c7808f;
-    --blush:var(--blush);
+    --blush:#e8b5c0;
     --olive:#4a5a2b;
     --line:#d3c0aa;
     --focus:#6d1229;
     --cream-rgb:245,237,226;
     --blush-rgb:232,181,192;
+    --torn-a:polygon(0.0% 0.36%,2.0% 0.72%,3.8% 0.59%,6.3% 0.06%,9.3% 0.04%,12.0% 0.08%,13.8% 0.47%,17.6% 0.14%,19.7% 0.69%,23.8% 0.63%,26.4% 1.07%,28.2% 0.94%,30.5% 0.16%,32.4% 0.34%,36.1% 0.20%,39.3% 0.70%,41.8% 0.60%,43.6% 0.07%,45.7% 0.75%,48.4% 0.35%,51.6% 0.50%,53.9% 0.87%,57.4% 0.27%,60.4% 0.58%,64.3% 0.80%,66.7% 1.08%,68.6% 0.46%,72.1% 0.17%,75.0% 0.04%,78.4% 0.84%,81.4% 0.96%,83.9% 0.76%,87.0% 0.64%,89.8% 0.92%,93.8% 0.52%,97.2% 0.07%,100.0% 0.71%,99.5% 22.00%,99.6% 48.00%,99.9% 74.00%,100.0% 99.61%,96.7% 99.98%,93.9% 99.83%,92.0% 99.94%,88.4% 99.87%,86.1% 99.61%,82.2% 99.92%,79.5% 99.45%,75.6% 99.18%,71.7% 99.72%,69.1% 99.64%,65.2% 99.04%,63.2% 99.82%,61.0% 99.77%,58.1% 99.41%,55.8% 100.00%,53.1% 99.63%,50.1% 99.05%,46.7% 99.48%,43.5% 99.32%,41.7% 99.10%,38.1% 99.13%,34.4% 99.61%,31.8% 99.90%,28.5% 99.94%,26.8% 99.79%,24.7% 99.66%,23.0% 100.00%,21.0% 99.90%,18.5% 99.97%,14.6% 99.39%,12.6% 99.75%,10.1% 99.64%,8.2% 99.15%,4.0% 99.53%,1.1% 99.91%,0.0% 99.66%,0.1% 76.00%,0.4% 50.00%,0.1% 24.00%);
+    --torn-b:polygon(0.0% 0.16%,3.4% 0.63%,6.2% 0.22%,9.9% 0.81%,12.8% 0.51%,15.0% 0.00%,17.6% 0.59%,19.4% 0.79%,21.6% 0.23%,23.3% 1.00%,26.8% 0.88%,30.0% 0.03%,32.5% 0.50%,34.4% 0.95%,36.9% 0.15%,40.7% 0.12%,44.7% 0.45%,47.7% 0.34%,50.6% 0.19%,52.3% 0.87%,54.5% 0.78%,56.6% 0.97%,60.5% 0.75%,64.1% 0.58%,67.6% 0.12%,70.5% 0.83%,72.6% 0.92%,76.5% 0.41%,79.0% 0.45%,81.7% 0.99%,84.3% 0.03%,86.1% 0.72%,90.3% 0.50%,93.2% 0.55%,96.7% 0.22%,99.9% 0.56%,100.0% 0.18%,99.9% 22.00%,99.8% 48.00%,99.5% 74.00%,100.0% 99.58%,96.8% 99.63%,95.0% 99.92%,91.3% 99.07%,88.7% 99.18%,85.3% 98.92%,81.2% 99.51%,77.1% 98.85%,73.9% 98.94%,71.1% 99.55%,68.8% 98.95%,66.8% 99.92%,63.1% 99.07%,60.2% 99.00%,58.5% 99.69%,56.2% 99.50%,54.1% 99.92%,51.6% 98.92%,47.5% 99.10%,44.6% 99.70%,40.5% 99.37%,37.0% 99.97%,34.9% 98.99%,31.2% 98.94%,28.1% 99.49%,24.9% 98.98%,22.5% 99.36%,20.2% 99.08%,18.6% 99.18%,14.5% 99.97%,11.4% 99.23%,7.6% 99.30%,5.3% 99.51%,1.2% 98.91%,0.0% 99.89%,0.0% 76.00%,0.0% 50.00%,0.2% 24.00%);
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .2 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --emboss:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z' stroke-opacity='0.07'/%3E%3Ccircle cx='24' cy='24' r='5' stroke-opacity='0.07'/%3E%3C/g%3E%3C/svg%3E");
     color-scheme:light;
   }
 
   *{box-sizing:border-box;}
-  body{margin:0;}
-  [hidden]{display:none!important;}
+  html{scroll-behavior:smooth;}
+  html.locked, html.locked body{overflow:hidden;}
   body{
+    margin:0;
     background:var(--paper);
     color:var(--ink);
     font-family:"Jost", ui-sans-serif, system-ui, sans-serif;
-    padding:64px 20px 56px;
+    -webkit-font-smoothing:antialiased;
+  }
+  [hidden]{display:none!important;}
+  a{color:inherit;}
+  .caps{
+    margin:0;
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  .serif{font-family:"Bodoni Moda", Georgia, serif;}
+
+  /* ===== intro: ivory envelope with wax seal ===== */
+  .intro{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:30px;
+    padding:20px;
+    background:var(--ink);
+    color:var(--paper-raised);
+    overflow:hidden;
+    cursor:pointer;
+    transition:opacity 700ms ease;
+  }
+  .intro::before{
+    content:"";
+    position:absolute;
+    inset:-40px;
+    background:url("photo-hero.jpg") center 30% / cover no-repeat;
+    filter:blur(22px) brightness(0.5) saturate(0.85);
+  }
+  .intro > *{position:relative;z-index:1;}
+  .intro[data-closing]{opacity:0;}
+  .intro.is-gone{display:none;}
+  .intro-to{
+    margin:0;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-size:1.2rem;
+    color:rgba(var(--cream-rgb),0.9);
+    text-align:center;
+  }
+  .intro-to strong{font-style:normal;font-weight:500;color:var(--blush);}
+  .intro-hint{margin:0;color:rgba(var(--cream-rgb),0.75);}
+
+  .env{
+    position:relative;
+    width:min(340px, 82vw);
+    aspect-ratio:3 / 2;
+    perspective:1000px;
+    filter:drop-shadow(0 26px 30px rgba(0,0,0,0.5));
+  }
+  .env-body{
+    position:absolute;
+    inset:0;
+    border-radius:6px;
+    background:var(--grain), linear-gradient(165deg, #faf4ea 0%, var(--paper-raised) 60%, #e9dfcf 100%);
+    overflow:hidden;
+  }
+  .env-body svg{position:absolute;inset:0;width:100%;height:100%;}
+  .env-card{
+    position:absolute;
+    left:8%;right:8%;
+    top:14%;
+    height:72%;
+    z-index:1;
+    border-radius:3px;
+    background:var(--grain), var(--paper-raised);
+    box-shadow:0 2px 10px rgba(0,0,0,0.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-size:1.4rem;
+    color:var(--burgundy);
+    transition:transform 800ms cubic-bezier(.22,.8,.2,1);
+  }
+  .env-front{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    border-radius:6px;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .env-front svg{width:100%;height:100%;display:block;}
+  .env-flap{
+    position:absolute;
+    top:0;left:0;right:0;
+    height:62%;
+    z-index:3;
+    background:var(--grain), linear-gradient(180deg, #f1e8d9 0%, #e7dcc9 100%);
+    clip-path:polygon(0 0, 100% 0, 50% 100%);
+    transform-origin:top center;
+    transition:transform 750ms cubic-bezier(.4,0,.2,1);
+  }
+  .seal{
+    position:absolute;
+    top:62%;
+    left:50%;
+    z-index:4;
+    width:64px;
+    height:64px;
+    transform:translate(-50%,-50%);
+    border-radius:50% 47% 50% 46% / 47% 50% 46% 50%;
+    background:radial-gradient(circle at 34% 28%, var(--burgundy-soft) 0%, var(--burgundy) 55%, var(--burgundy-strong) 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:rgba(var(--blush-rgb),0.85);
+    text-shadow:0 1px 0 rgba(255,255,255,0.18), 0 -1px 0 rgba(0,0,0,0.35);
+    box-shadow:0 5px 12px rgba(20,2,8,0.55), inset 0 0 0 3px rgba(255,255,255,0.1), inset 0 -4px 8px rgba(0,0,0,0.3);
+    transition:transform 300ms ease, opacity 300ms ease;
+  }
+  .seal::before{
+    content:"";
+    position:absolute;
+    inset:8px;
+    border-radius:50%;
+    border:1px solid rgba(var(--blush-rgb),0.35);
+  }
+  .env.is-open .env-flap{transform:rotateX(180deg);z-index:0;}
+  .env.is-open .env-card{transform:translateY(-52%);z-index:5;}
+  .env.is-open .seal{transform:translate(-50%,-50%) scale(0.2);opacity:0;}
+
+  /* ===== hero: full-frame photo with the names crossing it ===== */
+  .hero{
+    position:relative;
+    background:var(--ink);
+    overflow:hidden;
     display:flex;
     justify-content:center;
   }
-  .page{width:100%;max-width:600px;text-align:center;}
-
-  .eyebrow{
-    font-size:0.74rem;
-    letter-spacing:0.22em;
-    text-transform:uppercase;
-    color:var(--burgundy);
-    margin:0 0 22px;
-    font-weight:600;
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:-40px;
+    background:url("photo-hero.jpg") center / cover no-repeat;
+    filter:blur(26px) brightness(0.5);
   }
-
-  h1{
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-optical-sizing:auto;
-    font-weight:600;
-    font-size:clamp(2.8rem, 10vw, 4.6rem);
-    line-height:1.04;
-    text-wrap:balance;
-    margin:0;
-  }
-  .amp{
-    color:var(--burgundy);
-    font-style:italic;
-    font-weight:400;
-  }
-
-  .marries{
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-weight:400;
-    font-size:clamp(1.1rem, 3vw, 1.4rem);
-    color:var(--ink-soft);
-    margin:10px 0 34px;
-  }
-
-  .portrait{
-    width:min(340px, 86%);
-    margin:0 auto 38px;
-    aspect-ratio:1000 / 945;
-    border-radius:999px 999px 6px 6px;
+  .hero-frame{
+    position:relative;
+    width:min(100%, 560px);
+    height:100vh;
+    height:100svh;
+    max-height:940px;
+    min-height:560px;
     overflow:hidden;
-    outline:1px solid var(--rose);
-    outline-offset:8px;
-    box-shadow:0 22px 40px -24px rgba(23,17,15,0.5);
-    background:var(--paper-raised);
+    box-shadow:0 0 70px rgba(0,0,0,0.55);
   }
-  .portrait img{
-    display:block;
+  .hero-frame img{
+    position:absolute;
+    inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:50% 50%;
+    object-position:46% 60%;
   }
+  .hero-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(23,17,15,0.62) 0%, rgba(23,17,15,0.12) 34%, rgba(23,17,15,0) 52%, rgba(23,17,15,0.72) 100%);
+    pointer-events:none;
+  }
+  .hero-top{
+    position:absolute;
+    top:26px;
+    left:0;right:0;
+    z-index:3;
+    text-align:center;
+    color:var(--paper-raised);
+  }
+  .hero-top .greeting{
+    margin:8px 0 0;
+    font-size:0.95rem;
+    letter-spacing:0.04em;
+    color:var(--blush);
+  }
+  .name{
+    position:absolute;
+    z-index:3;
+    margin:0;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-weight:400;
+    font-optical-sizing:auto;
+    line-height:0.82;
+    color:var(--paper-raised);
+    text-shadow:0 4px 30px rgba(23,17,15,0.45);
+  }
+  .name.lola{left:6%;top:11%;font-size:clamp(6.4rem, 33vw, 10.6rem);}
+  .name.lola .amp{font-size:0.42em;color:var(--blush);margin-left:0.12em;vertical-align:0.62em;}
+  .name.romain{right:5%;bottom:13%;font-size:clamp(4.9rem, 25vw, 8.1rem);}
+  .hero-date{
+    position:absolute;
+    bottom:30px;
+    left:0;right:0;
+    z-index:3;
+    text-align:center;
+    color:var(--paper-raised);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+  .hero-date::before, .hero-date::after{content:"";width:34px;height:1px;background:rgba(var(--blush-rgb),0.7);}
+  .hero.reveal .name.lola{animation:rise 1.3s cubic-bezier(.22,.8,.2,1) both;}
+  .hero.reveal .name.romain{animation:rise 1.3s cubic-bezier(.22,.8,.2,1) 0.25s both;}
+  .hero.reveal .hero-top, .hero.reveal .hero-date{animation:fade 1.6s ease 0.6s both;}
+  .hero.reveal .hero-frame img{animation:settle 3s ease-out both;}
+  @keyframes rise{from{opacity:0;transform:translateY(34px);}to{opacity:1;transform:none;}}
+  @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  @keyframes settle{from{transform:scale(1.08);}to{transform:scale(1);}}
 
-  .divider{display:flex;justify-content:center;margin:0 0 34px;}
-  .divider svg{width:170px;height:28px;display:block;}
+  /* ===== sections ===== */
+  .wrap{width:100%;max-width:520px;margin:0 auto;padding-inline:22px;}
+  section{position:relative;}
 
-  .date-big{
+  .paper-wrap{filter:drop-shadow(0 20px 22px rgba(23,17,15,0.3));}
+  .paper{
+    background:var(--grain), var(--paper-raised);
+    padding:46px 28px 50px;
+    text-align:center;
+  }
+  .paper.a{clip-path:var(--torn-a);}
+  .paper.b{clip-path:var(--torn-b);}
+
+  /* date */
+  .date-sec{
+    background:var(--emboss), radial-gradient(ellipse at 50% 30%, var(--burgundy-soft) 0%, var(--burgundy) 55%, var(--burgundy-strong) 100%);
+    padding-block:64px 70px;
+  }
+  .kicker{color:var(--burgundy);margin:0 0 6px;}
+  .date-day{
+    margin:0;
     font-family:"Bodoni Moda", Georgia, serif;
     font-weight:500;
-    font-variant-numeric:tabular-nums;
-    font-size:clamp(1.6rem, 5vw, 2.2rem);
-    letter-spacing:0.02em;
-    margin:0 0 8px;
+    font-size:clamp(5.6rem, 26vw, 8.2rem);
+    line-height:0.92;
+    color:var(--ink);
   }
-  .venue{
-    color:var(--ink-soft);
-    font-size:0.98rem;
-    margin:0 0 44px;
-    line-height:1.6;
+  .date-month{
+    margin:-2px 0 4px;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(2.6rem, 11vw, 3.6rem);
+    color:var(--burgundy);
+    line-height:1;
   }
+  .date-year{color:var(--ink-soft);}
+  .rule{width:56px;height:1px;background:var(--rose);margin:22px auto;}
+  .venue{margin:0 auto;max-width:30ch;line-height:1.65;color:var(--ink-soft);font-size:1rem;}
 
-  .countdown{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:10px;
-    max-width:460px;
-    margin:0 auto 46px;
-  }
-  .cd-cell{
-    background:var(--paper-raised);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:16px 4px 14px;
-  }
+  .countdown{display:flex;justify-content:center;gap:clamp(14px, 5vw, 26px);margin:26px 0 4px;}
+  .cd{display:flex;flex-direction:column;align-items:center;min-width:48px;}
   .cd-num{
-    display:block;
     font-family:"Bodoni Moda", Georgia, serif;
     font-weight:500;
     font-variant-numeric:tabular-nums;
-    font-size:clamp(1.5rem, 5vw, 2rem);
+    font-size:clamp(1.7rem, 7vw, 2.2rem);
     color:var(--powder);
     line-height:1;
   }
-  .cd-label{
-    display:block;
-    margin-top:6px;
-    font-size:0.66rem;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-  }
-  @media (max-width:420px){
-    .countdown{gap:8px;}
-    .cd-cell{padding:12px 2px 10px;}
-  }
+  .cd-label{margin-top:6px;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-soft);}
 
-  .message{
-    max-width:44ch;
-    margin:0 auto 40px;
-    color:var(--ink-soft);
-    line-height:1.65;
-    font-size:0.98rem;
+  .cal{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:30px;}
+  .cal-label{color:var(--ink-soft);}
+  .cal-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+  .cal-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    font-weight:500;
+    font-size:0.9rem;
+    color:var(--burgundy);
+    text-decoration:none;
+    padding:10px 20px 10px 16px;
+    border:1px solid var(--burgundy);
+    border-radius:999px;
+    transition:background 120ms ease, color 120ms ease;
   }
+  .cal-btn svg{width:17px;height:17px;flex:none;}
+  .cal-btn:hover{background:var(--burgundy);color:var(--paper-raised);}
 
+  /* rsvp */
+  .rsvp-sec{padding-block:72px 64px;text-align:center;background:var(--grain), var(--paper);}
+  .rsvp-title{
+    margin:10px 0 14px;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(2.3rem, 9vw, 3.1rem);
+    line-height:1.08;
+    text-wrap:balance;
+  }
+  .rsvp-text{margin:0 auto 28px;max-width:34ch;line-height:1.65;color:var(--ink-soft);}
   .cta{
     display:inline-block;
-    font-family:"Jost", sans-serif;
     font-weight:600;
     font-size:1rem;
     letter-spacing:0.01em;
@@ -165,405 +363,22 @@
     transition:background 120ms ease;
   }
   .cta:hover{background:var(--burgundy-strong);}
-  .cta:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
-
-  .cal{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:12px;
-    margin:0 0 30px;
-  }
-  .cal-label{
-    margin:0;
-    font-size:0.68rem;
-    letter-spacing:0.18em;
-    text-transform:uppercase;
-    font-weight:600;
-    color:var(--ink-soft);
-  }
-  .cal-btns{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px;
-  }
-  .cal-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
-    font-family:"Jost", sans-serif;
-    font-weight:500;
-    font-size:0.9rem;
-    color:var(--burgundy);
-    text-decoration:none;
-    padding:10px 20px 10px 16px;
-    border:1px solid var(--burgundy);
-    border-radius:999px;
-    background:transparent;
-    transition:background 120ms ease, color 120ms ease;
-  }
-  .cal-btn svg{width:17px;height:17px;flex:none;}
-  .cal-btn:hover{background:var(--burgundy);color:var(--paper-raised);}
-  .cal-btn:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
-
-  .share{
-    margin:22px 0 0;
-    font-size:0.88rem;
-    color:var(--ink-soft);
-  }
-  .share a{
-    color:var(--burgundy);
-    font-weight:500;
-    text-decoration:none;
-    border-bottom:1px solid var(--rose);
-    padding-bottom:1px;
-  }
+  .share{margin:26px 0 0;font-size:0.9rem;color:var(--ink-soft);}
+  .share a{color:var(--burgundy);font-weight:500;text-decoration:none;border-bottom:1px solid var(--rose);padding-bottom:1px;}
   .share a:hover{border-bottom-color:var(--burgundy);}
-  .share a:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
 
-  .rsvp-note{
-    margin:16px 0 0;
-    font-size:0.82rem;
-    color:var(--ink-soft);
-  }
+  /* closing */
+  .close-sec{background:var(--grey);padding-block:56px 44px;text-align:center;}
+  .close-sec img{width:min(230px, 62%);height:auto;display:block;margin:0 auto 18px;}
+  .close-line{margin:0;font-family:"Bodoni Moda", Georgia, serif;font-style:italic;font-size:1.15rem;color:var(--ink);}
+  .close-small{margin:10px 0 0;font-size:0.82rem;color:var(--ink-soft);}
 
-  .awning{
-    width:130px;
-    height:10px;
-    margin:52px auto 0;
-    border-radius:999px;
-    background:repeating-linear-gradient(
-      -45deg,
-      var(--burgundy) 0 10px,
-      var(--olive) 10px 20px,
-      var(--paper-raised) 20px 30px
-    );
-    opacity:0.9;
-  }
-
-  footer{
-    margin-top:22px;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    opacity:0.8;
-  }
+  a:focus-visible, button:focus-visible, .intro:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
+  .intro:focus-visible{outline-color:var(--blush);outline-offset:-6px;}
 
   @media (prefers-reduced-motion: reduce){
-    *{transition:none !important;}
-  }
-
-  .greeting{
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:1.05rem;
-    color:var(--ink-soft);
-    margin:0 0 18px;
-  }
-  .greeting[hidden]{display:none;}
-
-  .envelope-overlay{
-    position:fixed;
-    inset:0;
-    z-index:100;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:26px;
-    background:var(--paper);
-    cursor:pointer;
-    padding:20px;
-    overflow:hidden;
-    transition:opacity 550ms ease;
-  }
-  .envelope-overlay::before{
-    content:"";
-    position:absolute;
-    inset:-30px;
-    background:url("photo-couple.jpg") center / cover no-repeat;
-    filter:blur(18px) saturate(0.9);
-    opacity:0.5;
-  }
-  .envelope-overlay::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(ellipse at center, rgba(234,219,200,0.72) 0%, rgba(234,219,200,0.9) 100%);
-  }
-  .envelope-overlay > *{position:relative;z-index:1;}
-  .envelope-overlay[data-closing]{opacity:0;}
-  .envelope-overlay.is-hidden{display:none;}
-
-  .envelope-to{
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:1.15rem;
-    color:var(--ink-soft);
-    text-align:center;
-    max-width:32ch;
-  }
-  .envelope-to strong{color:var(--burgundy);font-style:normal;font-weight:500;}
-
-  .envelope{
-    width:min(300px, 74vw);
-    aspect-ratio:3 / 2;
-    position:relative;
-    perspective:900px;
-  }
-  .env-back{
-    position:absolute;
-    inset:0;
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z' stroke-opacity='0.09'/%3E%3Ccircle cx='24' cy='24' r='5' stroke-opacity='0.09'/%3E%3Cpath d='M0 0 24 24 48 0M0 48 24 24 48 48' stroke-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"),
-      linear-gradient(160deg, var(--burgundy-soft) 0%, var(--burgundy) 55%, var(--burgundy-strong) 100%);
-    border-radius:8px;
-    box-shadow:0 24px 48px -20px rgba(40,6,16,0.6), inset 0 0 0 1px rgba(255,255,255,0.08);
-  }
-  .env-letter{
-    position:absolute;
-    left:9%;
-    right:9%;
-    top:24%;
-    height:66%;
-    background:var(--paper-raised);
-    border-radius:4px;
-    box-shadow:0 3px 12px rgba(0,0,0,0.18);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:2;
-    transition:transform 650ms cubic-bezier(.22,.8,.2,1);
-  }
-  .env-letter-mark{
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:1.3rem;
-    color:var(--burgundy);
-  }
-  .env-flap{
-    position:absolute;
-    top:0;left:0;right:0;
-    height:56%;
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z' stroke-opacity='0.07'/%3E%3Ccircle cx='24' cy='24' r='5' stroke-opacity='0.07'/%3E%3C/g%3E%3C/svg%3E"),
-      linear-gradient(180deg, var(--burgundy), var(--burgundy-strong));
-    clip-path:polygon(0 0, 100% 0, 50% 92%);
-    transform-origin:top center;
-    z-index:3;
-    border-radius:8px 8px 0 0;
-    transition:transform 650ms cubic-bezier(.4,0,.2,1);
-  }
-  .env-seal{
-    position:absolute;
-    top:37%;
-    left:50%;
-    width:58px;
-    height:58px;
-    border-radius:50% 46% 50% 47% / 48% 50% 46% 50%;
-    background:radial-gradient(circle at 34% 28%, var(--paper-raised) 0%, var(--paper) 58%, var(--line) 100%);
-    transform:translate(-50%,-50%) scale(1);
-    z-index:4;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:0.95rem;
-    color:var(--rose);
-    text-shadow:0 1px 0 rgba(255,255,255,0.7), 0 -1px 0 rgba(76,11,28,0.2);
-    box-shadow:0 4px 10px rgba(30,6,14,0.45), inset 0 0 0 3px rgba(255,255,255,0.22), inset 0 -3px 6px rgba(76,11,28,0.22);
-    transition:transform 250ms ease, opacity 250ms ease;
-  }
-  .env-seal::before{
-    content:"";
-    position:absolute;
-    inset:7px;
-    border-radius:50%;
-    border:1px solid rgba(185,121,138,0.6);
-  }
-
-  .envelope.is-open .env-flap{transform:rotateX(180deg);z-index:1;}
-  .envelope.is-open .env-letter{transform:translateY(-48%);z-index:2;}
-  .envelope.is-open .env-seal{transform:translate(-50%,-50%) scale(0);opacity:0;}
-
-  .envelope-hint{
-    font-size:0.76rem;
-    font-weight:500;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .env-flap, .env-letter, .env-seal, .envelope-overlay{transition:none !important;}
-  }
-
-  /* ---- story: full-screen cards that follow the envelope ---- */
-  .story{
-    position:fixed;
-    inset:0;
-    z-index:120;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--paper-raised);
-    text-align:center;
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z' stroke-opacity='0.05'/%3E%3Ccircle cx='24' cy='24' r='5' stroke-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"),
-      radial-gradient(ellipse at 50% 40%, var(--burgundy-soft) 0%, var(--burgundy) 55%, var(--burgundy-strong) 100%);
-    opacity:0;
-    transition:opacity 600ms ease;
-    cursor:pointer;
-    user-select:none;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .story[hidden]{display:none;}
-  .story.is-visible{opacity:1;}
-  .story::before{
-    content:"";
-    position:absolute;
-    inset:16px;
-    border:1px solid rgba(var(--blush-rgb),0.32);
-    border-radius:14px;
-    pointer-events:none;
-  }
-  .story-corner{
-    position:absolute;
-    width:64px;
-    height:64px;
-    color:rgba(var(--blush-rgb),0.5);
-    pointer-events:none;
-  }
-  .story-corner svg{width:100%;height:100%;display:block;}
-  .story-corner.tl{top:20px;left:20px;}
-  .story-corner.tr{top:20px;right:20px;transform:scaleX(-1);}
-  .story-corner.bl{bottom:20px;left:20px;transform:scaleY(-1);}
-  .story-corner.br{bottom:20px;right:20px;transform:scale(-1,-1);}
-
-  .story-bars{
-    position:absolute;
-    top:34px;
-    left:50%;
-    transform:translateX(-50%);
-    width:min(260px, 56%);
-    display:flex;
-    gap:6px;
-    z-index:3;
-  }
-  .story-bar{flex:1;height:2px;background:rgba(var(--cream-rgb),0.25);border-radius:2px;overflow:hidden;}
-  .story-bar i{display:block;height:100%;width:0;background:var(--paper-raised);}
-  .story-skip{
-    position:absolute;
-    top:26px;
-    right:34px;
-    z-index:4;
-    background:none;
-    border:none;
-    color:rgba(var(--cream-rgb),0.75);
-    font:inherit;
-    font-size:0.78rem;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    cursor:pointer;
-    padding:6px 4px;
-  }
-  .story-skip:hover{color:var(--paper-raised);}
-  .story-skip:focus-visible, .story-btn:focus-visible{outline:2px solid var(--blush);outline-offset:3px;}
-
-  .story-card{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:14px;
-    padding:70px 40px;
-    opacity:0;
-    transform:translateY(16px);
-    transition:opacity 700ms ease, transform 900ms cubic-bezier(.22,.8,.2,1);
-    pointer-events:none;
-  }
-  .story-card.is-active{opacity:1;transform:none;pointer-events:auto;}
-
-  .sc-small{
-    margin:0;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:clamp(1rem, 3.4vw, 1.25rem);
-    color:rgba(var(--cream-rgb),0.85);
-  }
-  .sc-caps{
-    margin:0;
-    font-size:0.74rem;
-    letter-spacing:0.28em;
-    text-transform:uppercase;
-    font-weight:500;
-    color:var(--blush);
-  }
-  .sc-script{
-    margin:0;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-weight:400;
-    font-optical-sizing:auto;
-    line-height:1;
-    color:var(--paper-raised);
-    text-shadow:0 2px 14px rgba(76,11,28,0.35);
-  }
-  .sc-script.big{font-size:clamp(4.2rem, 17vw, 6.6rem);}
-  .sc-script.mid{font-size:clamp(2.8rem, 10.5vw, 4.4rem);}
-  .sc-script.sm{font-size:clamp(1.9rem, 6.4vw, 2.7rem);text-wrap:balance;max-width:16ch;}
-  .sc-the{
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-size:clamp(1.1rem, 3.6vw, 1.5rem);
-    letter-spacing:0.5em;
-    text-transform:uppercase;
-    color:var(--blush);
-    margin:6px 0 4px 0.5em;
-  }
-  .sc-amp{font-family:"Bodoni Moda", Georgia, serif;font-style:italic;font-size:clamp(1.8rem, 6.5vw, 2.6rem);color:var(--blush);line-height:1;margin:-4px 0;}
-  .sc-day{
-    margin:0;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-weight:500;
-    font-size:clamp(5.4rem, 24vw, 9rem);
-    line-height:0.9;
-    color:var(--paper-raised);
-    font-variant-numeric:lining-nums;
-  }
-  .sc-rule{width:64px;height:1px;background:rgba(var(--blush-rgb),0.6);margin:6px 0;}
-  .sc-text{margin:0;max-width:30ch;line-height:1.6;font-size:0.98rem;color:rgba(var(--cream-rgb),0.88);}
-  .sc-greeting{
-    margin:0 0 4px;
-    font-family:"Bodoni Moda", Georgia, serif;
-    font-style:italic;
-    font-size:1.1rem;
-    color:var(--blush);
-  }
-  .sc-greeting[hidden]{display:none;}
-  .story-actions{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:10px;}
-  .story-btn{
-    display:inline-block;
-    font-family:"Jost", sans-serif;
-    font-weight:600;
-    font-size:0.98rem;
-    text-decoration:none;
-    padding:15px 30px;
-    border-radius:999px;
-    border:1px solid var(--paper-raised);
-    background:var(--paper-raised);
-    color:var(--burgundy);
-    cursor:pointer;
-    transition:background 120ms ease, color 120ms ease;
-  }
-  .story-btn:hover{background:var(--paper);}
-  .story-btn.ghost{background:transparent;color:var(--paper-raised);font-weight:500;}
-  .story-btn.ghost:hover{background:rgba(var(--cream-rgb),0.12);}
-
-  @media (prefers-reduced-motion: reduce){
-    .story, .story-card{transition:none !important;}
+    *{transition:none !important;animation:none !important;}
+    html{scroll-behavior:auto;}
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -572,241 +387,157 @@
 </head>
 <body>
 
-<div class="envelope-overlay" id="envelope-overlay" role="button" tabindex="0" aria-label="Ouvrir l'enveloppe">
-  <p class="envelope-to" id="envelope-to">Un mot doux vous attend</p>
-  <div class="envelope" id="envelope">
-    <div class="env-back"></div>
-    <div class="env-letter"><span class="env-letter-mark">L&nbsp;&amp;&nbsp;R</span></div>
+<!-- Intro: ivory envelope sealed with wax -->
+<div class="intro" id="intro" role="button" tabindex="0" aria-label="Ouvrir l'invitation">
+  <p class="intro-to" id="intro-to">Une invitation vous attend</p>
+  <div class="env" id="env">
+    <div class="env-body">
+      <svg viewBox="0 0 340 227" fill="none" stroke="#17110f" stroke-opacity="0.07" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
+        <path d="M18 214C60 190 96 160 118 120"/><path d="M60 188c-8-12-4-24 8-30M82 170c-2-13 6-22 18-24M100 150c0-12 8-20 19-20"/>
+        <path d="M322 14C282 36 248 66 226 106"/><path d="M280 40c8 12 4 24-8 30M258 58c2 13-6 22-18 24M240 78c0 12-8 20-19 20"/>
+      </svg>
+    </div>
+    <div class="env-card">Lola &amp; Romain</div>
+    <div class="env-front">
+      <svg viewBox="0 0 340 227" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 227 L170 118 L0 20Z" fill="#f4ebdd" stroke="#17110f" stroke-opacity="0.1"/>
+        <path d="M340 227 L170 118 L340 20Z" fill="#f4ebdd" stroke="#17110f" stroke-opacity="0.1"/>
+        <path d="M0 227 L170 118 L340 227Z" fill="#efe5d4" stroke="#17110f" stroke-opacity="0.1"/>
+      </svg>
+    </div>
     <div class="env-flap"></div>
-    <div class="env-seal">L&amp;R</div>
+    <div class="seal" aria-hidden="true">L&amp;R</div>
   </div>
-  <p class="envelope-hint">Touchez le sceau pour ouvrir</p>
+  <p class="caps intro-hint">Touchez le sceau pour ouvrir</p>
 </div>
 
-<div class="story" id="story" hidden role="dialog" aria-label="Annonce du mariage">
-  <div class="story-corner tl"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 3C3 30 14 50 40 52"/><path d="M3 3C30 3 50 14 52 40"/><path d="M11 11C11 26 19 36 34 38"/><circle cx="6" cy="6" r="2" fill="currentColor"/></svg></div><div class="story-corner tr"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 3C3 30 14 50 40 52"/><path d="M3 3C30 3 50 14 52 40"/><path d="M11 11C11 26 19 36 34 38"/><circle cx="6" cy="6" r="2" fill="currentColor"/></svg></div>
-  <div class="story-corner bl"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 3C3 30 14 50 40 52"/><path d="M3 3C30 3 50 14 52 40"/><path d="M11 11C11 26 19 36 34 38"/><circle cx="6" cy="6" r="2" fill="currentColor"/></svg></div><div class="story-corner br"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M3 3C3 30 14 50 40 52"/><path d="M3 3C30 3 50 14 52 40"/><path d="M11 11C11 26 19 36 34 38"/><circle cx="6" cy="6" r="2" fill="currentColor"/></svg></div>
-  <div class="story-bars" aria-hidden="true"><span class="story-bar"><i></i></span><span class="story-bar"><i></i></span><span class="story-bar"><i></i></span><span class="story-bar"><i></i></span></div>
-  <button class="story-skip" id="story-skip" type="button">Passer</button>
+<!-- 1. Hero -->
+<header class="hero" id="hero">
+  <div class="hero-frame">
+    <img src="photo-hero.jpg" width="1100" height="1350" alt="Lola et Romain sur un bateau, face à la côte" decoding="async" fetchpriority="high">
+    <div class="hero-top">
+      <p class="caps">Save the date</p>
+      <p class="greeting" id="greeting" hidden></p>
+    </div>
+    <h1 class="name lola">Lola<span class="amp">&amp;</span></h1>
+    <p class="name romain" aria-hidden="true">Romain</p>
+    <p class="caps hero-date">21 · 08 · 2027</p>
+  </div>
+</header>
 
-  <section class="story-card">
-    <p class="sc-greeting" id="sc-greeting" hidden></p>
-    <h2 class="sc-script big">Save</h2>
-    <p class="sc-the">the</p>
-    <h2 class="sc-script big">Date</h2>
-  </section>
+<main>
+  <!-- 2. Date + lieu -->
+  <section class="date-sec">
+    <div class="wrap">
+      <div class="paper-wrap">
+        <div class="paper a">
+          <p class="caps kicker">Réservez la date</p>
+          <p class="date-day">21</p>
+          <p class="date-month">août</p>
+          <p class="caps date-year">2027</p>
+          <div class="rule"></div>
+          <p class="venue">Au bord de la mer, un château vous attend. Adresse et programme complet à venir.</p>
 
-  <section class="story-card">
-    <p class="sc-small">pour le mariage de</p>
-    <h2 class="sc-script mid">Lola</h2>
-    <p class="sc-amp">et</p>
-    <h2 class="sc-script mid">Romain</h2>
-  </section>
+          <div class="countdown" id="countdown" aria-label="Compte à rebours avant le mariage">
+            <div class="cd"><span class="cd-num" id="cd-days">–</span><span class="cd-label">jours</span></div>
+            <div class="cd"><span class="cd-num" id="cd-hours">–</span><span class="cd-label">heures</span></div>
+            <div class="cd"><span class="cd-num" id="cd-mins">–</span><span class="cd-label">min</span></div>
+            <div class="cd"><span class="cd-num" id="cd-secs">–</span><span class="cd-label">sec</span></div>
+          </div>
 
-  <section class="story-card">
-    <p class="sc-caps">Réservez la date</p>
-    <p class="sc-day">21</p>
-    <h2 class="sc-script mid">août</h2>
-    <p class="sc-caps">2027</p>
-    <div class="sc-rule"></div>
-    <p class="sc-text">Au bord de la mer, un château vous attend. Adresse et programme complet à venir.</p>
-  </section>
-
-  <section class="story-card">
-    <p class="sc-small">Merci de nous dire</p>
-    <h2 class="sc-script sm">si vous serez des nôtres</h2>
-    <p class="sc-text">Allergies, brunch du lendemain, hébergement au château, petit verre de vin : deux minutes suffisent.</p>
-    <div class="story-actions">
-      <a class="story-btn" id="story-cta" href="rsvp.html">Répondre au questionnaire</a>
-      <button class="story-btn ghost" id="story-close" type="button">Voir le faire-part</button>
+          <div class="cal">
+            <p class="caps cal-label">Ajouter à mon agenda</p>
+            <div class="cal-btns">
+              <a class="cal-btn" href="mariage-lola-romain.ics" download="mariage-lola-romain.ics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Apple · Outlook</a>
+              <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Mariage+de+Lola+%26+Romain&amp;dates=20270821/20270822&amp;details=Save+the+date" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Google Agenda</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
-</div>
 
-<div class="page">
-  <p class="greeting" id="greeting" hidden></p>
-  <p class="eyebrow">Save the date</p>
-  <h1>Lola <span class="amp">&amp;</span> Romain</h1>
-  <p class="marries">se marient</p>
-
-  <div class="portrait">
-    <img src="photo-couple.jpg" width="1000" height="945" alt="Lola et Romain sur un bateau, face à la côte" decoding="async">
-  </div>
-
-  <div class="divider" aria-hidden="true">
-    <svg viewBox="0 0 170 28" fill="none">
-      <line x1="0" y1="14" x2="66" y2="14" stroke="var(--rose)" stroke-width="1"/>
-      <line x1="104" y1="14" x2="170" y2="14" stroke="var(--rose)" stroke-width="1"/>
-      <g transform="translate(85 14)">
-        <path d="M0 0 C -7 -9, -18 -9, -20 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
-        <path d="M0 0 C 7 -9, 18 -9, 20 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
-        <ellipse cx="-15.5" cy="-3.4" rx="3.8" ry="2.6" fill="var(--olive)" transform="rotate(-28 -15.5 -3.4)"/>
-        <ellipse cx="15.5" cy="-3.4" rx="3.8" ry="2.6" fill="var(--olive)" transform="rotate(28 15.5 -3.4)"/>
-        <circle r="2.8" fill="var(--rose)"/>
-      </g>
-    </svg>
-  </div>
-
-  <p class="date-big">21 · 08 · 2027</p>
-  <p class="venue">Au bord de la mer, un château nous attend — adresse et programme complet à venir.<br>Réservez d'ores et déjà votre week-end !</p>
-
-  <div class="countdown" id="countdown" aria-label="Compte à rebours avant le mariage">
-    <div class="cd-cell"><span class="cd-num" id="cd-days">–</span><span class="cd-label">jours</span></div>
-    <div class="cd-cell"><span class="cd-num" id="cd-hours">–</span><span class="cd-label">heures</span></div>
-    <div class="cd-cell"><span class="cd-num" id="cd-mins">–</span><span class="cd-label">minutes</span></div>
-    <div class="cd-cell"><span class="cd-num" id="cd-secs">–</span><span class="cd-label">secondes</span></div>
-  </div>
-
-  <p class="message">Ceci n'est qu'une pré-annonce : gardez la date précieusement, l'invitation complète suivra avec tous les détails. En attendant, dites-nous si on peut compter sur vous.</p>
-
-  <div class="cal">
-    <p class="cal-label">Ajouter à mon agenda</p>
-    <div class="cal-btns">
-      <a class="cal-btn" href="mariage-lola-romain.ics" download="mariage-lola-romain.ics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Apple · Outlook</a>
-      <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Mariage+de+Lola+%26+Romain&amp;dates=20270821/20270822&amp;details=Save+the+date" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Google Agenda</a>
+  <!-- 3. Questionnaire -->
+  <section class="rsvp-sec">
+    <div class="wrap">
+      <p class="caps" style="color:var(--burgundy)">L'invitation officielle suivra</p>
+      <h2 class="rsvp-title">Serez-vous des nôtres&nbsp;?</h2>
+      <p class="rsvp-text">Allergies, brunch du lendemain, nuit au château, petit verre de vin : deux minutes pour nous aider à tout préparer.</p>
+      <a class="cta" id="cta-link" href="rsvp.html">Répondre au questionnaire</a>
+      <p class="share">Un proche à prévenir&nbsp;? <a id="share-link" href="https://wa.me/?text=Lola%20%26%20Romain%20se%20marient%20le%2021%20ao%C3%BBt%202027%20%21%20Gardez%20la%20date%20%3A%20https%3A%2F%2Fromainjavellaud.github.io%2Fsave-the-date%2F" target="_blank" rel="noopener">Partager par WhatsApp</a></p>
     </div>
+  </section>
+</main>
+
+<!-- 4. Closing -->
+<footer class="close-sec">
+  <div class="wrap">
+    <img src="logo/logo.svg" width="400" height="520" alt="Monogramme L & R, 21 août 2027">
+    <p class="close-line">Avec tout notre amour</p>
+    <p class="close-small">Lola &amp; Romain</p>
   </div>
-
-  <a class="cta" id="cta-link" href="rsvp.html">Je réponds au questionnaire</a>
-  <p class="rsvp-note">Allergies, brunch du lendemain, hébergement au château, petit verre de vin — deux minutes suffisent.</p>
-
-  <p class="share">Un proche à prévenir ? <a id="share-link" href="https://wa.me/?text=Lola%20%26%20Romain%20se%20marient%20le%2021%20ao%C3%BBt%202027%20%21%20Gardez%20la%20date%20%3A%20https%3A%2F%2Fromainjavellaud.github.io%2Fsave-the-date%2F" target="_blank" rel="noopener">Partager par WhatsApp</a></p>
-
-  <div class="awning" aria-hidden="true"></div>
-  <footer>Avec amour, Lola &amp; Romain</footer>
-</div>
+</footer>
 
 <script>
-  const target = new Date("2027-08-21T00:00:00+02:00").getTime();
-  const els = {
-    days: document.getElementById("cd-days"),
-    hours: document.getElementById("cd-hours"),
-    mins: document.getElementById("cd-mins"),
-    secs: document.getElementById("cd-secs"),
-  };
-  function tick() {
-    const diff = Math.max(0, target - Date.now());
-    const days = Math.floor(diff / 86400000);
-    const hours = Math.floor((diff % 86400000) / 3600000);
-    const mins = Math.floor((diff % 3600000) / 60000);
-    const secs = Math.floor((diff % 60000) / 1000);
-    els.days.textContent = days;
-    els.hours.textContent = String(hours).padStart(2, "0");
-    els.mins.textContent = String(mins).padStart(2, "0");
-    els.secs.textContent = String(secs).padStart(2, "0");
-  }
-  tick();
-  setInterval(tick, 1000);
+  /* countdown */
+  (function(){
+    const target = new Date("2027-08-21T00:00:00+02:00").getTime();
+    const el = {d:"cd-days",h:"cd-hours",m:"cd-mins",s:"cd-secs"};
+    for (const k in el) el[k] = document.getElementById(el[k]);
+    function tick(){
+      const diff = Math.max(0, target - Date.now());
+      el.d.textContent = Math.floor(diff / 86400000);
+      el.h.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,"0");
+      el.m.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,"0");
+      el.s.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,"0");
+    }
+    tick(); setInterval(tick, 1000);
+  })();
 
-  (function share(){
-    // Share the plain page (no ?to= name), so a forwarded link isn't addressed to someone else.
+  /* WhatsApp share: plain page URL, never the guest's personalised link */
+  (function(){
     const url = location.origin + location.pathname;
     const text = "Lola & Romain se marient le 21 août 2027 ! Gardez la date : " + url;
     document.getElementById("share-link").href = "https://wa.me/?text=" + encodeURIComponent(text);
   })();
 
-  (function personalize(){
-    const params = new URLSearchParams(location.search);
-    const name = (params.get("to") || "").trim();
+  /* personalisation: ?to=Antoine%20Dupond */
+  (function(){
+    const name = (new URLSearchParams(location.search).get("to") || "").trim();
     if (!name) return;
-
-    const escaped = name.replace(/[&<>"']/g, c => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-    }[c]));
-
-    const greeting = document.getElementById("greeting");
-    greeting.textContent = `Cher·ère ${name},`;
-    greeting.hidden = false;
-
-    document.getElementById("envelope-to").innerHTML = `Pour <strong>${escaped}</strong>`;
-
+    const esc = name.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    document.getElementById("intro-to").innerHTML = "Pour <strong>" + esc + "</strong>";
+    const g = document.getElementById("greeting");
+    g.textContent = "Cher·ère " + name + ",";
+    g.hidden = false;
     const cta = document.getElementById("cta-link");
-    const url = new URL(cta.href);
-    url.searchParams.set("to", name);
-    cta.href = url.toString();
-
-    const sg = document.getElementById("sc-greeting");
-    sg.textContent = `Cher·ère ${name},`;
-    sg.hidden = false;
-    document.getElementById("story-cta").href = url.toString();
+    const u = new URL(cta.href);
+    u.searchParams.set("to", name);
+    cta.href = u.toString();
   })();
 
-  (function story(){
-    const root = document.getElementById("story");
-    const cards = Array.from(root.querySelectorAll(".story-card"));
-    const bars = Array.from(root.querySelectorAll(".story-bar i"));
-    const DURATIONS = [3800, 3800, 4800, 0];
-    let idx = -1, timer = null;
-
-    function show(i) {
-      i = Math.max(0, Math.min(cards.length - 1, i));
-      idx = i;
-      clearTimeout(timer);
-      cards.forEach((c, k) => c.classList.toggle("is-active", k === i));
-      bars.forEach((b, k) => { b.style.transition = "none"; b.style.width = k < i ? "100%" : "0%"; });
-      if (DURATIONS[i]) {
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          bars[i].style.transition = "width " + DURATIONS[i] + "ms linear";
-          bars[i].style.width = "100%";
-        }));
-        timer = setTimeout(() => show(i + 1), DURATIONS[i]);
-      } else {
-        bars[i].style.width = "100%";
-      }
-    }
-    function close() {
-      clearTimeout(timer);
-      root.classList.remove("is-visible");
-      setTimeout(() => { root.hidden = true; }, 600);
-    }
-    window.openStory = function () {
-      root.hidden = false;
-      requestAnimationFrame(() => root.classList.add("is-visible"));
-      show(0);
-    };
-
-    root.addEventListener("click", (e) => {
-      if (e.target.closest("a, button")) return;
-      const x = e.clientX / window.innerWidth;
-      show(x < 0.33 ? idx - 1 : idx + 1);
-    });
-    document.getElementById("story-skip").addEventListener("click", close);
-    document.getElementById("story-close").addEventListener("click", close);
-    document.addEventListener("keydown", (e) => {
-      if (root.hidden) return;
-      if (e.key === "ArrowRight") show(idx + 1);
-      if (e.key === "ArrowLeft") show(idx - 1);
-      if (e.key === "Escape") close();
-    });
-  })();
-
-  (function envelope(){
-    const overlay = document.getElementById("envelope-overlay");
-    const env = document.getElementById("envelope");
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (reduceMotion) {
-      overlay.classList.add("is-hidden");
+  /* intro: open the envelope, then reveal the hero */
+  (function(){
+    const root = document.documentElement;
+    const intro = document.getElementById("intro");
+    const env = document.getElementById("env");
+    const hero = document.getElementById("hero");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      intro.classList.add("is-gone");
       return;
     }
-
-    function open() {
-      if (env.classList.contains("is-open")) return;
+    root.classList.add("locked");
+    let opened = false;
+    function open(){
+      if (opened) return;
+      opened = true;
       env.classList.add("is-open");
-      overlay.style.pointerEvents = "none";
-      setTimeout(() => { overlay.setAttribute("data-closing", ""); window.openStory(); }, 900);
-      setTimeout(() => overlay.classList.add("is-hidden"), 1600);
+      setTimeout(() => { hero.classList.add("reveal"); intro.setAttribute("data-closing", ""); }, 1000);
+      setTimeout(() => { intro.classList.add("is-gone"); root.classList.remove("locked"); }, 1750);
     }
-
-    overlay.addEventListener("click", open);
-    overlay.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        open();
-      }
-    });
+    intro.addEventListener("click", open);
+    intro.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
   })();
 </script>
-
 </body>
 </html>
