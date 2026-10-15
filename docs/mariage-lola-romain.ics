@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Lola et Romain//Save the date//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:mariage-lola-romain-20270821@romainjavellaud.github.io
+DTSTAMP:20261016T000000Z
+DTSTART;VALUE=DATE:20270821
+DTEND;VALUE=DATE:20270822
+SUMMARY:Mariage de Lola & Romain
+DESCRIPTION:Save the date - l'invitation complète suivra avec tous les détails.
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

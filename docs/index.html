@@ -13,6 +13,7 @@
     --burgundy:#6d1229;
     --burgundy-strong:#4c0b1c;
     --rose:#b9798a;
+    --powder:#c7808f;
     --olive:#4a5a2b;
     --line:#d3c0aa;
     --focus:#6d1229;
@@ -22,32 +23,6 @@
     --env-ink:#6d1229;
     --env-seal:#56672f;
     color-scheme:light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --ink:#efe3d3;
-      --ink-soft:#bfae9e;
-      --paper:#16100f;
-      --paper-raised:#231918;
-      --burgundy:#d27a90;
-      --burgundy-strong:#e6a3b4;
-      --rose:#d98a9d;
-      --olive:#9aa56e;
-      --line:#3b2a28;
-      --focus:#d27a90;
-    }
-  }
-  :root[data-theme="dark"]{
-    --ink:#efe3d3;
-    --ink-soft:#bfae9e;
-    --paper:#16100f;
-    --paper-raised:#231918;
-    --burgundy:#d27a90;
-    --burgundy-strong:#e6a3b4;
-    --rose:#d98a9d;
-    --olive:#9aa56e;
-    --line:#3b2a28;
-    --focus:#d27a90;
   }
 
   *{box-sizing:border-box;}
@@ -96,6 +71,25 @@
     margin:10px 0 34px;
   }
 
+  .portrait{
+    width:min(340px, 86%);
+    margin:0 auto 38px;
+    aspect-ratio:1000 / 945;
+    border-radius:999px 999px 6px 6px;
+    overflow:hidden;
+    outline:1px solid var(--rose);
+    outline-offset:8px;
+    box-shadow:0 22px 40px -24px rgba(23,17,15,0.5);
+    background:var(--paper-raised);
+  }
+  .portrait img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 50%;
+  }
+
   .divider{display:flex;justify-content:center;margin:0 0 34px;}
   .divider svg{width:170px;height:28px;display:block;}
 
@@ -133,7 +127,7 @@
     font-weight:500;
     font-variant-numeric:tabular-nums;
     font-size:clamp(1.5rem, 5vw, 2rem);
-    color:var(--burgundy);
+    color:var(--powder);
     line-height:1;
   }
   .cd-label{
@@ -172,6 +166,61 @@
   }
   .cta:hover{background:var(--burgundy-strong);}
   .cta:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
+
+  .cal{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    margin:0 0 30px;
+  }
+  .cal-label{
+    margin:0;
+    font-size:0.68rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .cal-btns{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+  .cal-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    font-family:"Jost", sans-serif;
+    font-weight:500;
+    font-size:0.9rem;
+    color:var(--burgundy);
+    text-decoration:none;
+    padding:10px 20px 10px 16px;
+    border:1px solid var(--burgundy);
+    border-radius:999px;
+    background:transparent;
+    transition:background 120ms ease, color 120ms ease;
+  }
+  .cal-btn svg{width:17px;height:17px;flex:none;}
+  .cal-btn:hover{background:var(--burgundy);color:var(--paper-raised);}
+  .cal-btn:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
+
+  .share{
+    margin:22px 0 0;
+    font-size:0.88rem;
+    color:var(--ink-soft);
+  }
+  .share a{
+    color:var(--burgundy);
+    font-weight:500;
+    text-decoration:none;
+    border-bottom:1px solid var(--rose);
+    padding-bottom:1px;
+  }
+  .share a:hover{border-bottom-color:var(--burgundy);}
+  .share a:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
 
   .rsvp-note{
     margin:16px 0 0;
@@ -343,6 +392,10 @@
   <h1>Lola <span class="amp">&amp;</span> Romain</h1>
   <p class="marries">se marient</p>
 
+  <div class="portrait">
+    <img src="photo-couple.jpg" width="1000" height="945" alt="Lola et Romain sur un bateau, face à la côte" decoding="async">
+  </div>
+
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 170 28" fill="none">
       <line x1="0" y1="14" x2="66" y2="14" stroke="var(--rose)" stroke-width="1"/>
@@ -358,7 +411,7 @@
   </div>
 
   <p class="date-big">21 · 08 · 2027</p>
-  <p class="venue">Entre lavande et oliviers, un château nous attend — adresse et programme complet à venir.<br>Réservez d'ores et déjà votre week-end !</p>
+  <p class="venue">Au bord de la mer, un château nous attend — adresse et programme complet à venir.<br>Réservez d'ores et déjà votre week-end !</p>
 
   <div class="countdown" id="countdown" aria-label="Compte à rebours avant le mariage">
     <div class="cd-cell"><span class="cd-num" id="cd-days">–</span><span class="cd-label">jours</span></div>
@@ -369,8 +422,18 @@
 
   <p class="message">Ceci n'est qu'une pré-annonce : gardez la date précieusement, l'invitation complète suivra avec tous les détails. En attendant, dites-nous si on peut compter sur vous.</p>
 
+  <div class="cal">
+    <p class="cal-label">Ajouter à mon agenda</p>
+    <div class="cal-btns">
+      <a class="cal-btn" href="mariage-lola-romain.ics" download="mariage-lola-romain.ics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Apple · Outlook</a>
+      <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Mariage+de+Lola+%26+Romain&amp;dates=20270821/20270822&amp;details=Save+the+date" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Google Agenda</a>
+    </div>
+  </div>
+
   <a class="cta" id="cta-link" href="rsvp.html">Je réponds au questionnaire</a>
   <p class="rsvp-note">Allergies, brunch du lendemain, hébergement au château, petit verre de vin — deux minutes suffisent.</p>
+
+  <p class="share">Un proche à prévenir ? <a id="share-link" href="https://wa.me/?text=Lola%20%26%20Romain%20se%20marient%20le%2021%20ao%C3%BBt%202027%20%21%20Gardez%20la%20date%20%3A%20https%3A%2F%2Fromainjavellaud.github.io%2Fsave-the-date%2F" target="_blank" rel="noopener">Partager par WhatsApp</a></p>
 
   <div class="awning" aria-hidden="true"></div>
   <footer>Avec amour, Lola &amp; Romain</footer>
@@ -397,6 +460,13 @@
   }
   tick();
   setInterval(tick, 1000);
+
+  (function share(){
+    // Share the plain page (no ?to= name), so a forwarded link isn't addressed to someone else.
+    const url = location.origin + location.pathname;
+    const text = "Lola & Romain se marient le 21 août 2027 ! Gardez la date : " + url;
+    document.getElementById("share-link").href = "https://wa.me/?text=" + encodeURIComponent(text);
+  })();
 
   (function personalize(){
     const params = new URLSearchParams(location.search);
