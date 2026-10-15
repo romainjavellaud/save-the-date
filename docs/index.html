@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lola &amp; Romain</title>
+<style>
+  :root{
+    --ink:#2b2118;
+    --ink-soft:#6b5c48;
+    --paper:#f0dfbe;
+    --paper-raised:#f8efdc;
+    --terracotta:#c1573a;
+    --terracotta-strong:#9c4129;
+    --citron:#e3a73b;
+    --olive:#6b7a42;
+    --azure:#2f6690;
+    --lavender:#8874a3;
+    --line:#ddc79e;
+    --focus:#c1573a;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#f5e9d6;
+      --ink-soft:#d8c3a0;
+      --paper:#201811;
+      --paper-raised:#2c2116;
+      --terracotta:#e58a63;
+      --terracotta-strong:#efa483;
+      --citron:#f0c26b;
+      --olive:#97a56c;
+      --azure:#6fa3c7;
+      --lavender:#b29fcb;
+      --line:#46392a;
+      --focus:#e58a63;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f5e9d6;
+    --ink-soft:#d8c3a0;
+    --paper:#201811;
+    --paper-raised:#2c2116;
+    --terracotta:#e58a63;
+    --terracotta-strong:#efa483;
+    --citron:#f0c26b;
+    --olive:#97a56c;
+    --azure:#6fa3c7;
+    --lavender:#b29fcb;
+    --line:#46392a;
+    --focus:#e58a63;
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  [hidden]{display:none!important;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Jost", ui-sans-serif, system-ui, sans-serif;
+    padding:64px 20px 56px;
+    display:flex;
+    justify-content:center;
+  }
+  .page{width:100%;max-width:600px;text-align:center;}
+
+  .eyebrow{
+    font-size:0.74rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    margin:0 0 22px;
+    font-weight:600;
+  }
+
+  h1{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(2.8rem, 10vw, 4.6rem);
+    line-height:1.04;
+    text-wrap:balance;
+    margin:0;
+  }
+  .amp{
+    color:var(--terracotta);
+    font-style:italic;
+    font-weight:400;
+  }
+
+  .marries{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.1rem, 3vw, 1.4rem);
+    color:var(--ink-soft);
+    margin:10px 0 34px;
+  }
+
+  .divider{display:flex;justify-content:center;margin:0 0 34px;}
+  .divider svg{width:170px;height:28px;display:block;}
+
+  .date-big{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-weight:500;
+    font-variant-numeric:tabular-nums;
+    font-size:clamp(1.6rem, 5vw, 2.2rem);
+    letter-spacing:0.02em;
+    margin:0 0 8px;
+  }
+  .venue{
+    color:var(--ink-soft);
+    font-size:0.98rem;
+    margin:0 0 44px;
+    line-height:1.6;
+  }
+
+  .countdown{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:10px;
+    max-width:460px;
+    margin:0 auto 46px;
+  }
+  .cd-cell{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 4px 14px;
+  }
+  .cd-num{
+    display:block;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-weight:500;
+    font-variant-numeric:tabular-nums;
+    font-size:clamp(1.5rem, 5vw, 2rem);
+    color:var(--terracotta);
+    line-height:1;
+  }
+  .cd-label{
+    display:block;
+    margin-top:6px;
+    font-size:0.66rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  @media (max-width:420px){
+    .countdown{gap:8px;}
+    .cd-cell{padding:12px 2px 10px;}
+  }
+
+  .message{
+    max-width:44ch;
+    margin:0 auto 40px;
+    color:var(--ink-soft);
+    line-height:1.65;
+    font-size:0.98rem;
+  }
+
+  .cta{
+    display:inline-block;
+    font-family:"Jost", sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    letter-spacing:0.01em;
+    color:var(--paper-raised);
+    background:var(--terracotta);
+    text-decoration:none;
+    padding:17px 34px;
+    border-radius:999px;
+    transition:background 120ms ease;
+  }
+  .cta:hover{background:var(--terracotta-strong);}
+  .cta:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
+
+  .rsvp-note{
+    margin:16px 0 0;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+  }
+
+  .awning{
+    width:130px;
+    height:10px;
+    margin:52px auto 0;
+    border-radius:999px;
+    background:repeating-linear-gradient(
+      -45deg,
+      var(--terracotta) 0 10px,
+      var(--citron) 10px 20px,
+      var(--paper-raised) 20px 30px
+    );
+    opacity:0.9;
+  }
+
+  footer{
+    margin-top:22px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    opacity:0.8;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+
+  .greeting{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    margin:0 0 18px;
+  }
+  .greeting[hidden]{display:none;}
+
+  .envelope-overlay{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:26px;
+    background:var(--paper);
+    cursor:pointer;
+    padding:20px;
+    transition:opacity 550ms ease;
+  }
+  .envelope-overlay[data-closing]{opacity:0;}
+  .envelope-overlay.is-hidden{display:none;}
+
+  .envelope-to{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--ink-soft);
+    text-align:center;
+    max-width:32ch;
+  }
+  .envelope-to strong{color:var(--terracotta);font-style:normal;font-weight:500;}
+
+  .envelope{
+    width:min(300px, 74vw);
+    aspect-ratio:3 / 2;
+    position:relative;
+    perspective:900px;
+  }
+  .env-back{
+    position:absolute;
+    inset:0;
+    background:var(--terracotta);
+    border-radius:8px;
+    box-shadow:0 20px 44px -20px rgba(0,0,0,0.4);
+  }
+  .env-letter{
+    position:absolute;
+    left:9%;
+    right:9%;
+    top:24%;
+    height:66%;
+    background:var(--paper-raised);
+    border-radius:4px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+    transition:transform 650ms cubic-bezier(.22,.8,.2,1);
+  }
+  .env-letter-mark{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-style:italic;
+    font-size:1.3rem;
+    color:var(--terracotta);
+  }
+  .env-flap{
+    position:absolute;
+    top:0;left:0;right:0;
+    height:56%;
+    background:var(--terracotta-strong);
+    clip-path:polygon(0 0, 100% 0, 50% 92%);
+    transform-origin:top center;
+    z-index:3;
+    border-radius:8px 8px 0 0;
+    transition:transform 650ms cubic-bezier(.4,0,.2,1);
+  }
+  .env-seal{
+    position:absolute;
+    top:37%;
+    left:50%;
+    width:36px;
+    height:36px;
+    background:var(--citron);
+    border-radius:50%;
+    transform:translate(-50%,-50%) scale(1);
+    z-index:4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-size:0.8rem;
+    color:var(--paper-raised);
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+    transition:transform 250ms ease, opacity 250ms ease;
+  }
+
+  .envelope.is-open .env-flap{transform:rotateX(180deg);z-index:1;}
+  .envelope.is-open .env-letter{transform:translateY(-48%);z-index:2;}
+  .envelope.is-open .env-seal{transform:translate(-50%,-50%) scale(0);opacity:0;}
+
+  .envelope-hint{
+    font-size:0.76rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .env-flap, .env-letter, .env-seal, .envelope-overlay{transition:none !important;}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="envelope-overlay" id="envelope-overlay" role="button" tabindex="0" aria-label="Ouvrir l'enveloppe">
+  <p class="envelope-to" id="envelope-to">Un mot doux vous attend</p>
+  <div class="envelope" id="envelope">
+    <div class="env-back"></div>
+    <div class="env-letter"><span class="env-letter-mark">L&nbsp;&amp;&nbsp;R</span></div>
+    <div class="env-flap"></div>
+    <div class="env-seal">L&amp;R</div>
+  </div>
+  <p class="envelope-hint">Touchez pour ouvrir</p>
+</div>
+
+<div class="page">
+  <p class="greeting" id="greeting" hidden></p>
+  <p class="eyebrow">Save the date</p>
+  <h1>Lola <span class="amp">&amp;</span> Romain</h1>
+  <p class="marries">se marient</p>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 170 28" fill="none">
+      <line x1="0" y1="14" x2="66" y2="14" stroke="var(--citron)" stroke-width="1"/>
+      <line x1="104" y1="14" x2="170" y2="14" stroke="var(--citron)" stroke-width="1"/>
+      <g transform="translate(85 14)">
+        <path d="M0 0 C -7 -9, -18 -9, -20 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
+        <path d="M0 0 C 7 -9, 18 -9, 20 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
+        <ellipse cx="-15.5" cy="-3.4" rx="3.8" ry="2.6" fill="var(--olive)" transform="rotate(-28 -15.5 -3.4)"/>
+        <ellipse cx="15.5" cy="-3.4" rx="3.8" ry="2.6" fill="var(--olive)" transform="rotate(28 15.5 -3.4)"/>
+        <circle r="2.8" fill="var(--citron)"/>
+      </g>
+    </svg>
+  </div>
+
+  <p class="date-big">21 · 08 · 2027</p>
+  <p class="venue">Entre lavande et oliviers, un château nous attend — adresse et programme complet à venir.<br>Réservez d'ores et déjà votre week-end !</p>
+
+  <div class="countdown" id="countdown" aria-label="Compte à rebours avant le mariage">
+    <div class="cd-cell"><span class="cd-num" id="cd-days">–</span><span class="cd-label">jours</span></div>
+    <div class="cd-cell"><span class="cd-num" id="cd-hours">–</span><span class="cd-label">heures</span></div>
+    <div class="cd-cell"><span class="cd-num" id="cd-mins">–</span><span class="cd-label">minutes</span></div>
+    <div class="cd-cell"><span class="cd-num" id="cd-secs">–</span><span class="cd-label">secondes</span></div>
+  </div>
+
+  <p class="message">Ceci n'est qu'une pré-annonce : gardez la date précieusement, l'invitation complète suivra avec tous les détails. En attendant, dites-nous si on peut compter sur vous.</p>
+
+  <a class="cta" id="cta-link" href="rsvp.html">Je réponds au questionnaire</a>
+  <p class="rsvp-note">Allergies, brunch du lendemain, hébergement au château, petit verre de vin — deux minutes suffisent.</p>
+
+  <div class="awning" aria-hidden="true"></div>
+  <footer>Avec amour, Lola &amp; Romain</footer>
+</div>
+
+<script>
+  const target = new Date("2027-08-21T00:00:00+02:00").getTime();
+  const els = {
+    days: document.getElementById("cd-days"),
+    hours: document.getElementById("cd-hours"),
+    mins: document.getElementById("cd-mins"),
+    secs: document.getElementById("cd-secs"),
+  };
+  function tick() {
+    const diff = Math.max(0, target - Date.now());
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    els.days.textContent = days;
+    els.hours.textContent = String(hours).padStart(2, "0");
+    els.mins.textContent = String(mins).padStart(2, "0");
+    els.secs.textContent = String(secs).padStart(2, "0");
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  (function personalize(){
+    const params = new URLSearchParams(location.search);
+    const name = (params.get("to") || "").trim();
+    if (!name) return;
+
+    const escaped = name.replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+
+    const greeting = document.getElementById("greeting");
+    greeting.textContent = `Cher·ère ${name},`;
+    greeting.hidden = false;
+
+    document.getElementById("envelope-to").innerHTML = `Pour <strong>${escaped}</strong>`;
+
+    const cta = document.getElementById("cta-link");
+    const url = new URL(cta.href);
+    url.searchParams.set("to", name);
+    cta.href = url.toString();
+  })();
+
+  (function envelope(){
+    const overlay = document.getElementById("envelope-overlay");
+    const env = document.getElementById("envelope");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      overlay.classList.add("is-hidden");
+      return;
+    }
+
+    function open() {
+      if (env.classList.contains("is-open")) return;
+      env.classList.add("is-open");
+      overlay.style.pointerEvents = "none";
+      setTimeout(() => overlay.setAttribute("data-closing", ""), 500);
+      setTimeout(() => overlay.classList.add("is-hidden"), 1050);
+    }
+
+    overlay.addEventListener("click", open);
+    overlay.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

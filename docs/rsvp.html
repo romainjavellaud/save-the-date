@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Répondez-nous</title>
+<style>
+  :root{
+    --ink:#2b2118;
+    --ink-soft:#6b5c48;
+    --paper:#f0dfbe;
+    --paper-raised:#f8efdc;
+    --terracotta:#c1573a;
+    --terracotta-strong:#9c4129;
+    --citron:#e3a73b;
+    --olive:#6b7a42;
+    --azure:#2f6690;
+    --lavender:#8874a3;
+    --line:#ddc79e;
+    --focus:#c1573a;
+    --radius:14px;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#f5e9d6;
+      --ink-soft:#d8c3a0;
+      --paper:#201811;
+      --paper-raised:#2c2116;
+      --terracotta:#e58a63;
+      --terracotta-strong:#efa483;
+      --citron:#f0c26b;
+      --olive:#97a56c;
+      --azure:#6fa3c7;
+      --lavender:#b29fcb;
+      --line:#46392a;
+      --focus:#e58a63;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f5e9d6;
+    --ink-soft:#d8c3a0;
+    --paper:#201811;
+    --paper-raised:#2c2116;
+    --terracotta:#e58a63;
+    --terracotta-strong:#efa483;
+    --citron:#f0c26b;
+    --olive:#97a56c;
+    --azure:#6fa3c7;
+    --lavender:#b29fcb;
+    --line:#46392a;
+    --focus:#e58a63;
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  [hidden]{display:none!important;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Jost", ui-sans-serif, system-ui, sans-serif;
+    padding:56px 20px 72px;
+    display:flex;
+    justify-content:center;
+  }
+  .page{width:100%;max-width:620px;}
+
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    text-align:center;
+    margin:0 0 10px;
+    font-weight:600;
+  }
+  h1{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(2rem, 6vw, 2.9rem);
+    line-height:1.08;
+    text-align:center;
+    text-wrap:balance;
+    margin:0 0 6px;
+  }
+  .sub{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:1rem;
+    max-width:46ch;
+    margin:0 auto 30px;
+    line-height:1.55;
+  }
+
+  .divider{display:flex;justify-content:center;margin:0 0 34px;}
+  .divider svg{width:150px;height:26px;display:block;}
+
+  form{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+  }
+
+  fieldset{
+    border:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  legend{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-weight:500;
+    font-size:1.05rem;
+    padding:0 0 2px;
+    width:100%;
+  }
+  .hint{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin:-4px 0 4px;
+  }
+
+  label.field-label{
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--ink-soft);
+    letter-spacing:0.01em;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea{
+    width:100%;
+    font:inherit;
+    font-size:1rem;
+    color:var(--ink);
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+  }
+  input[type="text"]:focus-visible,
+  input[type="number"]:focus-visible,
+  textarea:focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:1px;
+  }
+  textarea{resize:vertical;min-height:88px;line-height:1.5;font-family:inherit;}
+
+  .stack{display:flex;flex-direction:column;gap:8px;}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:460px){.row-2{grid-template-columns:1fr;}}
+
+  .pillgroup{display:flex;flex-wrap:wrap;gap:10px;}
+  .pillgroup input{position:absolute;opacity:0;width:1px;height:1px;}
+  .pillgroup label{
+    cursor:pointer;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    font-size:0.92rem;
+    font-weight:500;
+    color:var(--ink);
+    transition:background 120ms ease, border-color 120ms ease, color 120ms ease;
+  }
+  .pillgroup input:checked + label{
+    background:var(--terracotta);
+    border-color:var(--terracotta);
+    color:var(--paper-raised);
+  }
+  .pillgroup input:focus-visible + label{
+    outline:2px solid var(--focus);
+    outline-offset:2px;
+  }
+
+  #details{
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+    border-top:1px solid var(--line);
+    padding-top:26px;
+  }
+  #details[hidden]{display:none;}
+
+  .num-input{max-width:120px;}
+
+  button[type="submit"]{
+    font:inherit;
+    font-size:1rem;
+    font-weight:600;
+    letter-spacing:0.01em;
+    color:var(--paper-raised);
+    background:var(--terracotta);
+    border:none;
+    border-radius:999px;
+    padding:16px 20px;
+    cursor:pointer;
+    transition:background 120ms ease, transform 120ms ease;
+  }
+  button[type="submit"]:hover{background:var(--terracotta-strong);}
+  button[type="submit"]:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+  button[type="submit"]:active{transform:scale(0.99);}
+
+  .fallback-copy{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font:inherit;
+    font-size:0.85rem;
+    text-decoration:underline;
+    cursor:pointer;
+    padding:0;
+    text-align:center;
+  }
+
+  #confirm{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    text-align:center;
+    padding:46px 10px 10px;
+  }
+  #confirm[hidden]{display:none;}
+  #confirm .mark{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-size:2.4rem;
+    color:var(--terracotta);
+  }
+  #confirm p{color:var(--ink-soft);max-width:42ch;line-height:1.55;}
+
+  .backlink{
+    display:block;
+    text-align:center;
+    margin-top:44px;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+  }
+  .backlink a{color:var(--terracotta);text-decoration:none;border-bottom:1px solid var(--line);}
+  .backlink a:hover{border-bottom-color:var(--terracotta);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="page">
+  <p class="eyebrow">Lola &amp; Romain · 21 août 2027</p>
+  <h1>Vous serez des&nbsp;nôtres&nbsp;?</h1>
+  <p class="sub">Quelques questions pour bien tout préparer — allergies, brunch du lendemain, hébergement au château et petit verre de vin. Deux minutes montre en main.</p>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 150 26" fill="none">
+      <line x1="0" y1="13" x2="58" y2="13" stroke="var(--citron)" stroke-width="1"/>
+      <line x1="92" y1="13" x2="150" y2="13" stroke="var(--citron)" stroke-width="1"/>
+      <g transform="translate(75 13)">
+        <path d="M0 0 C -6 -8, -16 -8, -18 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
+        <path d="M0 0 C 6 -8, 16 -8, 18 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
+        <ellipse cx="-14" cy="-3" rx="3.4" ry="2.4" fill="var(--olive)" transform="rotate(-28 -14 -3)"/>
+        <ellipse cx="14" cy="-3" rx="3.4" ry="2.4" fill="var(--olive)" transform="rotate(28 14 -3)"/>
+        <circle r="2.6" fill="var(--citron)"/>
+      </g>
+    </svg>
+  </div>
+
+  <form id="rsvp-form" method="GET">
+    <fieldset>
+      <legend>Vos coordonnées</legend>
+      <div class="stack">
+        <label class="field-label" for="names">Prénom(s) et nom</label>
+        <input type="text" id="names" name="names" placeholder="Ex : Camille &amp; Antoine Dupuis" required>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Serez-vous présent&nbsp;?</legend>
+      <div class="pillgroup" role="radiogroup" aria-label="Présence">
+        <input type="radio" id="presence-oui" name="presence" value="oui" required>
+        <label for="presence-oui">Oui, avec plaisir</label>
+        <input type="radio" id="presence-non" name="presence" value="non">
+        <label for="presence-non">Non, on ne pourra pas</label>
+      </div>
+    </fieldset>
+
+    <div id="details" hidden>
+      <fieldset>
+        <legend>Combien serez-vous&nbsp;?</legend>
+        <div class="stack">
+          <label class="field-label" for="headcount">Nombre de personnes</label>
+          <input type="number" id="headcount" class="num-input" name="headcount" min="1" max="12" value="1" inputmode="numeric">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Allergies &amp; régimes alimentaires</legend>
+        <p class="hint">Pour qui, et lesquels — on transmet tout au traiteur.</p>
+        <textarea id="allergies" name="allergies" placeholder="Ex : Camille – arachides, Antoine – végétarien. Sinon, écrivez « aucune »."></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>Brunch du lendemain</legend>
+        <div class="pillgroup" role="radiogroup" aria-label="Brunch du lendemain">
+          <input type="radio" id="brunch-oui" name="brunch" value="oui">
+          <label for="brunch-oui">On reste</label>
+          <input type="radio" id="brunch-non" name="brunch" value="non">
+          <label for="brunch-non">On file la veille</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Dormir au château</legend>
+        <div class="pillgroup" role="radiogroup" aria-label="Dormir au château" id="chateau-group">
+          <input type="radio" id="chateau-oui" name="chateau" value="oui">
+          <label for="chateau-oui">Oui, avec joie</label>
+          <input type="radio" id="chateau-non" name="chateau" value="non">
+          <label for="chateau-non">Non, on dort ailleurs</label>
+        </div>
+        <div class="stack" id="chateau-count-wrap" hidden style="margin-top:6px;">
+          <label class="field-label" for="chateau-count">Nombre de personnes à loger</label>
+          <input type="number" id="chateau-count" class="num-input" name="chateau_count" min="1" max="12" value="1" inputmode="numeric">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Un petit verre de vin&nbsp;?</legend>
+        <div class="pillgroup" role="radiogroup" aria-label="Vin">
+          <input type="radio" id="vin-oui" name="vin" value="oui">
+          <label for="vin-oui">Oui, volontiers</label>
+          <input type="radio" id="vin-non" name="vin" value="non">
+          <label for="vin-non">Non merci</label>
+          <input type="radio" id="vin-partiel" name="vin" value="ca depend qui">
+          <label for="vin-partiel">Ça dépend qui</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Un mot pour nous</legend>
+        <textarea id="message" name="message" placeholder="Facultatif — une blague, une chanson à réclamer au DJ, un mot doux…"></textarea>
+      </fieldset>
+    </div>
+
+    <button type="submit">Envoyer notre réponse</button>
+    <button type="button" class="fallback-copy" id="copy-btn">La messagerie ne s'ouvre pas ? Copier les réponses</button>
+  </form>
+
+  <div id="confirm" hidden>
+    <div class="mark">✦</div>
+    <h1 style="font-size:1.6rem;">Merci&nbsp;!</h1>
+    <p id="confirm-text">Votre messagerie vient de s'ouvrir avec vos réponses pré-remplies : il ne reste plus qu'à appuyer sur envoyer pour que ça nous arrive.</p>
+  </div>
+
+  <p class="backlink">← <a href="#" id="back-link">Retour au faire-part</a></p>
+</div>
+
+<script>
+  const RSVP_TO = "romain.javellaud@gmail.com";
+  const SAVE_THE_DATE_URL = "index.html";
+  // Google Apps Script Web App endpoint that appends a row to the
+  // Sheet. Left empty, the form falls back to opening a pre-filled
+  // email instead.
+  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbytGcJ_Mds0j-tNiQMjHZo4euB2z6pW-R6b2Audv91ILxMs5V3jAinlTGLiS7UKhtWm/exec";
+
+  const backLink = document.getElementById("back-link");
+  if (SAVE_THE_DATE_URL && SAVE_THE_DATE_URL.indexOf("__") !== 0) {
+    backLink.href = SAVE_THE_DATE_URL;
+  } else {
+    backLink.parentElement.hidden = true;
+  }
+
+  const prefillName = new URLSearchParams(location.search).get("to");
+  if (prefillName) {
+    document.getElementById("names").value = prefillName.trim();
+  }
+
+  // mailto: is unreliable with accented characters in some mail clients
+  // (Gmail's handler in particular mangles UTF-8 percent-encoding into
+  // mojibake like "prÃ©sent"), so the email itself is sent in plain ASCII.
+  function stripAccents(str) {
+    return str.normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+
+  const presenceRadios = document.querySelectorAll('input[name="presence"]');
+  const details = document.getElementById("details");
+  presenceRadios.forEach(r => r.addEventListener("change", () => {
+    details.hidden = (document.querySelector('input[name="presence"]:checked')?.value !== "oui");
+  }));
+
+  const chateauRadios = document.querySelectorAll('input[name="chateau"]');
+  const chateauCountWrap = document.getElementById("chateau-count-wrap");
+  chateauRadios.forEach(r => r.addEventListener("change", () => {
+    chateauCountWrap.hidden = (document.querySelector('input[name="chateau"]:checked')?.value !== "oui");
+  }));
+
+  function buildSummary(data) {
+    const lines = [];
+    lines.push(`Réponse au save the date — Lola & Romain, 21 août 2027`);
+    lines.push(``);
+    lines.push(`De : ${data.names}`);
+    lines.push(`Présent(s) : ${data.presence === "oui" ? "Oui" : "Non"}`);
+    if (data.presence === "oui") {
+      lines.push(`Nombre de personnes : ${data.headcount || "1"}`);
+      lines.push(`Allergies / régimes : ${data.allergies || "aucune"}`);
+      lines.push(`Brunch du lendemain : ${data.brunch === "oui" ? "Oui" : data.brunch === "non" ? "Non" : "non précisé"}`);
+      lines.push(`Dormir au château : ${data.chateau === "oui" ? `Oui (${data.chateau_count || "1"} pers.)` : data.chateau === "non" ? "Non" : "non précisé"}`);
+      lines.push(`Vin : ${data.vin === "oui" ? "Oui" : data.vin === "non" ? "Non merci" : data.vin === "ca depend qui" ? "Ça dépend qui" : "non précisé"}`);
+      if (data.message) lines.push(`Message : ${data.message}`);
+    }
+    return lines.join("\n");
+  }
+
+  function collect() {
+    const fd = new FormData(document.getElementById("rsvp-form"));
+    const data = {};
+    fd.forEach((v, k) => data[k] = v);
+    return data;
+  }
+
+  function sendByMail(data) {
+    const summary = buildSummary(data);
+    const subject = encodeURIComponent(stripAccents(`Save the date - reponse de ${data.names || "?"}`));
+    const body = encodeURIComponent(stripAccents(summary));
+    window.location.href = `mailto:${RSVP_TO}?subject=${subject}&body=${body}`;
+    document.getElementById("confirm-text").textContent =
+      "Votre messagerie vient de s'ouvrir avec vos réponses pré-remplies : il ne reste plus qu'à appuyer sur envoyer pour que ça nous arrive.";
+  }
+
+  document.getElementById("rsvp-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = collect();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+
+    if (FORM_ENDPOINT) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi…";
+      try {
+        // no-cors: the reply can't be read, but the script runs and
+        // writes the row; a network failure still rejects.
+        await fetch(FORM_ENDPOINT + "?" + new URLSearchParams(data).toString(), { mode: "no-cors" });
+        document.getElementById("confirm-text").textContent =
+          "Votre réponse a bien été envoyée. À très bientôt !";
+      } catch (err) {
+        sendByMail(data);
+      }
+    } else {
+      sendByMail(data);
+    }
+
+    document.getElementById("rsvp-form").hidden = true;
+    document.getElementById("confirm").hidden = false;
+  });
+
+  document.getElementById("copy-btn").addEventListener("click", async () => {
+    const data = collect();
+    const summary = buildSummary(data);
+    try {
+      await navigator.clipboard.writeText(summary);
+      const btn = document.getElementById("copy-btn");
+      const original = btn.textContent;
+      btn.textContent = "Copié — collez-le dans un message ou un e-mail";
+      setTimeout(() => btn.textContent = original, 3500);
+    } catch (err) {
+      alert(summary);
+    }
+  });
+</script>
+
+</body>
+</html>
