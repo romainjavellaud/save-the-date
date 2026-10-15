@@ -173,6 +173,78 @@
 
   .num-input{max-width:120px;}
 
+  .for{
+    text-align:center;
+    margin:-14px 0 -6px;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+  }
+  .for strong{
+    font-family:"Bodoni Moda", Georgia, serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--burgundy);
+  }
+
+  .people{display:flex;flex-direction:column;gap:12px;}
+  .person{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px 16px;
+    transition:opacity 160ms ease;
+  }
+  .person.is-away{opacity:0.72;}
+  .person-head{display:flex;gap:8px;align-items:center;}
+  .person input[type="text"]{background:var(--paper-raised);}
+  .person .pillgroup label{padding:8px 16px;font-size:0.88rem;background:var(--paper-raised);}
+  .person .pillgroup input:checked + label{background:var(--burgundy);}
+  .person-extra{display:flex;flex-direction:column;gap:12px;}
+  .mini{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:0.88rem;color:var(--ink-soft);}
+  .p-remove{
+    flex:none;
+    width:36px;height:36px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    font:inherit;font-size:1.2rem;line-height:1;
+    cursor:pointer;
+  }
+  .p-remove:hover{color:var(--burgundy);border-color:var(--burgundy);}
+  .add-person{
+    align-self:flex-start;
+    background:none;
+    border:1px dashed var(--rose);
+    border-radius:999px;
+    color:var(--burgundy);
+    font:inherit;font-size:0.9rem;font-weight:500;
+    padding:9px 18px;
+    cursor:pointer;
+  }
+  .add-person:hover{background:var(--paper);}
+  .form-error{
+    margin:0;
+    color:var(--burgundy-strong);
+    background:var(--paper);
+    border-left:3px solid var(--burgundy);
+    padding:10px 14px;
+    font-size:0.92rem;
+  }
+  .resend-note{
+    margin:0;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    line-height:1.5;
+    max-width:46ch;
+    align-self:center;
+  }
+
   button[type="submit"]{
     font:inherit;
     font-size:1rem;
@@ -242,7 +314,7 @@
 <div class="page">
   <p class="eyebrow">Lola &amp; Romain · 21 août 2027</p>
   <h1>Vous serez des&nbsp;nôtres&nbsp;?</h1>
-  <p class="sub">Quelques questions pour bien tout préparer — allergies, brunch du lendemain, hébergement au château et petit verre de vin. Deux minutes montre en main.</p>
+  <p class="sub">Une seule réponse par couple ou famille — allergies, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
 
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 150 26" fill="none">
@@ -258,50 +330,25 @@
     </svg>
   </div>
 
-  <form id="rsvp-form" method="GET">
-    <fieldset>
-      <legend>Vos coordonnées</legend>
+  <form id="rsvp-form" method="GET" novalidate>
+    <p class="for" id="for-line" hidden>Réponse pour <strong id="group-label"></strong></p>
+
+    <fieldset id="group-fs" hidden>
+      <legend>Votre nom</legend>
       <div class="stack">
-        <label class="field-label" for="names">Prénom(s) et nom</label>
-        <input type="text" id="names" name="names" placeholder="Ex : Camille &amp; Antoine Dupuis" required>
+        <label class="field-label" for="group">Votre nom ou celui de votre famille</label>
+        <input type="text" id="group" placeholder="Ex : Famille Dupuis">
       </div>
     </fieldset>
 
     <fieldset>
-      <legend>Serez-vous présent&nbsp;?</legend>
-      <div class="pillgroup" role="radiogroup" aria-label="Présence">
-        <input type="radio" id="presence-oui" name="presence" value="oui" required>
-        <label for="presence-oui">Oui, avec plaisir</label>
-        <input type="radio" id="presence-non" name="presence" value="non">
-        <label for="presence-non">Non, on ne pourra pas</label>
-      </div>
+      <legend>Qui sera là&nbsp;?</legend>
+      <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle sera présente. Quelqu'un ne peut pas venir&nbsp;? Dites-le simplement ici.</p>
+      <div id="people" class="people"></div>
+      <button type="button" class="add-person" id="add-person">+ Ajouter une personne</button>
     </fieldset>
 
     <div id="details" hidden>
-      <fieldset>
-        <legend>Combien serez-vous&nbsp;?</legend>
-        <div class="stack">
-          <label class="field-label" for="headcount">Nombre de personnes</label>
-          <input type="number" id="headcount" class="num-input" name="headcount" min="1" max="12" value="1" inputmode="numeric">
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Allergies &amp; régimes alimentaires</legend>
-        <p class="hint">Pour qui, et lesquels — on transmet tout au traiteur.</p>
-        <textarea id="allergies" name="allergies" placeholder="Ex : Camille – arachides, Antoine – végétarien. Sinon, écrivez « aucune »."></textarea>
-      </fieldset>
-
-      <fieldset>
-        <legend>Brunch du lendemain</legend>
-        <div class="pillgroup" role="radiogroup" aria-label="Brunch du lendemain">
-          <input type="radio" id="brunch-oui" name="brunch" value="oui">
-          <label for="brunch-oui">On reste</label>
-          <input type="radio" id="brunch-non" name="brunch" value="non">
-          <label for="brunch-non">On file la veille</label>
-        </div>
-      </fieldset>
-
       <fieldset>
         <legend>Dormir au château</legend>
         <div class="pillgroup" role="radiogroup" aria-label="Dormir au château" id="chateau-group">
@@ -327,21 +374,25 @@
           <label for="vin-partiel">Ça dépend qui</label>
         </div>
       </fieldset>
-
-      <fieldset>
-        <legend>Un mot pour nous</legend>
-        <textarea id="message" name="message" placeholder="Facultatif — une blague, une chanson à réclamer au DJ, un mot doux…"></textarea>
-      </fieldset>
     </div>
 
-    <button type="submit">Envoyer notre réponse</button>
-    <button type="button" class="fallback-copy" id="copy-btn">La messagerie ne s'ouvre pas ? Copier les réponses</button>
+    <fieldset>
+      <legend>Un mot pour nous</legend>
+      <textarea id="message" name="message" placeholder="Facultatif — une blague, une chanson à réclamer au DJ, un mot doux…"></textarea>
+    </fieldset>
+
+    <p class="form-error" id="form-error" role="alert" hidden></p>
+    <button type="submit" id="submit-btn">Envoyer notre réponse</button>
+    <p class="resend-note" id="resend-note">Un changement de programme&nbsp;? Rouvrez ce même lien et renvoyez le formulaire&nbsp;: votre nouvelle réponse remplace la précédente (pensez à tout remplir à nouveau).</p>
+    <button type="button" class="fallback-copy" id="copy-btn">La réponse ne part pas&nbsp;? Copier le récapitulatif</button>
   </form>
 
   <div id="confirm" hidden>
     <div class="mark">✦</div>
     <h1 style="font-size:1.6rem;">Merci&nbsp;!</h1>
-    <p id="confirm-text">Votre messagerie vient de s'ouvrir avec vos réponses pré-remplies : il ne reste plus qu'à appuyer sur envoyer pour que ça nous arrive.</p>
+    <p id="confirm-text">Votre réponse a bien été envoyée. À très bientôt&nbsp;!</p>
+    <p class="resend-note">Une erreur, un changement&nbsp;? Vous pouvez modifier votre réponse à tout moment&nbsp;: la nouvelle remplacera la précédente.</p>
+    <button type="button" class="fallback-copy" id="edit-btn">Modifier notre réponse</button>
   </div>
 
   <p class="backlink">← <a href="#" id="back-link">Retour au faire-part</a></p>
@@ -351,89 +402,234 @@
 <script>
   const RSVP_TO = "romain.javellaud@gmail.com";
   const SAVE_THE_DATE_URL = "index.html";
-  // Google Apps Script Web App endpoint that appends a row to the
-  // Sheet. Left empty, the form falls back to opening a pre-filled
-  // email instead.
+  // Google Apps Script Web App endpoint: it stores one answer per group
+  // (a new submission replaces the previous one). Left empty, the form
+  // falls back to opening a pre-filled email instead.
   const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbytGcJ_Mds0j-tNiQMjHZo4euB2z6pW-R6b2Audv91ILxMs5V3jAinlTGLiS7UKhtWm/exec";
 
-  const backLink = document.getElementById("back-link");
+  // Personal link: ?to=<group name>&m=<member1,member2,...>&f=<formula>
+  const params = new URLSearchParams(location.search);
+  const GROUP_PARAM = (params.get("to") || "").trim();
+  const MEMBERS = (params.get("m") || "").split(",").map(s => s.trim()).filter(Boolean);
+  const FORMULE = (params.get("f") || "").trim();
+  const SHOW_BRUNCH = FORMULE !== "mariage";
+
+  const $ = (id) => document.getElementById(id);
+  const form = $("rsvp-form");
+  const peopleEl = $("people");
+  const details = $("details");
+  const errorEl = $("form-error");
+
+  const backLink = $("back-link");
   if (SAVE_THE_DATE_URL && SAVE_THE_DATE_URL.indexOf("__") !== 0) {
-    backLink.href = SAVE_THE_DATE_URL;
+    const back = new URLSearchParams();
+    if (GROUP_PARAM) back.set("to", GROUP_PARAM);
+    if (MEMBERS.length) back.set("m", MEMBERS.join(","));
+    if (FORMULE) back.set("f", FORMULE);
+    backLink.href = SAVE_THE_DATE_URL + (back.toString() ? "?" + back.toString() : "");
   } else {
     backLink.parentElement.hidden = true;
   }
 
-  const prefillName = new URLSearchParams(location.search).get("to");
-  if (prefillName) {
-    document.getElementById("names").value = prefillName.trim();
+  if (GROUP_PARAM) {
+    $("for-line").hidden = false;
+    $("group-label").textContent = GROUP_PARAM;
+  } else {
+    $("group-fs").hidden = false;
+  }
+
+  function groupName() {
+    return GROUP_PARAM || $("group").value.trim();
   }
 
   // mailto: is unreliable with accented characters in some mail clients
   // (Gmail's handler in particular mangles UTF-8 percent-encoding into
   // mojibake like "prÃ©sent"), so the email itself is sent in plain ASCII.
   function stripAccents(str) {
-    return str.normalize("NFD").replace(/[̀-ͯ]/g, "");
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
-  const presenceRadios = document.querySelectorAll('input[name="presence"]');
-  const details = document.getElementById("details");
-  presenceRadios.forEach(r => r.addEventListener("change", () => {
-    details.hidden = (document.querySelector('input[name="presence"]:checked')?.value !== "oui");
-  }));
+  // ---- People ---------------------------------------------------------
+  let uid = 0;
+  function addPerson(name, removable) {
+    const i = ++uid;
+    const row = document.createElement("div");
+    row.className = "person";
+    row.dataset.i = i;
+    row.innerHTML =
+      '<div class="person-head">' +
+        '<input type="text" class="p-name" placeholder="Prénom Nom" aria-label="Prénom et nom">' +
+        (removable ? '<button type="button" class="p-remove" aria-label="Retirer cette personne">×</button>' : "") +
+      '</div>' +
+      '<div class="pillgroup" role="radiogroup" aria-label="Présence">' +
+        '<input type="radio" id="pres-' + i + '-oui" name="pres-' + i + '" value="oui"><label for="pres-' + i + '-oui">Sera là</label>' +
+        '<input type="radio" id="pres-' + i + '-non" name="pres-' + i + '" value="non"><label for="pres-' + i + '-non">Ne pourra pas venir</label>' +
+      '</div>' +
+      '<div class="person-extra" hidden>' +
+        '<input type="text" class="p-allergies" placeholder="Allergies ou régime alimentaire (vide si aucun)" aria-label="Allergies ou régime alimentaire">' +
+        (SHOW_BRUNCH
+          ? '<div class="mini"><span>Brunch du lendemain&nbsp;?</span><div class="pillgroup" role="radiogroup" aria-label="Brunch du lendemain">' +
+              '<input type="radio" id="brunch-' + i + '-oui" name="brunch-' + i + '" value="oui"><label for="brunch-' + i + '-oui">Oui</label>' +
+              '<input type="radio" id="brunch-' + i + '-non" name="brunch-' + i + '" value="non"><label for="brunch-' + i + '-non">Non</label>' +
+            '</div></div>'
+          : "") +
+      '</div>';
+    row.querySelector(".p-name").value = name || "";
+    const rm = row.querySelector(".p-remove");
+    if (rm) rm.addEventListener("click", () => { row.remove(); refresh(); });
+    row.addEventListener("change", refresh);
+    peopleEl.appendChild(row);
+    return row;
+  }
 
-  const chateauRadios = document.querySelectorAll('input[name="chateau"]');
-  const chateauCountWrap = document.getElementById("chateau-count-wrap");
-  chateauRadios.forEach(r => r.addEventListener("change", () => {
-    chateauCountWrap.hidden = (document.querySelector('input[name="chateau"]:checked')?.value !== "oui");
-  }));
+  function personRows() { return Array.from(peopleEl.querySelectorAll(".person")); }
+  function presence(row) {
+    const c = row.querySelector('input[name="pres-' + row.dataset.i + '"]:checked');
+    return c ? c.value : "";
+  }
 
-  function buildSummary(data) {
-    const lines = [];
-    lines.push(`Réponse au save the date — Lola & Romain, 21 août 2027`);
-    lines.push(``);
-    lines.push(`De : ${data.names}`);
-    lines.push(`Présent(s) : ${data.presence === "oui" ? "Oui" : "Non"}`);
-    if (data.presence === "oui") {
-      lines.push(`Nombre de personnes : ${data.headcount || "1"}`);
-      lines.push(`Allergies / régimes : ${data.allergies || "aucune"}`);
-      lines.push(`Brunch du lendemain : ${data.brunch === "oui" ? "Oui" : data.brunch === "non" ? "Non" : "non précisé"}`);
-      lines.push(`Dormir au château : ${data.chateau === "oui" ? `Oui (${data.chateau_count || "1"} pers.)` : data.chateau === "non" ? "Non" : "non précisé"}`);
-      lines.push(`Vin : ${data.vin === "oui" ? "Oui" : data.vin === "non" ? "Non merci" : data.vin === "ca depend qui" ? "Ça dépend qui" : "non précisé"}`);
-      if (data.message) lines.push(`Message : ${data.message}`);
+  let chateauTouched = false;
+  function refresh() {
+    let present = 0;
+    personRows().forEach((row) => {
+      const yes = presence(row) === "oui";
+      row.querySelector(".person-extra").hidden = !yes;
+      row.classList.toggle("is-away", presence(row) === "non");
+      if (yes) present++;
+    });
+    details.hidden = present === 0;
+    const cc = $("chateau-count");
+    cc.max = String(Math.max(present, 1));
+    if (!chateauTouched || Number(cc.value) > present) cc.value = String(Math.max(present, 1));
+  }
+
+  $("chateau-count").addEventListener("input", () => { chateauTouched = true; });
+  document.querySelectorAll('input[name="chateau"]').forEach(r => r.addEventListener("change", () => {
+    const c = document.querySelector('input[name="chateau"]:checked');
+    $("chateau-count-wrap").hidden = !(c && c.value === "oui");
+  }));
+  $("add-person").addEventListener("click", () => {
+    const row = addPerson("", true);
+    row.querySelector(".p-name").focus();
+    refresh();
+  });
+
+  (MEMBERS.length ? MEMBERS : (GROUP_PARAM ? [GROUP_PARAM] : [""])).forEach(n => addPerson(n, false));
+
+  // ---- Previous answer on this device (the server keeps only the latest) ----
+  const storeKey = () => "rsvp:" + groupName().toLowerCase();
+  function loadSaved() {
+    try { return JSON.parse(localStorage.getItem(storeKey()) || "null"); } catch (e) { return null; }
+  }
+  function save(data) {
+    try { localStorage.setItem(storeKey(), JSON.stringify(data)); } catch (e) {}
+  }
+  function setRadio(name, value) {
+    const el = document.querySelector('input[name="' + name + '"][value="' + (value || "").replace(/"/g, "") + '"]');
+    if (el) el.checked = true;
+  }
+  function applySaved(d) {
+    if (!d) return;
+    const n = Number(d.count) || 0;
+    for (let k = 1; k <= n; k++) {
+      const name = d["n" + k] || "";
+      let row = personRows().find(r => r.querySelector(".p-name").value.trim().toLowerCase() === name.toLowerCase());
+      if (!row) row = addPerson(name, true);
+      setRadio("pres-" + row.dataset.i, d["p" + k]);
+      row.querySelector(".p-allergies").value = d["a" + k] || "";
+      setRadio("brunch-" + row.dataset.i, d["b" + k]);
     }
-    return lines.join("\n");
+    setRadio("chateau", d.chateau);
+    if (d.chateau === "oui") {
+      $("chateau-count-wrap").hidden = false;
+      if (d.chateau_count) { $("chateau-count").value = d.chateau_count; chateauTouched = true; }
+    }
+    setRadio("vin", d.vin);
+    $("message").value = d.message || "";
+    refresh();
   }
 
+  // ---- Collect / validate -----------------------------------------------
   function collect() {
-    const fd = new FormData(document.getElementById("rsvp-form"));
-    const data = {};
-    fd.forEach((v, k) => data[k] = v);
+    const rows = personRows();
+    const data = { group: groupName(), f: FORMULE, count: String(rows.length) };
+    let present = 0;
+    rows.forEach((row, k) => {
+      const n = k + 1;
+      const pres = presence(row);
+      data["n" + n] = row.querySelector(".p-name").value.trim();
+      data["p" + n] = pres;
+      if (pres === "oui") {
+        present++;
+        data["a" + n] = row.querySelector(".p-allergies").value.trim();
+        const b = row.querySelector('input[name="brunch-' + row.dataset.i + '"]:checked');
+        data["b" + n] = b ? b.value : "";
+      }
+    });
+    if (present) {
+      const c = document.querySelector('input[name="chateau"]:checked');
+      const v = document.querySelector('input[name="vin"]:checked');
+      data.chateau = c ? c.value : "";
+      data.chateau_count = c && c.value === "oui" ? $("chateau-count").value : "";
+      data.vin = v ? v.value : "";
+    }
+    data.message = $("message").value.trim();
     return data;
   }
 
-  function sendByMail(data) {
-    const summary = buildSummary(data);
-    const subject = encodeURIComponent(stripAccents(`Save the date - reponse de ${data.names || "?"}`));
-    const body = encodeURIComponent(stripAccents(summary));
-    window.location.href = `mailto:${RSVP_TO}?subject=${subject}&body=${body}`;
-    document.getElementById("confirm-text").textContent =
-      "Votre messagerie vient de s'ouvrir avec vos réponses pré-remplies : il ne reste plus qu'à appuyer sur envoyer pour que ça nous arrive.";
+  function validate(data) {
+    if (!data.group) return "Merci d'indiquer votre nom.";
+    for (let k = 1; k <= Number(data.count); k++) {
+      if (!data["n" + k]) return "Merci d'indiquer le nom de chaque personne.";
+      if (!data["p" + k]) return "Précisez pour " + data["n" + k] + " si la personne sera là ou non.";
+    }
+    return "";
   }
 
-  document.getElementById("rsvp-form").addEventListener("submit", async (e) => {
+  function buildSummary(d) {
+    const lines = ["Réponse au save the date — Lola & Romain, 21 août 2027", "", "Groupe : " + d.group, ""];
+    for (let k = 1; k <= Number(d.count); k++) {
+      let l = "- " + d["n" + k] + " : " + (d["p" + k] === "oui" ? "sera là" : "ne pourra pas venir");
+      if (d["p" + k] === "oui") {
+        if (d["b" + k]) l += " · brunch : " + d["b" + k];
+        l += " · allergies : " + (d["a" + k] || "aucune");
+      }
+      lines.push(l);
+    }
+    if (d.chateau) lines.push("", "Dormir au château : " + (d.chateau === "oui" ? "oui (" + (d.chateau_count || "1") + " pers.)" : "non"));
+    if (d.vin) lines.push("Vin : " + (d.vin === "ca depend qui" ? "ça dépend qui" : d.vin));
+    if (d.message) lines.push("", "Message : " + d.message);
+    return lines.join("\n");
+  }
+
+  function sendByMail(data) {
+    const subject = encodeURIComponent(stripAccents("Save the date - reponse de " + (data.group || "?")));
+    const body = encodeURIComponent(stripAccents(buildSummary(data)));
+    window.location.href = "mailto:" + RSVP_TO + "?subject=" + subject + "&body=" + body;
+    $("confirm-text").textContent =
+      "Votre messagerie vient de s'ouvrir avec votre réponse pré-remplie : il ne reste plus qu'à appuyer sur envoyer pour que ça nous arrive.";
+  }
+
+  const submitBtn = $("submit-btn");
+  const labelNew = "Envoyer notre réponse";
+  const labelUpdate = "Mettre à jour notre réponse";
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = collect();
-    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const problem = validate(data);
+    errorEl.hidden = !problem;
+    errorEl.textContent = problem;
+    if (problem) return;
 
     if (FORM_ENDPOINT) {
       submitBtn.disabled = true;
       submitBtn.textContent = "Envoi…";
       try {
         // no-cors: the reply can't be read, but the script runs and
-        // writes the row; a network failure still rejects.
+        // stores the answer; a network failure still rejects.
         await fetch(FORM_ENDPOINT + "?" + new URLSearchParams(data).toString(), { mode: "no-cors" });
-        document.getElementById("confirm-text").textContent =
-          "Votre réponse a bien été envoyée. À très bientôt !";
+        $("confirm-text").textContent = "Votre réponse a bien été envoyée. À très bientôt !";
       } catch (err) {
         sendByMail(data);
       }
@@ -441,16 +637,25 @@
       sendByMail(data);
     }
 
-    document.getElementById("rsvp-form").hidden = true;
-    document.getElementById("confirm").hidden = false;
+    save(data);
+    form.hidden = true;
+    $("confirm").hidden = false;
+    window.scrollTo({ top: 0 });
   });
 
-  document.getElementById("copy-btn").addEventListener("click", async () => {
-    const data = collect();
-    const summary = buildSummary(data);
+  $("edit-btn").addEventListener("click", () => {
+    $("confirm").hidden = true;
+    form.hidden = false;
+    submitBtn.disabled = false;
+    submitBtn.textContent = labelUpdate;
+    window.scrollTo({ top: 0 });
+  });
+
+  $("copy-btn").addEventListener("click", async () => {
+    const summary = buildSummary(collect());
     try {
       await navigator.clipboard.writeText(summary);
-      const btn = document.getElementById("copy-btn");
+      const btn = $("copy-btn");
       const original = btn.textContent;
       btn.textContent = "Copié — collez-le dans un message ou un e-mail";
       setTimeout(() => btn.textContent = original, 3500);
@@ -458,6 +663,10 @@
       alert(summary);
     }
   });
+
+  const saved = loadSaved();
+  if (saved) { applySaved(saved); submitBtn.textContent = labelUpdate; }
+  refresh();
 </script>
 
 </body>

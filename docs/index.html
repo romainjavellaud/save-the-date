@@ -378,16 +378,20 @@
     document.getElementById("share-link").href = "https://wa.me/?text=" + encodeURIComponent(text);
   })();
 
-  /* personalisation: ?to=Antoine%20Dupond */
+  /* personalisation: ?to=<couple ou famille>&m=<membres>&f=<formule> */
   (function(){
-    const name = (new URLSearchParams(location.search).get("to") || "").trim();
+    const q = new URLSearchParams(location.search);
+    const name = (q.get("to") || "").trim();
     if (!name) return;
+    const members = (q.get("m") || "").split(",").map(s => s.trim()).filter(Boolean);
     const g = document.getElementById("greeting");
-    g.textContent = "Cher·ère " + name + ",";
+    g.textContent = members.length > 1 ? "Pour " + name : "Cher·ère " + name + ",";
     g.hidden = false;
     const cta = document.getElementById("cta-link");
     const u = new URL(cta.href);
     u.searchParams.set("to", name);
+    if (members.length) u.searchParams.set("m", members.join(","));
+    if (q.get("f")) u.searchParams.set("f", q.get("f"));
     cta.href = u.toString();
   })();
 
