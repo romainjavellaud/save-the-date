@@ -6,50 +6,43 @@
 <title>Répondez-nous</title>
 <style>
   :root{
-    --ink:#2b2118;
-    --ink-soft:#6b5c48;
-    --paper:#f0dfbe;
-    --paper-raised:#f8efdc;
-    --terracotta:#c1573a;
-    --terracotta-strong:#9c4129;
-    --citron:#e3a73b;
-    --olive:#6b7a42;
-    --azure:#2f6690;
-    --lavender:#8874a3;
-    --line:#ddc79e;
-    --focus:#c1573a;
-    --radius:14px;
+    --ink:#17110f;
+    --ink-soft:#5b4f49;
+    --paper:#eadbc8;
+    --paper-raised:#f5ede2;
+    --burgundy:#6d1229;
+    --burgundy-strong:#4c0b1c;
+    --rose:#b9798a;
+    --olive:#4a5a2b;
+    --line:#d3c0aa;
+    --focus:#6d1229;
     color-scheme:light;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --ink:#f5e9d6;
-      --ink-soft:#d8c3a0;
-      --paper:#201811;
-      --paper-raised:#2c2116;
-      --terracotta:#e58a63;
-      --terracotta-strong:#efa483;
-      --citron:#f0c26b;
-      --olive:#97a56c;
-      --azure:#6fa3c7;
-      --lavender:#b29fcb;
-      --line:#46392a;
-      --focus:#e58a63;
+      --ink:#efe3d3;
+      --ink-soft:#bfae9e;
+      --paper:#16100f;
+      --paper-raised:#231918;
+      --burgundy:#d27a90;
+      --burgundy-strong:#e6a3b4;
+      --rose:#d98a9d;
+      --olive:#9aa56e;
+      --line:#3b2a28;
+      --focus:#d27a90;
     }
   }
   :root[data-theme="dark"]{
-    --ink:#f5e9d6;
-    --ink-soft:#d8c3a0;
-    --paper:#201811;
-    --paper-raised:#2c2116;
-    --terracotta:#e58a63;
-    --terracotta-strong:#efa483;
-    --citron:#f0c26b;
-    --olive:#97a56c;
-    --azure:#6fa3c7;
-    --lavender:#b29fcb;
-    --line:#46392a;
-    --focus:#e58a63;
+    --ink:#efe3d3;
+    --ink-soft:#bfae9e;
+    --paper:#16100f;
+    --paper-raised:#231918;
+    --burgundy:#d27a90;
+    --burgundy-strong:#e6a3b4;
+    --rose:#d98a9d;
+    --olive:#9aa56e;
+    --line:#3b2a28;
+    --focus:#d27a90;
   }
 
   *{box-sizing:border-box;}
@@ -69,7 +62,7 @@
     font-size:0.72rem;
     letter-spacing:0.18em;
     text-transform:uppercase;
-    color:var(--terracotta);
+    color:var(--burgundy);
     text-align:center;
     margin:0 0 10px;
     font-weight:600;
@@ -168,8 +161,8 @@
     transition:background 120ms ease, border-color 120ms ease, color 120ms ease;
   }
   .pillgroup input:checked + label{
-    background:var(--terracotta);
-    border-color:var(--terracotta);
+    background:var(--burgundy);
+    border-color:var(--burgundy);
     color:var(--paper-raised);
   }
   .pillgroup input:focus-visible + label{
@@ -194,14 +187,14 @@
     font-weight:600;
     letter-spacing:0.01em;
     color:var(--paper-raised);
-    background:var(--terracotta);
+    background:var(--burgundy);
     border:none;
     border-radius:999px;
     padding:16px 20px;
     cursor:pointer;
     transition:background 120ms ease, transform 120ms ease;
   }
-  button[type="submit"]:hover{background:var(--terracotta-strong);}
+  button[type="submit"]:hover{background:var(--burgundy-strong);}
   button[type="submit"]:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
   button[type="submit"]:active{transform:scale(0.99);}
 
@@ -229,7 +222,7 @@
   #confirm .mark{
     font-family:"Bodoni Moda", Georgia, serif;
     font-size:2.4rem;
-    color:var(--terracotta);
+    color:var(--burgundy);
   }
   #confirm p{color:var(--ink-soft);max-width:42ch;line-height:1.55;}
 
@@ -240,8 +233,8 @@
     color:var(--ink-soft);
     font-size:0.85rem;
   }
-  .backlink a{color:var(--terracotta);text-decoration:none;border-bottom:1px solid var(--line);}
-  .backlink a:hover{border-bottom-color:var(--terracotta);}
+  .backlink a{color:var(--burgundy);text-decoration:none;border-bottom:1px solid var(--line);}
+  .backlink a:hover{border-bottom-color:var(--burgundy);}
 
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important;}
@@ -260,14 +253,14 @@
 
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 150 26" fill="none">
-      <line x1="0" y1="13" x2="58" y2="13" stroke="var(--citron)" stroke-width="1"/>
-      <line x1="92" y1="13" x2="150" y2="13" stroke="var(--citron)" stroke-width="1"/>
+      <line x1="0" y1="13" x2="58" y2="13" stroke="var(--rose)" stroke-width="1"/>
+      <line x1="92" y1="13" x2="150" y2="13" stroke="var(--rose)" stroke-width="1"/>
       <g transform="translate(75 13)">
         <path d="M0 0 C -6 -8, -16 -8, -18 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
         <path d="M0 0 C 6 -8, 16 -8, 18 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
         <ellipse cx="-14" cy="-3" rx="3.4" ry="2.4" fill="var(--olive)" transform="rotate(-28 -14 -3)"/>
         <ellipse cx="14" cy="-3" rx="3.4" ry="2.4" fill="var(--olive)" transform="rotate(28 14 -3)"/>
-        <circle r="2.6" fill="var(--citron)"/>
+        <circle r="2.6" fill="var(--rose)"/>
       </g>
     </svg>
   </div>

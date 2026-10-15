@@ -6,49 +6,48 @@
 <title>Lola &amp; Romain</title>
 <style>
   :root{
-    --ink:#2b2118;
-    --ink-soft:#6b5c48;
-    --paper:#f0dfbe;
-    --paper-raised:#f8efdc;
-    --terracotta:#c1573a;
-    --terracotta-strong:#9c4129;
-    --citron:#e3a73b;
-    --olive:#6b7a42;
-    --azure:#2f6690;
-    --lavender:#8874a3;
-    --line:#ddc79e;
-    --focus:#c1573a;
+    --ink:#17110f;
+    --ink-soft:#5b4f49;
+    --paper:#eadbc8;
+    --paper-raised:#f5ede2;
+    --burgundy:#6d1229;
+    --burgundy-strong:#4c0b1c;
+    --rose:#b9798a;
+    --olive:#4a5a2b;
+    --line:#d3c0aa;
+    --focus:#6d1229;
+    --env:#7a1830;
+    --env-strong:#52101f;
+    --env-letter:#f5ede2;
+    --env-ink:#6d1229;
+    --env-seal:#56672f;
     color-scheme:light;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --ink:#f5e9d6;
-      --ink-soft:#d8c3a0;
-      --paper:#201811;
-      --paper-raised:#2c2116;
-      --terracotta:#e58a63;
-      --terracotta-strong:#efa483;
-      --citron:#f0c26b;
-      --olive:#97a56c;
-      --azure:#6fa3c7;
-      --lavender:#b29fcb;
-      --line:#46392a;
-      --focus:#e58a63;
+      --ink:#efe3d3;
+      --ink-soft:#bfae9e;
+      --paper:#16100f;
+      --paper-raised:#231918;
+      --burgundy:#d27a90;
+      --burgundy-strong:#e6a3b4;
+      --rose:#d98a9d;
+      --olive:#9aa56e;
+      --line:#3b2a28;
+      --focus:#d27a90;
     }
   }
   :root[data-theme="dark"]{
-    --ink:#f5e9d6;
-    --ink-soft:#d8c3a0;
-    --paper:#201811;
-    --paper-raised:#2c2116;
-    --terracotta:#e58a63;
-    --terracotta-strong:#efa483;
-    --citron:#f0c26b;
-    --olive:#97a56c;
-    --azure:#6fa3c7;
-    --lavender:#b29fcb;
-    --line:#46392a;
-    --focus:#e58a63;
+    --ink:#efe3d3;
+    --ink-soft:#bfae9e;
+    --paper:#16100f;
+    --paper-raised:#231918;
+    --burgundy:#d27a90;
+    --burgundy-strong:#e6a3b4;
+    --rose:#d98a9d;
+    --olive:#9aa56e;
+    --line:#3b2a28;
+    --focus:#d27a90;
   }
 
   *{box-sizing:border-box;}
@@ -68,7 +67,7 @@
     font-size:0.74rem;
     letter-spacing:0.22em;
     text-transform:uppercase;
-    color:var(--terracotta);
+    color:var(--burgundy);
     margin:0 0 22px;
     font-weight:600;
   }
@@ -83,7 +82,7 @@
     margin:0;
   }
   .amp{
-    color:var(--terracotta);
+    color:var(--burgundy);
     font-style:italic;
     font-weight:400;
   }
@@ -134,7 +133,7 @@
     font-weight:500;
     font-variant-numeric:tabular-nums;
     font-size:clamp(1.5rem, 5vw, 2rem);
-    color:var(--terracotta);
+    color:var(--burgundy);
     line-height:1;
   }
   .cd-label{
@@ -165,13 +164,13 @@
     font-size:1rem;
     letter-spacing:0.01em;
     color:var(--paper-raised);
-    background:var(--terracotta);
+    background:var(--burgundy);
     text-decoration:none;
     padding:17px 34px;
     border-radius:999px;
     transition:background 120ms ease;
   }
-  .cta:hover{background:var(--terracotta-strong);}
+  .cta:hover{background:var(--burgundy-strong);}
   .cta:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
 
   .rsvp-note{
@@ -187,8 +186,8 @@
     border-radius:999px;
     background:repeating-linear-gradient(
       -45deg,
-      var(--terracotta) 0 10px,
-      var(--citron) 10px 20px,
+      var(--burgundy) 0 10px,
+      var(--olive) 10px 20px,
       var(--paper-raised) 20px 30px
     );
     opacity:0.9;
@@ -239,7 +238,7 @@
     text-align:center;
     max-width:32ch;
   }
-  .envelope-to strong{color:var(--terracotta);font-style:normal;font-weight:500;}
+  .envelope-to strong{color:var(--burgundy);font-style:normal;font-weight:500;}
 
   .envelope{
     width:min(300px, 74vw);
@@ -250,7 +249,7 @@
   .env-back{
     position:absolute;
     inset:0;
-    background:var(--terracotta);
+    background:var(--env);
     border-radius:8px;
     box-shadow:0 20px 44px -20px rgba(0,0,0,0.4);
   }
@@ -260,7 +259,7 @@
     right:9%;
     top:24%;
     height:66%;
-    background:var(--paper-raised);
+    background:var(--env-letter);
     border-radius:4px;
     box-shadow:0 3px 12px rgba(0,0,0,0.18);
     display:flex;
@@ -273,13 +272,13 @@
     font-family:"Bodoni Moda", Georgia, serif;
     font-style:italic;
     font-size:1.3rem;
-    color:var(--terracotta);
+    color:var(--env-ink);
   }
   .env-flap{
     position:absolute;
     top:0;left:0;right:0;
     height:56%;
-    background:var(--terracotta-strong);
+    background:var(--env-strong);
     clip-path:polygon(0 0, 100% 0, 50% 92%);
     transform-origin:top center;
     z-index:3;
@@ -292,7 +291,7 @@
     left:50%;
     width:36px;
     height:36px;
-    background:var(--citron);
+    background:var(--env-seal);
     border-radius:50%;
     transform:translate(-50%,-50%) scale(1);
     z-index:4;
@@ -301,7 +300,7 @@
     justify-content:center;
     font-family:"Bodoni Moda", Georgia, serif;
     font-size:0.8rem;
-    color:var(--paper-raised);
+    color:var(--env-letter);
     box-shadow:0 2px 6px rgba(0,0,0,0.25);
     transition:transform 250ms ease, opacity 250ms ease;
   }
@@ -346,14 +345,14 @@
 
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 170 28" fill="none">
-      <line x1="0" y1="14" x2="66" y2="14" stroke="var(--citron)" stroke-width="1"/>
-      <line x1="104" y1="14" x2="170" y2="14" stroke="var(--citron)" stroke-width="1"/>
+      <line x1="0" y1="14" x2="66" y2="14" stroke="var(--rose)" stroke-width="1"/>
+      <line x1="104" y1="14" x2="170" y2="14" stroke="var(--rose)" stroke-width="1"/>
       <g transform="translate(85 14)">
         <path d="M0 0 C -7 -9, -18 -9, -20 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
         <path d="M0 0 C 7 -9, 18 -9, 20 0" stroke="var(--olive)" stroke-width="1.3" fill="none"/>
         <ellipse cx="-15.5" cy="-3.4" rx="3.8" ry="2.6" fill="var(--olive)" transform="rotate(-28 -15.5 -3.4)"/>
         <ellipse cx="15.5" cy="-3.4" rx="3.8" ry="2.6" fill="var(--olive)" transform="rotate(28 15.5 -3.4)"/>
-        <circle r="2.8" fill="var(--citron)"/>
+        <circle r="2.8" fill="var(--rose)"/>
       </g>
     </svg>
   </div>
