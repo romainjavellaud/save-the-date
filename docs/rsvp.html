@@ -314,7 +314,7 @@
 <div class="page">
   <p class="eyebrow">Lola &amp; Romain · 21 août 2027</p>
   <h1>Vous serez des&nbsp;nôtres&nbsp;?</h1>
-  <p class="sub">Une seule réponse par couple ou famille — allergies, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
+  <p class="sub">Une seule réponse par couple ou famille — allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
 
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 150 26" fill="none">
@@ -411,7 +411,10 @@
   const params = new URLSearchParams(location.search);
   const GROUP_PARAM = (params.get("to") || "").trim();
   const MEMBERS = (params.get("m") || "").split(",").map(s => s.trim()).filter(Boolean);
-  const FORMULE = (params.get("f") || "").trim();
+  // The link carries an opaque code instead of the formula name.
+  const FORMULE_CODES = { k4: "vendredi", p7: "brunch", s2: "mariage" };
+  const FORMULE_RAW = (params.get("f") || "").trim();
+  const FORMULE = FORMULE_CODES[FORMULE_RAW] || FORMULE_RAW;
   const SHOW_BRUNCH = FORMULE !== "mariage";
 
   const $ = (id) => document.getElementById(id);
@@ -425,7 +428,7 @@
     const back = new URLSearchParams();
     if (GROUP_PARAM) back.set("to", GROUP_PARAM);
     if (MEMBERS.length) back.set("m", MEMBERS.join(","));
-    if (FORMULE) back.set("f", FORMULE);
+    if (FORMULE_RAW) back.set("f", FORMULE_RAW);
     backLink.href = SAVE_THE_DATE_URL + (back.toString() ? "?" + back.toString() : "");
   } else {
     backLink.parentElement.hidden = true;
@@ -466,7 +469,7 @@
         '<input type="radio" id="pres-' + i + '-non" name="pres-' + i + '" value="non"><label for="pres-' + i + '-non">Ne pourra pas venir</label>' +
       '</div>' +
       '<div class="person-extra" hidden>' +
-        '<input type="text" class="p-allergies" placeholder="Allergies ou régime alimentaire (vide si aucun)" aria-label="Allergies ou régime alimentaire">' +
+        '<input type="text" class="p-allergies" placeholder="Allergies / restrictions alimentaires (vide si aucune)" aria-label="Allergies / restrictions alimentaires">' +
         (SHOW_BRUNCH
           ? '<div class="mini"><span>Brunch du lendemain&nbsp;?</span><div class="pillgroup" role="radiogroup" aria-label="Brunch du lendemain">' +
               '<input type="radio" id="brunch-' + i + '-oui" name="brunch-' + i + '" value="oui"><label for="brunch-' + i + '-oui">Oui</label>' +
@@ -592,7 +595,7 @@
       let l = "- " + d["n" + k] + " : " + (d["p" + k] === "oui" ? "sera là" : "ne pourra pas venir");
       if (d["p" + k] === "oui") {
         if (d["b" + k]) l += " · brunch : " + d["b" + k];
-        l += " · allergies : " + (d["a" + k] || "aucune");
+        l += " · allergies / restrictions : " + (d["a" + k] || "aucune");
       }
       lines.push(l);
     }
