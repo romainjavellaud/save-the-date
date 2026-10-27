@@ -468,6 +468,7 @@
     <button type="button" class="fallback-copy" id="edit-btn">Modifier notre réponse</button>
   </div>
 
+  <p class="backlink" style="margin-bottom:0;opacity:.6;font-size:.7rem">Version 28.10-d</p>
   <p class="backlink">← <a href="#" id="back-link">Retour au faire-part</a></p>
 </div>
 </div>
@@ -725,10 +726,10 @@
   }
 
   function attachAutocomplete(input, list, status) {
-    let timer = null, items = [], active = -1, reqId = 0;
+    let timer = null, items = [], active = -1, reqId = 0, lastQ = "";
     const setStatus = (msg) => { status.textContent = msg || ""; status.hidden = !msg; };
     const close = () => { list.hidden = true; list.innerHTML = ""; items = []; active = -1; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); };
-    const pick = (it) => { input.value = it.trackName + " — " + it.artistName; close(); setStatus(""); };
+    const pick = (it) => { input.value = it.trackName + " — " + it.artistName; lastQ = input.value.trim(); close(); setStatus(""); };
     function render() {
       list.innerHTML = "";
       items.forEach((it, k) => {
@@ -755,13 +756,15 @@
       if (active >= 0) input.setAttribute("aria-activedescendant", list.id + "-" + active);
       else input.removeAttribute("aria-activedescendant");
     }
-    input.addEventListener("input", () => {
-      clearTimeout(timer);
+    const onType = () => {
       const q = input.value.trim();
+      if (q === lastQ) return;
+      lastQ = q;
+      clearTimeout(timer);
       if (q.length < 3) { close(); setStatus(""); return; }
+      setStatus("Recherche…");
       timer = setTimeout(async () => {
         const mine = ++reqId;
-        setStatus("Recherche…");
         try {
           const j = await searchSongs(q);
           if (mine !== reqId) return;
@@ -782,7 +785,9 @@
           setStatus("Suggestions indisponibles pour le moment : vous pouvez écrire le titre librement.");
         }
       }, 300);
-    });
+    };
+    // several events: mobile keyboards (predictive text, dictation) do not always fire "input" alone
+    ["input", "keyup", "change", "compositionend", "paste"].forEach(ev => input.addEventListener(ev, () => setTimeout(onType, 0)));
     input.addEventListener("keydown", (e) => {
       if (list.hidden) return;
       if (e.key === "ArrowDown") { e.preventDefault(); active = (active + 1) % items.length; render(); }
