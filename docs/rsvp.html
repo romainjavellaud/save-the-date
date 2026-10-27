@@ -202,6 +202,17 @@
   fieldset.rect textarea{background:var(--paper-raised);}
   fieldset.rect .pillgroup label{background:var(--paper-raised);}
   fieldset.rect .pillgroup input:checked + label{background:var(--burgundy);}
+  .price-note{
+    margin:0;
+    padding:10px 14px;
+    background:var(--paper-raised);
+    border-left:3px solid var(--burgundy);
+    border-radius:0 8px 8px 0;
+    color:var(--ink);
+    font-size:0.95rem;
+    font-weight:500;
+    line-height:1.45;
+  }
   .pblocks{display:flex;flex-direction:column;gap:18px;}
   .pblock{display:flex;flex-direction:column;gap:10px;}
   .pname{margin:0;font-weight:600;font-size:0.92rem;}
@@ -399,7 +410,7 @@
 
     <fieldset class="rect" id="chateau-fs" hidden>
       <legend id="chateau-legend">Qui dort au château&nbsp;?</legend>
-      <p class="hint" id="chateau-hint">Dormir au château : 60&nbsp;€ par personne et par nuit.</p>
+      <p class="price-note" id="chateau-hint">Dormir au château : 60&nbsp;€ par personne et par nuit.</p>
       <div id="people-chateau" class="pblocks"></div>
     </fieldset>
 
@@ -557,8 +568,8 @@
     ch.innerHTML = '<p class="pname"></p>' +
       NIGHTS.map(function (nt) {
         const id = 'nt-' + i + '-' + nt.key;
-        return '<div class="ev night" data-ev="' + nt.ev + '" data-night="' + nt.key + '" hidden><span class="ev-name"><strong>' + nt.label + '</strong> <small>au château</small></span>' +
-          '<div class="pillgroup" role="radiogroup" aria-label="' + nt.label + ' au château">' +
+        return '<div class="ev night" data-ev="' + nt.ev + '" data-night="' + nt.key + '" hidden><span class="ev-name"><strong>' + nt.label + '</strong> <small>au château · 60\u00a0€</small></span>' +
+          '<div class="pillgroup" role="radiogroup" aria-label="' + nt.label + ' au château, 60 euros">' +
             '<input type="radio" id="' + id + '-oui" name="' + id + '" value="oui"><label for="' + id + '-oui">Oui</label>' +
             '<input type="radio" id="' + id + '-non" name="' + id + '" value="non"><label for="' + id + '-non">Non</label>' +
           '</div></div>';
@@ -649,7 +660,7 @@
     document.body.classList.toggle("is-solo", solo);
     $("chateau-legend").innerHTML = solo ? "Tu dors au château&nbsp;?" : "Qui dort au château&nbsp;?";
     $("chateau-hint").textContent = solo
-      ? "Si tu dors au château, compte 60\u00a0€ par nuit."
+      ? "Dormir au château : 60\u00a0€ par nuit."
       : "Dormir au château : 60\u00a0€ par personne et par nuit.";
     $("allergies-hint").textContent = solo ? "Laisse vide si tu n'as aucune allergie ni restriction." : "Laissez vide s'il n'y en a aucune.";
     $("edit-btn").textContent = solo ? "Modifier ma réponse" : "Modifier notre réponse";
