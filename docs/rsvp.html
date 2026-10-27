@@ -351,7 +351,7 @@
     </fieldset>
 
     <div id="details" hidden>
-      <fieldset>
+      <fieldset id="chateau-fs">
         <legend>Dormir au château</legend>
         <div class="pillgroup" role="radiogroup" aria-label="Dormir au château" id="chateau-group">
           <input type="radio" id="chateau-oui" name="chateau" value="oui">
@@ -425,10 +425,13 @@
     { key: "b", label: "Dimanche 22 août", sub: "le brunch" }
   ];
   const EVENTS_BY_FORMULE = { vendredi: ["v", "s", "b"], brunch: ["s", "b"], mariage: ["s"] };
+  // Guests invited on Saturday only are not offered the château night.
+  const SHOW_CHATEAU = FORMULE !== "mariage";
   const EVENT_KEYS = EVENTS_BY_FORMULE[FORMULE] || ["s", "b"];
   const EVENTS = ALL_EVENTS.filter(e => EVENT_KEYS.indexOf(e.key) !== -1);
 
   const $ = (id) => document.getElementById(id);
+  if (!SHOW_CHATEAU) $("chateau-fs").hidden = true;
   const form = $("rsvp-form");
   const peopleEl = $("people");
   const details = $("details");
@@ -514,8 +517,8 @@
   function applyMode(isSolo, present) {
     solo = isSolo;
     $("page-sub").textContent = solo
-      ? "Vos disponibilités, allergies / restrictions alimentaires, nuit au château et petit verre de vin. Deux minutes montre en main."
-      : "Une seule réponse par couple ou famille — les disponibilités de chacun, allergies / restrictions alimentaires, nuit au château et petit verre de vin. Deux minutes montre en main.";
+      ? (SHOW_CHATEAU ? "Vos disponibilités, allergies / restrictions alimentaires, nuit au château et petit verre de vin." : "Votre disponibilité, allergies / restrictions alimentaires et petit verre de vin.") + " Deux minutes montre en main."
+      : "Une seule réponse par couple ou famille — " + (SHOW_CHATEAU ? "les disponibilités de chacun, allergies / restrictions alimentaires, nuit au château et petit verre de vin." : "la disponibilité de chacun, allergies / restrictions alimentaires et petit verre de vin.") + " Deux minutes montre en main.";
     $("who-legend").innerHTML = solo ? "Serez-vous là&nbsp;?" : "Qui sera là&nbsp;?";
     $("who-hint").hidden = solo;
     // a single person present: no headcount for the château, no "depends who" for the wine
@@ -599,7 +602,7 @@
       }
     });
     if (present) {
-      const c = document.querySelector('input[name="chateau"]:checked');
+      const c = SHOW_CHATEAU ? document.querySelector('input[name="chateau"]:checked') : null;
       const v = document.querySelector('input[name="vin"]:checked');
       data.chateau = c ? c.value : "";
       data.chateau_count = c && c.value === "oui" ? $("chateau-count").value : "";

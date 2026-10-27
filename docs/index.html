@@ -386,11 +386,15 @@
     const members = (q.get("m") || "").split(",").map(s => s.trim()).filter(Boolean);
     const g = document.getElementById("greeting");
     g.textContent = members.length > 1 ? "Pour " + name : "Cher·ère " + name + ",";
+    const saturdayOnly = q.get("f") === "s2" || q.get("f") === "mariage";
+    const rsvpText = document.getElementById("rsvp-text");
     if (members.length > 1) {
-      document.getElementById("rsvp-text").textContent =
-        "Une seule réponse pour tout le monde : chacun indique ses disponibilités et ses allergies / restrictions alimentaires, puis la nuit au château et le petit verre de vin. Deux minutes pour nous aider à tout préparer.";
+      rsvpText.textContent = saturdayOnly
+        ? "Une seule réponse pour tout le monde : chacun indique sa disponibilité et ses allergies / restrictions alimentaires. Deux minutes pour nous aider à tout préparer."
+        : "Une seule réponse pour tout le monde : chacun indique ses disponibilités et ses allergies / restrictions alimentaires, puis la nuit au château et le petit verre de vin. Deux minutes pour nous aider à tout préparer.";
       document.getElementById("cta-link").textContent = "Répondre pour nous tous";
     } else {
+      if (saturdayOnly) rsvpText.textContent = "Votre disponibilité, allergies / restrictions alimentaires : deux minutes pour nous aider à tout préparer.";
       document.getElementById("cta-link").textContent = "Répondre";
     }
     g.hidden = false;
