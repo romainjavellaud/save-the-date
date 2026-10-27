@@ -187,17 +187,33 @@
     color:var(--burgundy);
   }
 
+  fieldset.rect{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px 18px 20px;
+    gap:14px;
+    min-width:0;
+  }
+  fieldset.rect legend{width:auto;padding:0 10px;margin:0 -10px;}
+  fieldset.rect .hint{margin:0;}
+  fieldset.rect input[type="text"],
+  fieldset.rect input[type="number"],
+  fieldset.rect textarea{background:var(--paper-raised);}
+  fieldset.rect .pillgroup label{background:var(--paper-raised);}
+  fieldset.rect .pillgroup input:checked + label{background:var(--burgundy);}
+  .pblocks{display:flex;flex-direction:column;gap:18px;}
+  .pblock{display:flex;flex-direction:column;gap:10px;}
+  .pname{margin:0;font-weight:600;font-size:0.92rem;}
+  .is-solo .pname{display:none;}
   .people{display:flex;flex-direction:column;gap:12px;}
   .person{
     display:flex;
     flex-direction:column;
     gap:12px;
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:14px 16px 16px;
     transition:opacity 160ms ease;
   }
+  .people .person + .person{border-top:1px solid var(--line);padding-top:16px;}
   .person.is-away{opacity:0.72;}
   .person-head{display:flex;gap:8px;align-items:center;}
   .person input[type="text"]{background:var(--paper-raised);}
@@ -367,7 +383,7 @@
     <section class="step" data-step="1">
     <p class="for" id="for-line" hidden>Réponse pour <strong id="group-label"></strong></p>
 
-    <fieldset id="group-fs" hidden>
+    <fieldset class="rect" id="group-fs" hidden>
       <legend>Votre nom</legend>
       <div class="stack">
         <label class="field-label" for="group">Votre nom ou celui de votre famille</label>
@@ -375,17 +391,28 @@
       </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="rect">
       <legend id="who-legend">Qui sera là&nbsp;?</legend>
       <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle est disponible à chaque moment. Quelqu'un ne peut pas venir&nbsp;? Répondez simplement « Non ».</p>
       <div id="people" class="people"></div>
+    </fieldset>
+
+    <fieldset class="rect" id="chateau-fs" hidden>
+      <legend id="chateau-legend">Qui dort au château&nbsp;?</legend>
+      <div id="people-chateau" class="pblocks"></div>
+    </fieldset>
+
+    <fieldset class="rect" id="allergies-fs" hidden>
+      <legend>Allergies / restrictions alimentaires</legend>
+      <p class="hint" id="allergies-hint">Laissez vide s'il n'y en a aucune.</p>
+      <div id="people-allergies" class="pblocks"></div>
     </fieldset>
     <div class="nav"><button type="button" class="btn-main" data-next>Continuer</button></div>
     </section>
 
     <section class="step" data-step="2" hidden>
     <div id="details" hidden>
-      <fieldset>
+      <fieldset class="rect">
         <legend id="vin-legend">Un petit verre de vin&nbsp;?</legend>
         <div class="pillgroup" role="radiogroup" aria-label="Vin">
           <input type="radio" id="vin-oui" name="vin" value="oui">
@@ -404,13 +431,13 @@
     </section>
 
     <section class="step" data-step="3" hidden>
-    <fieldset id="songs-fs">
+    <fieldset class="rect" id="songs-fs">
       <legend id="songs-legend">Vos 5 musiques pour la soirée</legend>
       <p class="hint" id="songs-hint">Facultatif — commencez à écrire un titre et des suggestions apparaissent. Vous pouvez aussi écrire librement.</p>
       <div id="songs" class="songs"></div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="rect">
       <legend>Un mot pour nous</legend>
       <textarea id="message" name="message" placeholder="Facultatif — une blague, une chanson à réclamer au DJ, un mot doux… Quelqu'un vous accompagne ? Dites-le-nous ici."></textarea>
     </fieldset>
@@ -523,23 +550,41 @@
             '<input type="radio" id="' + id + '-oui" name="' + id + '" value="oui"><label for="' + id + '-oui">Oui</label>' +
             '<input type="radio" id="' + id + '-non" name="' + id + '" value="non"><label for="' + id + '-non">Non</label>' +
           '</div></div>';
-      }).join('') +
-      '<div class="person-extra" hidden>' +
-        '<input type="text" class="p-allergies" placeholder="Allergies / restrictions alimentaires (vide si aucune)" aria-label="Allergies / restrictions alimentaires">' +
-        NIGHTS.map(function (nt) {
-          const id = 'nt-' + i + '-' + nt.key;
-          return '<div class="ev night" data-ev="' + nt.ev + '" data-night="' + nt.key + '" hidden><span class="ev-name"><strong>' + nt.label + '</strong> <small>au château</small></span>' +
-            '<div class="pillgroup" role="radiogroup" aria-label="' + nt.label + ' au château">' +
-              '<input type="radio" id="' + id + '-oui" name="' + id + '" value="oui"><label for="' + id + '-oui">Oui</label>' +
-              '<input type="radio" id="' + id + '-non" name="' + id + '" value="non"><label for="' + id + '-non">Non</label>' +
-            '</div></div>';
-        }).join('') +
-      '</div>';
-    row.querySelector(".p-name").value = name || "";
+      }).join('');
+    // château nights: own rectangle
+    const ch = document.createElement("div");
+    ch.className = "pblock"; ch.hidden = true; ch.dataset.i = i;
+    ch.innerHTML = '<p class="pname"></p>' +
+      NIGHTS.map(function (nt) {
+        const id = 'nt-' + i + '-' + nt.key;
+        return '<div class="ev night" data-ev="' + nt.ev + '" data-night="' + nt.key + '" hidden><span class="ev-name"><strong>' + nt.label + '</strong> <small>au château</small></span>' +
+          '<div class="pillgroup" role="radiogroup" aria-label="' + nt.label + ' au château">' +
+            '<input type="radio" id="' + id + '-oui" name="' + id + '" value="oui"><label for="' + id + '-oui">Oui</label>' +
+            '<input type="radio" id="' + id + '-non" name="' + id + '" value="non"><label for="' + id + '-non">Non</label>' +
+          '</div></div>';
+      }).join('');
+    // allergies / dietary restrictions: own rectangle
+    const al = document.createElement("div");
+    al.className = "pblock"; al.hidden = true; al.dataset.i = i;
+    al.innerHTML = '<p class="pname"></p>' +
+      '<input type="text" class="p-allergies" placeholder="Allergies / restrictions alimentaires (vide si aucune)" aria-label="Allergies / restrictions alimentaires">';
+    const nameInput = row.querySelector(".p-name");
+    nameInput.value = name || "";
+    const sync = () => {
+      const v = nameInput.value.trim() || "Invité";
+      ch.querySelector(".pname").textContent = v;
+      al.querySelector(".pname").textContent = v;
+      al.querySelector(".p-allergies").setAttribute("aria-label", "Allergies / restrictions alimentaires de " + v);
+    };
+    nameInput.addEventListener("input", sync);
+    sync();
+    row._ch = ch; row._al = al;
     const rm = row.querySelector(".p-remove");
-    if (rm) rm.addEventListener("click", () => { row.remove(); refresh(); });
+    if (rm) rm.addEventListener("click", () => { row.remove(); ch.remove(); al.remove(); refresh(); });
     row.addEventListener("change", refresh);
     peopleEl.appendChild(row);
+    $("people-chateau").appendChild(ch);
+    $("people-allergies").appendChild(al);
     return row;
   }
 
@@ -550,7 +595,7 @@
   }
   // "oui" as soon as one moment is attended, "non" once every moment is declined
   function nightValue(row, key) {
-    const c = row.querySelector('input[name="nt-' + row.dataset.i + '-' + key + '"]:checked');
+    const c = row._ch.querySelector('input[name="nt-' + row.dataset.i + '-' + key + '"]:checked');
     return c ? c.value : "";
   }
   function presence(row) {
@@ -587,6 +632,9 @@
       ? "Une erreur, un changement ? Tu peux modifier ta réponse à tout moment : la nouvelle remplacera la précédente."
       : "Une erreur, un changement ? Vous pouvez modifier votre réponse à tout moment : la nouvelle remplacera la précédente.";
     $("who-hint").hidden = solo;
+    document.body.classList.toggle("is-solo", solo);
+    $("chateau-legend").innerHTML = solo ? "Tu dors au château&nbsp;?" : "Qui dort au château&nbsp;?";
+    $("allergies-hint").textContent = solo ? "Laisse vide si tu n'as aucune allergie ni restriction." : "Laissez vide s'il n'y en a aucune.";
     // a single person present: no "depends who" for the wine
     $("vin-partiel").hidden = present <= 1;
     $("vin-partiel-label").hidden = present <= 1;
@@ -596,17 +644,24 @@
 
   function refresh() {
     let present = 0;
+    let anyNight = false;
     personRows().forEach((row) => {
       const yes = presence(row) === "oui";
-      row.querySelector(".person-extra").hidden = !yes;
       row.classList.toggle("is-away", presence(row) === "non");
-      row.querySelectorAll(".night").forEach((nt) => {
+      row._al.hidden = !yes;
+      let rowNight = false;
+      row._ch.querySelectorAll(".night").forEach((nt) => {
         const show = yes && evValue(row, nt.dataset.ev) === "oui";
         nt.hidden = !show;
         if (!show) nt.querySelectorAll("input").forEach(r => { r.checked = false; });
+        if (show) rowNight = true;
       });
+      row._ch.hidden = !rowNight;
+      if (rowNight) anyNight = true;
       if (yes) present++;
     });
+    $("chateau-fs").hidden = !anyNight;
+    $("allergies-fs").hidden = present === 0;
     details.hidden = present === 0;
     if (typeof updateProgress === "function") updateProgress();
     applyMode(personRows().length === 1, present);
@@ -728,7 +783,7 @@
       let row = personRows().find(r => r.querySelector(".p-name").value.trim().toLowerCase() === name.toLowerCase());
       if (!row) continue;
       EVENTS.forEach(ev => setRadio("ev-" + row.dataset.i + "-" + ev.key, d[ev.key + k]));
-      row.querySelector(".p-allergies").value = d["a" + k] || "";
+      row._al.querySelector(".p-allergies").value = d["a" + k] || "";
       NIGHTS.forEach(nt => setRadio("nt-" + row.dataset.i + "-" + nt.key, d[nt.key + k]));
     }
     setRadio("vin", d.vin);
@@ -756,7 +811,7 @@
       NIGHTS.forEach(nt => { data[nt.key + n] = nightValue(row, nt.key); });
       if (pres === "oui") {
         present++;
-        data["a" + n] = row.querySelector(".p-allergies").value.trim();
+        data["a" + n] = row._al.querySelector(".p-allergies").value.trim();
       }
     });
     if (present) {

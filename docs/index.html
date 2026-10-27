@@ -247,9 +247,6 @@
     transition:background 120ms ease;
   }
   .cta:hover{background:var(--burgundy-strong);}
-  .share{margin:26px 0 0;font-size:0.9rem;color:var(--ink-soft);}
-  .share a{color:var(--burgundy);font-weight:500;text-decoration:none;border-bottom:1px solid var(--rose);padding-bottom:1px;}
-  .share a:hover{border-bottom-color:var(--burgundy);}
 
   /* footer: slides up once the photo has scrolled away */
   .foot{
@@ -343,7 +340,6 @@
       <h2 class="rsvp-title" id="rsvp-title">Serez-vous des nôtres&nbsp;?</h2>
       <p class="rsvp-text" id="rsvp-text">Vos disponibilités, allergies / restrictions alimentaires, nuit au château, petit verre de vin : deux minutes pour nous aider à tout préparer.</p>
       <a class="cta" id="cta-link" href="rsvp.html">Répondre au questionnaire</a>
-      <p class="share">Un proche à prévenir&nbsp;? <a id="share-link" href="https://wa.me/?text=Lola%20%26%20Romain%20se%20marient%20le%2021%20ao%C3%BBt%202027%20%21%20Gardez%20la%20date%20%3A%20https%3A%2F%2Fromainjavellaud.github.io%2Fsave-the-date%2F" target="_blank" rel="noopener">Partager par WhatsApp</a></p>
     </div>
   </section>
 </main>
@@ -371,12 +367,6 @@
     tick(); setInterval(tick, 1000);
   })();
 
-  /* WhatsApp share: plain page URL, never the guest's personalised link */
-  (function(){
-    const url = location.origin + location.pathname;
-    const text = "Lola & Romain se marient le 21 août 2027 ! Gardez la date : " + url;
-    document.getElementById("share-link").href = "https://wa.me/?text=" + encodeURIComponent(text);
-  })();
 
   /* personalisation: ?to=<couple ou famille>&m=<membres>&f=<formule> */
   (function(){
