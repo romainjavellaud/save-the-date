@@ -204,6 +204,8 @@
   .person .pillgroup label{padding:8px 16px;font-size:0.88rem;background:var(--paper-raised);}
   .person .pillgroup input:checked + label{background:var(--burgundy);}
   .person-extra{display:flex;flex-direction:column;gap:12px;}
+  .ev{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;}
+  .ev-name small{color:var(--ink-soft);font-size:0.85rem;}
   .mini{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:0.88rem;color:var(--ink-soft);}
   .p-remove{
     flex:none;
@@ -315,7 +317,7 @@
 <div class="page">
   <p class="eyebrow">Lola &amp; Romain · 21 août 2027</p>
   <h1>Serez-vous des&nbsp;nôtres&nbsp;?</h1>
-  <p class="sub" id="page-sub">Une seule réponse par couple ou famille — allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
+  <p class="sub" id="page-sub">Une seule réponse par couple ou famille — les disponibilités de chacun, allergies / restrictions alimentaires, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
 
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 150 26" fill="none">
@@ -344,7 +346,7 @@
 
     <fieldset>
       <legend id="who-legend">Qui sera là&nbsp;?</legend>
-      <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle sera présente. Quelqu'un ne peut pas venir&nbsp;? Dites-le simplement ici.</p>
+      <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle est disponible à chaque moment. Quelqu'un ne peut pas venir&nbsp;? Répondez simplement « Non ».</p>
       <div id="people" class="people"></div>
     </fieldset>
 
@@ -415,7 +417,16 @@
   const FORMULE_CODES = { k4: "vendredi", p7: "brunch", s2: "mariage" };
   const FORMULE_RAW = (params.get("f") || "").trim();
   const FORMULE = FORMULE_CODES[FORMULE_RAW] || FORMULE_RAW;
-  const SHOW_BRUNCH = FORMULE !== "mariage";
+
+  // The formula (chosen by the couple) decides which moments a guest is invited to.
+  const ALL_EVENTS = [
+    { key: "v", label: "Vendredi 20 août", sub: "la veille du mariage" },
+    { key: "s", label: "Samedi 21 août", sub: "le mariage" },
+    { key: "b", label: "Dimanche 22 août", sub: "le brunch" }
+  ];
+  const EVENTS_BY_FORMULE = { vendredi: ["v", "s", "b"], brunch: ["s", "b"], mariage: ["s"] };
+  const EVENT_KEYS = EVENTS_BY_FORMULE[FORMULE] || ["s", "b"];
+  const EVENTS = ALL_EVENTS.filter(e => EVENT_KEYS.indexOf(e.key) !== -1);
 
   const $ = (id) => document.getElementById(id);
   const form = $("rsvp-form");
@@ -464,18 +475,16 @@
         '<input type="text" class="p-name" placeholder="Prénom Nom" aria-label="Prénom et nom">' +
         (removable ? '<button type="button" class="p-remove" aria-label="Retirer cette personne">×</button>' : "") +
       '</div>' +
-      '<div class="pillgroup" role="radiogroup" aria-label="Présence">' +
-        '<input type="radio" id="pres-' + i + '-oui" name="pres-' + i + '" value="oui"><label for="pres-' + i + '-oui">Sera là</label>' +
-        '<input type="radio" id="pres-' + i + '-non" name="pres-' + i + '" value="non"><label for="pres-' + i + '-non">Ne pourra pas venir</label>' +
-      '</div>' +
+      EVENTS.map(function (ev) {
+        const id = 'ev-' + i + '-' + ev.key;
+        return '<div class="ev"><span class="ev-name"><strong>' + ev.label + '</strong> <small>' + ev.sub + '</small></span>' +
+          '<div class="pillgroup" role="radiogroup" aria-label="' + ev.label + '">' +
+            '<input type="radio" id="' + id + '-oui" name="' + id + '" value="oui"><label for="' + id + '-oui">Oui</label>' +
+            '<input type="radio" id="' + id + '-non" name="' + id + '" value="non"><label for="' + id + '-non">Non</label>' +
+          '</div></div>';
+      }).join('') +
       '<div class="person-extra" hidden>' +
         '<input type="text" class="p-allergies" placeholder="Allergies / restrictions alimentaires (vide si aucune)" aria-label="Allergies / restrictions alimentaires">' +
-        (SHOW_BRUNCH
-          ? '<div class="mini"><span>Brunch du lendemain&nbsp;?</span><div class="pillgroup" role="radiogroup" aria-label="Brunch du lendemain">' +
-              '<input type="radio" id="brunch-' + i + '-oui" name="brunch-' + i + '" value="oui"><label for="brunch-' + i + '-oui">Oui</label>' +
-              '<input type="radio" id="brunch-' + i + '-non" name="brunch-' + i + '" value="non"><label for="brunch-' + i + '-non">Non</label>' +
-            '</div></div>'
-          : "") +
       '</div>';
     row.querySelector(".p-name").value = name || "";
     const rm = row.querySelector(".p-remove");
@@ -486,9 +495,15 @@
   }
 
   function personRows() { return Array.from(peopleEl.querySelectorAll(".person")); }
-  function presence(row) {
-    const c = row.querySelector('input[name="pres-' + row.dataset.i + '"]:checked');
+  function evValue(row, key) {
+    const c = row.querySelector('input[name="ev-' + row.dataset.i + '-' + key + '"]:checked');
     return c ? c.value : "";
+  }
+  // "oui" as soon as one moment is attended, "non" once every moment is declined
+  function presence(row) {
+    const vals = EVENTS.map(ev => evValue(row, ev.key));
+    if (vals.indexOf("oui") !== -1) return "oui";
+    return vals.every(v => v === "non") ? "non" : "";
   }
 
   // Wording and options adapt to a single guest vs. several people.
@@ -499,15 +514,10 @@
   function applyMode(isSolo, present) {
     solo = isSolo;
     $("page-sub").textContent = solo
-      ? "Allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main."
-      : "Une seule réponse par couple ou famille — allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.";
+      ? "Vos disponibilités, allergies / restrictions alimentaires, nuit au château et petit verre de vin. Deux minutes montre en main."
+      : "Une seule réponse par couple ou famille — les disponibilités de chacun, allergies / restrictions alimentaires, nuit au château et petit verre de vin. Deux minutes montre en main.";
     $("who-legend").innerHTML = solo ? "Serez-vous là&nbsp;?" : "Qui sera là&nbsp;?";
     $("who-hint").hidden = solo;
-    personRows().forEach((row) => {
-      const i = row.dataset.i;
-      row.querySelector('label[for="pres-' + i + '-oui"]').textContent = solo ? "Je serai là" : "Sera là";
-      row.querySelector('label[for="pres-' + i + '-non"]').textContent = solo ? "Je ne pourrai pas venir" : "Ne pourra pas venir";
-    });
     // a single person present: no headcount for the château, no "depends who" for the wine
     $("chateau-count-wrap").classList.toggle("is-hidden", present <= 1);
     $("vin-partiel").hidden = present <= 1;
@@ -559,9 +569,8 @@
       const name = d["n" + k] || "";
       let row = personRows().find(r => r.querySelector(".p-name").value.trim().toLowerCase() === name.toLowerCase());
       if (!row) continue;
-      setRadio("pres-" + row.dataset.i, d["p" + k]);
+      EVENTS.forEach(ev => setRadio("ev-" + row.dataset.i + "-" + ev.key, d[ev.key + k]));
       row.querySelector(".p-allergies").value = d["a" + k] || "";
-      setRadio("brunch-" + row.dataset.i, d["b" + k]);
     }
     setRadio("chateau", d.chateau);
     if (d.chateau === "oui") {
@@ -583,11 +592,10 @@
       const pres = presence(row);
       data["n" + n] = row.querySelector(".p-name").value.trim();
       data["p" + n] = pres;
+      EVENTS.forEach(ev => { data[ev.key + n] = evValue(row, ev.key); });
       if (pres === "oui") {
         present++;
         data["a" + n] = row.querySelector(".p-allergies").value.trim();
-        const b = row.querySelector('input[name="brunch-' + row.dataset.i + '"]:checked');
-        data["b" + n] = b ? b.value : "";
       }
     });
     if (present) {
@@ -605,7 +613,7 @@
     if (!data.group) return "Merci d'indiquer votre nom.";
     for (let k = 1; k <= Number(data.count); k++) {
       if (!data["n" + k]) return "Merci d'indiquer le nom de chaque personne.";
-      if (!data["p" + k]) return "Précisez pour " + data["n" + k] + " si la personne sera là ou non.";
+      if (EVENTS.some(ev => !data[ev.key + k])) return "Indiquez les disponibilités de " + data["n" + k] + " pour chaque moment.";
     }
     return "";
   }
@@ -613,11 +621,8 @@
   function buildSummary(d) {
     const lines = ["Réponse au save the date — Lola & Romain, 21 août 2027", "", "Groupe : " + d.group, ""];
     for (let k = 1; k <= Number(d.count); k++) {
-      let l = "- " + d["n" + k] + " : " + (d["p" + k] === "oui" ? "sera là" : "ne pourra pas venir");
-      if (d["p" + k] === "oui") {
-        if (d["b" + k]) l += " · brunch : " + d["b" + k];
-        l += " · allergies / restrictions : " + (d["a" + k] || "aucune");
-      }
+      let l = "- " + d["n" + k] + " : " + EVENTS.map(ev => ev.label + " " + (d[ev.key + k] || "?")).join(" · ");
+      if (d["p" + k] === "oui") l += " · allergies / restrictions : " + (d["a" + k] || "aucune");
       lines.push(l);
     }
     if (d.chateau) lines.push("", "Dormir au château : " + (d.chateau === "oui" ? "oui (" + (d.chateau_count || "1") + " pers.)" : "non"));
