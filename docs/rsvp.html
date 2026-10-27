@@ -204,6 +204,25 @@
   .person .pillgroup label{padding:8px 16px;font-size:0.88rem;background:var(--paper-raised);}
   .person .pillgroup input:checked + label{background:var(--burgundy);}
   .person-extra{display:flex;flex-direction:column;gap:12px;}
+  .songs{display:flex;flex-direction:column;gap:10px;}
+  .song{display:flex;align-items:center;gap:10px;}
+  .song-n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--paper);border:1px solid var(--line);color:var(--burgundy);font-family:"Bodoni Moda", Georgia, serif;font-size:0.9rem;display:grid;place-items:center;}
+  .ac{position:relative;flex:1;min-width:0;}
+  .ac-list{
+    position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);
+    margin:0;padding:4px;list-style:none;
+    background:var(--paper-raised);
+    border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 14px 28px rgba(23,17,15,0.18);
+    max-height:320px;overflow:auto;
+  }
+  .ac-list li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;}
+  .ac-list li.is-active,.ac-list li:hover{background:var(--paper);}
+  .ac-list img{width:36px;height:36px;border-radius:6px;background:var(--grey);flex:none;object-fit:cover;}
+  .ac-list span{display:flex;flex-direction:column;min-width:0;}
+  .ac-list strong{font-weight:600;font-size:0.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ac-list small{color:var(--ink-soft);font-size:0.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ac-credit{margin:2px 4px 0;font-size:0.7rem;color:var(--ink-soft);}
   .ev{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;}
   .ev-name small{color:var(--ink-soft);font-size:0.85rem;}
   .mini{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:0.88rem;color:var(--ink-soft);}
@@ -362,6 +381,12 @@
         </div>
       </fieldset>
     </div>
+
+    <fieldset id="songs-fs">
+      <legend id="songs-legend">Vos 5 musiques pour la soirée</legend>
+      <p class="hint" id="songs-hint">Facultatif — commencez à écrire un titre et des suggestions apparaissent. Vous pouvez aussi écrire librement.</p>
+      <div id="songs" class="songs"></div>
+    </fieldset>
 
     <fieldset>
       <legend>Un mot pour nous</legend>
@@ -525,6 +550,10 @@
       : "Une seule réponse par couple ou famille — " + (several ? "les disponibilités" : "la disponibilité") + " de chacun, allergies / restrictions alimentaires" + (nights ? ", " + nights : "") + " et petit verre de vin. Deux minutes montre en main.";
     $("page-title").innerHTML = solo ? "Seras-tu des&nbsp;nôtres&nbsp;?" : "Serez-vous des&nbsp;nôtres&nbsp;?";
     $("who-legend").innerHTML = solo ? "Seras-tu là&nbsp;?" : "Qui sera là&nbsp;?";
+    $("songs-legend").textContent = solo ? "Tes 5 musiques pour la soirée" : "Vos 5 musiques pour la soirée";
+    $("songs-hint").textContent = solo
+      ? "Facultatif — commence à écrire un titre et des suggestions apparaissent. Tu peux aussi écrire librement."
+      : "Facultatif — commencez à écrire un titre et des suggestions apparaissent. Vous pouvez aussi écrire librement.";
     $("vin-oui-label").textContent = solo ? "Oui, je veux bien" : "Oui, volontiers";
     $("vin-legend").innerHTML = solo ? "Un petit verre de vin, ça te dit&nbsp;?" : "Un petit verre de vin, ça vous dit&nbsp;?";
     const notes = document.querySelectorAll(".resend-note");
@@ -561,6 +590,100 @@
 
   (MEMBERS.length ? MEMBERS : (GROUP_PARAM ? [GROUP_PARAM] : [""])).forEach(n => addPerson(n, false));
 
+  // ---- Songs with suggestions (iTunes Search API: public, no key) ------------
+  const SONG_COUNT = 5;
+  function attachAutocomplete(input, list) {
+    let timer = null, ctl = null, items = [], active = -1;
+    const close = () => { list.hidden = true; active = -1; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); };
+    const pick = (it) => { input.value = it.trackName + " — " + it.artistName; close(); items = []; };
+    function render() {
+      list.innerHTML = "";
+      items.forEach((it, k) => {
+        const li = document.createElement("li");
+        li.setAttribute("role", "option");
+        li.id = list.id + "-" + k;
+        if (k === active) li.classList.add("is-active");
+        const img = document.createElement("img");
+        img.alt = ""; img.loading = "lazy"; img.src = it.artworkUrl60 || "";
+        const box = document.createElement("span");
+        const b = document.createElement("strong"); b.textContent = it.trackName;
+        const s = document.createElement("small"); s.textContent = it.artistName + (it.collectionName ? " · " + it.collectionName : "");
+        box.append(b, s);
+        li.append(img, box);
+        li.addEventListener("mousedown", (e) => { e.preventDefault(); pick(it); });
+        list.appendChild(li);
+      });
+      list.hidden = items.length === 0;
+      input.setAttribute("aria-expanded", String(items.length > 0));
+      if (active >= 0) input.setAttribute("aria-activedescendant", list.id + "-" + active);
+      else input.removeAttribute("aria-activedescendant");
+    }
+    input.addEventListener("input", () => {
+      clearTimeout(timer);
+      const q = input.value.trim();
+      if (q.length < 3) { items = []; render(); return; }
+      timer = setTimeout(async () => {
+        if (ctl) ctl.abort();
+        ctl = new AbortController();
+        try {
+          const r = await fetch("https://itunes.apple.com/search?media=music&entity=song&limit=8&country=FR&term=" + encodeURIComponent(q), { signal: ctl.signal });
+          const j = await r.json();
+          const seen = {};
+          items = (j.results || []).filter((x) => {
+            if (!x.trackName || !x.artistName) return false;
+            const key = (x.trackName + "|" + x.artistName).toLowerCase();
+            if (seen[key]) return false;
+            seen[key] = true;
+            return true;
+          }).slice(0, 6);
+          active = -1;
+          render();
+        } catch (e) {
+          if (e.name !== "AbortError") { items = []; render(); }
+        }
+      }, 250);
+    });
+    input.addEventListener("keydown", (e) => {
+      if (list.hidden) return;
+      if (e.key === "ArrowDown") { e.preventDefault(); active = (active + 1) % items.length; render(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); active = (active - 1 + items.length) % items.length; render(); }
+      else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(items[active]); }
+      else if (e.key === "Escape") { close(); }
+    });
+    input.addEventListener("blur", close);
+  }
+  (function buildSongs() {
+    const box = $("songs");
+    for (let k = 1; k <= SONG_COUNT; k++) {
+      const row = document.createElement("div");
+      row.className = "song";
+      const n = document.createElement("span");
+      n.className = "song-n"; n.textContent = String(k); n.setAttribute("aria-hidden", "true");
+      const wrap = document.createElement("div");
+      wrap.className = "ac";
+      const input = document.createElement("input");
+      input.type = "text"; input.className = "song-input"; input.id = "song-" + k;
+      input.maxLength = 120; input.autocomplete = "off";
+      input.placeholder = k === 1 ? "Ex : Billie Jean — Michael Jackson" : "Un titre, un artiste…";
+      input.setAttribute("aria-label", "Musique " + k);
+      input.setAttribute("role", "combobox");
+      input.setAttribute("aria-autocomplete", "list");
+      input.setAttribute("aria-expanded", "false");
+      const list = document.createElement("ul");
+      list.className = "ac-list"; list.id = "song-list-" + k; list.hidden = true;
+      list.setAttribute("role", "listbox");
+      input.setAttribute("aria-controls", list.id);
+      wrap.append(input, list);
+      row.append(n, wrap);
+      box.appendChild(row);
+      attachAutocomplete(input, list);
+    }
+    const credit = document.createElement("p");
+    credit.className = "ac-credit";
+    credit.textContent = "Suggestions fournies par Apple Music : le titre saisi lui est transmis pour la recherche.";
+    box.appendChild(credit);
+  })();
+
   // ---- Previous answer on this device (the server keeps only the latest) ----
   const storeKey = () => "rsvp:" + groupName().toLowerCase();
   function loadSaved() {
@@ -585,6 +708,7 @@
       NIGHTS.forEach(nt => setRadio("nt-" + row.dataset.i + "-" + nt.key, d[nt.key + k]));
     }
     setRadio("vin", d.vin);
+    for (let k = 1; k <= SONG_COUNT; k++) $("song-" + k).value = d["song" + k] || "";
     $("message").value = d.message || "";
     refresh();
     // the night rows were just revealed by refresh(): restore their answers now
@@ -620,6 +744,10 @@
       }
       data.vin = v ? v.value : "";
     }
+    for (let k = 1; k <= SONG_COUNT; k++) {
+      const s = $("song-" + k).value.trim();
+      if (s) data["song" + k] = s;
+    }
     data.message = $("message").value.trim();
     return data;
   }
@@ -643,6 +771,8 @@
       lines.push(l);
     }
     if (d.vin) lines.push("Vin : " + (d.vin === "ca depend qui" ? "ça dépend qui" : d.vin));
+    const songs = [1, 2, 3, 4, 5].map(k => d["song" + k]).filter(Boolean);
+    if (songs.length) lines.push("", "Musiques : " + songs.join(" / "));
     if (d.message) lines.push("", "Message : " + d.message);
     return lines.join("\n");
   }
