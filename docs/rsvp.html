@@ -227,6 +227,7 @@
     cursor:pointer;
   }
   .add-person:hover{background:var(--paper);}
+  #chateau-count-wrap.is-hidden{display:none!important;}
   .form-error{
     margin:0;
     color:var(--burgundy-strong);
@@ -313,8 +314,8 @@
 <div class="paper-wrap">
 <div class="page">
   <p class="eyebrow">Lola &amp; Romain · 21 août 2027</p>
-  <h1>Vous serez des&nbsp;nôtres&nbsp;?</h1>
-  <p class="sub">Une seule réponse par couple ou famille — allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
+  <h1>Serez-vous des&nbsp;nôtres&nbsp;?</h1>
+  <p class="sub" id="page-sub">Une seule réponse par couple ou famille — allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
 
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 150 26" fill="none">
@@ -342,7 +343,7 @@
     </fieldset>
 
     <fieldset>
-      <legend>Qui sera là&nbsp;?</legend>
+      <legend id="who-legend">Qui sera là&nbsp;?</legend>
       <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle sera présente. Quelqu'un ne peut pas venir&nbsp;? Dites-le simplement ici.</p>
       <div id="people" class="people"></div>
       <button type="button" class="add-person" id="add-person">+ Ajouter une personne</button>
@@ -371,7 +372,7 @@
           <input type="radio" id="vin-non" name="vin" value="non">
           <label for="vin-non">Non merci</label>
           <input type="radio" id="vin-partiel" name="vin" value="ca depend qui">
-          <label for="vin-partiel">Ça dépend qui</label>
+          <label for="vin-partiel" id="vin-partiel-label">Ça dépend qui</label>
         </div>
       </fieldset>
     </div>
@@ -491,6 +492,32 @@
     return c ? c.value : "";
   }
 
+  // Wording and options adapt to a single guest vs. several people.
+  const labelNew = () => solo ? "Envoyer ma réponse" : "Envoyer notre réponse";
+  const labelUpdate = () => solo ? "Mettre à jour ma réponse" : "Mettre à jour notre réponse";
+  let solo = false;
+  let hasSaved = false;
+  function applyMode(isSolo, present) {
+    solo = isSolo;
+    $("page-sub").textContent = solo
+      ? "Allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main."
+      : "Une seule réponse par couple ou famille — allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.";
+    $("who-legend").innerHTML = solo ? "Serez-vous là&nbsp;?" : "Qui sera là&nbsp;?";
+    $("who-hint").hidden = solo;
+    $("add-person").textContent = solo ? "+ Vous venez accompagné·e ?" : "+ Ajouter une personne";
+    personRows().forEach((row) => {
+      const i = row.dataset.i;
+      row.querySelector('label[for="pres-' + i + '-oui"]').textContent = solo ? "Je serai là" : "Sera là";
+      row.querySelector('label[for="pres-' + i + '-non"]').textContent = solo ? "Je ne pourrai pas venir" : "Ne pourra pas venir";
+    });
+    // a single person present: no headcount for the château, no "depends who" for the wine
+    $("chateau-count-wrap").classList.toggle("is-hidden", present <= 1);
+    $("vin-partiel").hidden = present <= 1;
+    $("vin-partiel-label").hidden = present <= 1;
+    $("edit-btn").textContent = solo ? "Modifier ma réponse" : "Modifier notre réponse";
+    if (!submitBtn.disabled && submitBtn.textContent !== "Envoi…") submitBtn.textContent = hasSaved ? labelUpdate() : labelNew();
+  }
+
   let chateauTouched = false;
   function refresh() {
     let present = 0;
@@ -501,6 +528,7 @@
       if (yes) present++;
     });
     details.hidden = present === 0;
+    applyMode(personRows().length === 1, present);
     const cc = $("chateau-count");
     cc.max = String(Math.max(present, 1));
     if (!chateauTouched || Number(cc.value) > present) cc.value = String(Math.max(present, 1));
@@ -614,8 +642,6 @@
   }
 
   const submitBtn = $("submit-btn");
-  const labelNew = "Envoyer notre réponse";
-  const labelUpdate = "Mettre à jour notre réponse";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -650,7 +676,8 @@
     $("confirm").hidden = true;
     form.hidden = false;
     submitBtn.disabled = false;
-    submitBtn.textContent = labelUpdate;
+    hasSaved = true;
+    submitBtn.textContent = labelUpdate();
     window.scrollTo({ top: 0 });
   });
 
@@ -668,7 +695,7 @@
   });
 
   const saved = loadSaved();
-  if (saved) { applySaved(saved); submitBtn.textContent = labelUpdate; }
+  if (saved) { hasSaved = true; applySaved(saved); }
   refresh();
 </script>
 
