@@ -249,6 +249,8 @@
   .ac-list span{display:flex;flex-direction:column;min-width:0;}
   .ac-list strong{font-weight:600;font-size:0.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .ac-list small{color:var(--ink-soft);font-size:0.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ac-list.is-up{top:auto;bottom:calc(100% + 4px);}
+  .song-input{scroll-margin-top:84px;}
   .ac-credit{margin:2px 4px 0;font-size:0.7rem;color:var(--ink-soft);}
   .ev{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;}
   .ev-name small{color:var(--ink-soft);font-size:0.85rem;}
@@ -704,6 +706,16 @@
     let timer = null, ctl = null, items = [], active = -1;
     const close = () => { list.hidden = true; active = -1; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); };
     const pick = (it) => { input.value = it.trackName + " — " + it.artistName; close(); items = []; };
+    // On a phone the keyboard covers the space under the field: open the list above when needed.
+    function place() {
+      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      const r = input.getBoundingClientRect();
+      const below = vh - r.bottom - 10;
+      const above = r.top - 10;
+      const up = below < 200 && above > below;
+      list.classList.toggle("is-up", up);
+      list.style.maxHeight = Math.max(120, Math.min(320, up ? above : below)) + "px";
+    }
     function render() {
       list.innerHTML = "";
       items.forEach((it, k) => {
@@ -718,9 +730,11 @@
         const s = document.createElement("small"); s.textContent = it.artistName + (it.collectionName ? " · " + it.collectionName : "");
         box.append(b, s);
         li.append(img, box);
-        li.addEventListener("mousedown", (e) => { e.preventDefault(); pick(it); });
+        // pointerdown covers mouse and touch; preventDefault keeps the field focused
+        li.addEventListener("pointerdown", (e) => { e.preventDefault(); pick(it); });
         list.appendChild(li);
       });
+      if (items.length) place();
       list.hidden = items.length === 0;
       input.setAttribute("aria-expanded", String(items.length > 0));
       if (active >= 0) input.setAttribute("aria-activedescendant", list.id + "-" + active);
@@ -758,7 +772,12 @@
       else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(items[active]); }
       else if (e.key === "Escape") { close(); }
     });
-    input.addEventListener("blur", close);
+    input.addEventListener("blur", () => setTimeout(close, 180));
+    input.addEventListener("focus", () => {
+      // bring the field near the top of the visible area so the suggestions have room
+      if (window.innerWidth < 700) setTimeout(() => input.scrollIntoView({ block: "start", behavior: "smooth" }), 250);
+    });
+    if (window.visualViewport) window.visualViewport.addEventListener("resize", () => { if (!list.hidden) place(); });
   }
   (function buildSongs() {
     const box = $("songs");
