@@ -266,6 +266,10 @@
     align-self:center;
   }
 
+  .progress{margin:0;text-align:center;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--burgundy);font-weight:600;}
+  .step{display:flex;flex-direction:column;gap:30px;}
+  .nav{display:flex;flex-direction:column;gap:12px;}
+  .btn-main,
   button[type="submit"]{
     font:inherit;
     font-size:1rem;
@@ -279,8 +283,13 @@
     cursor:pointer;
     transition:background 120ms ease, transform 120ms ease;
   }
+  .btn-main:hover,
   button[type="submit"]:hover{background:var(--burgundy-strong);}
+  .btn-back{background:none;border:none;color:var(--ink-soft);font:inherit;font-size:0.9rem;text-align:center;cursor:pointer;padding:6px;}
+  .btn-back:hover{color:var(--burgundy);}
+  .btn-main:focus-visible,
   button[type="submit"]:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+  .btn-main:active,
   button[type="submit"]:active{transform:scale(0.99);}
 
   .fallback-copy{
@@ -352,6 +361,10 @@
   </div>
 
   <form id="rsvp-form" method="GET" novalidate>
+    <p class="progress" id="progress" aria-live="polite"></p>
+    <p class="form-error" id="form-error" role="alert" hidden></p>
+
+    <section class="step" data-step="1">
     <p class="for" id="for-line" hidden>Réponse pour <strong id="group-label"></strong></p>
 
     <fieldset id="group-fs" hidden>
@@ -367,7 +380,10 @@
       <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle est disponible à chaque moment. Quelqu'un ne peut pas venir&nbsp;? Répondez simplement « Non ».</p>
       <div id="people" class="people"></div>
     </fieldset>
+    <div class="nav"><button type="button" class="btn-main" data-next>Continuer</button></div>
+    </section>
 
+    <section class="step" data-step="2" hidden>
     <div id="details" hidden>
       <fieldset>
         <legend id="vin-legend">Un petit verre de vin&nbsp;?</legend>
@@ -381,7 +397,13 @@
         </div>
       </fieldset>
     </div>
+    <div class="nav">
+      <button type="button" class="btn-main" data-next>Continuer</button>
+      <button type="button" class="btn-back" data-back>← Retour</button>
+    </div>
+    </section>
 
+    <section class="step" data-step="3" hidden>
     <fieldset id="songs-fs">
       <legend id="songs-legend">Vos 5 musiques pour la soirée</legend>
       <p class="hint" id="songs-hint">Facultatif — commencez à écrire un titre et des suggestions apparaissent. Vous pouvez aussi écrire librement.</p>
@@ -393,10 +415,11 @@
       <textarea id="message" name="message" placeholder="Facultatif — une blague, une chanson à réclamer au DJ, un mot doux… Quelqu'un vous accompagne ? Dites-le-nous ici."></textarea>
     </fieldset>
 
-    <p class="form-error" id="form-error" role="alert" hidden></p>
     <button type="submit" id="submit-btn">Envoyer notre réponse</button>
+    <button type="button" class="btn-back" data-back>← Retour</button>
     <p class="resend-note" id="resend-note">Un changement de programme&nbsp;? Rouvrez ce même lien et renvoyez le formulaire&nbsp;: votre nouvelle réponse remplace la précédente (pensez à tout remplir à nouveau).</p>
     <button type="button" class="fallback-copy" id="copy-btn">La réponse ne part pas&nbsp;? Copier le récapitulatif</button>
+    </section>
   </form>
 
   <div id="confirm" hidden>
@@ -585,6 +608,7 @@
       if (yes) present++;
     });
     details.hidden = present === 0;
+    if (typeof updateProgress === "function") updateProgress();
     applyMode(personRows().length === 1, present);
   }
 
@@ -787,8 +811,40 @@
 
   const submitBtn = $("submit-btn");
 
+  // ---- Steps: 1 availability, 2 wine (only if someone attends), 3 music + word ----
+  let step = 1;
+  const presentCount = () => personRows().filter(r => presence(r) === "oui").length;
+  const stepList = () => presentCount() > 0 ? [1, 2, 3] : [1, 3];
+  function updateProgress() {
+    const list = stepList();
+    $("progress").textContent = "Étape " + (list.indexOf(step) + 1) + " sur " + list.length;
+    $("songs-fs").hidden = presentCount() === 0;
+  }
+  function showStep(n) {
+    step = n;
+    document.querySelectorAll(".step").forEach(s => { s.hidden = Number(s.dataset.step) !== n; });
+    errorEl.hidden = true;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function goNext() {
+    const problem = validate(collect());
+    errorEl.hidden = !problem;
+    errorEl.textContent = problem;
+    if (problem) return;
+    const list = stepList();
+    showStep(list[Math.min(list.indexOf(step) + 1, list.length - 1)]);
+  }
+  function goBack() {
+    const list = stepList();
+    showStep(list[Math.max(list.indexOf(step) - 1, 0)]);
+  }
+  document.querySelectorAll("[data-next]").forEach(b => b.addEventListener("click", goNext));
+  document.querySelectorAll("[data-back]").forEach(b => b.addEventListener("click", goBack));
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (step !== stepList()[stepList().length - 1]) { goNext(); return; }
     const data = collect();
     const problem = validate(data);
     errorEl.hidden = !problem;
@@ -822,7 +878,7 @@
     submitBtn.disabled = false;
     hasSaved = true;
     submitBtn.textContent = labelUpdate();
-    window.scrollTo({ top: 0 });
+    showStep(1);
   });
 
   $("copy-btn").addEventListener("click", async () => {
