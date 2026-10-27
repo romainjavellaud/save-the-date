@@ -354,7 +354,7 @@
         <legend id="vin-legend">Un petit verre de vin&nbsp;?</legend>
         <div class="pillgroup" role="radiogroup" aria-label="Vin">
           <input type="radio" id="vin-oui" name="vin" value="oui">
-          <label for="vin-oui">Oui, volontiers</label>
+          <label for="vin-oui" id="vin-oui-label">Oui, volontiers</label>
           <input type="radio" id="vin-non" name="vin" value="non">
           <label for="vin-non">Non merci</label>
           <input type="radio" id="vin-partiel" name="vin" value="ca depend qui">
@@ -525,6 +525,7 @@
       : "Une seule réponse par couple ou famille — " + (several ? "les disponibilités" : "la disponibilité") + " de chacun, allergies / restrictions alimentaires" + (nights ? ", " + nights : "") + " et petit verre de vin. Deux minutes montre en main.";
     $("page-title").innerHTML = solo ? "Seras-tu des&nbsp;nôtres&nbsp;?" : "Serez-vous des&nbsp;nôtres&nbsp;?";
     $("who-legend").innerHTML = solo ? "Seras-tu là&nbsp;?" : "Qui sera là&nbsp;?";
+    $("vin-oui-label").textContent = solo ? "Oui, je veux bien" : "Oui, volontiers";
     $("vin-legend").innerHTML = solo ? "Un petit verre de vin, ça te dit&nbsp;?" : "Un petit verre de vin, ça vous dit&nbsp;?";
     const notes = document.querySelectorAll(".resend-note");
     if (notes[0]) notes[0].textContent = solo
