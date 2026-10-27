@@ -399,6 +399,7 @@
 
     <fieldset class="rect" id="chateau-fs" hidden>
       <legend id="chateau-legend">Qui dort au château&nbsp;?</legend>
+      <p class="hint" id="chateau-hint">Dormir au château : 60&nbsp;€ par personne et par nuit.</p>
       <div id="people-chateau" class="pblocks"></div>
     </fieldset>
 
@@ -634,6 +635,9 @@
     $("who-hint").hidden = solo;
     document.body.classList.toggle("is-solo", solo);
     $("chateau-legend").innerHTML = solo ? "Tu dors au château&nbsp;?" : "Qui dort au château&nbsp;?";
+    $("chateau-hint").textContent = solo
+      ? "Si tu dors au château, compte 60\u00a0€ par nuit."
+      : "Dormir au château : 60\u00a0€ par personne et par nuit.";
     $("allergies-hint").textContent = solo ? "Laisse vide si tu n'as aucune allergie ni restriction." : "Laissez vide s'il n'y en a aucune.";
     // a single person present: no "depends who" for the wine
     $("vin-partiel").hidden = present <= 1;
