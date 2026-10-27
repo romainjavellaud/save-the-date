@@ -346,7 +346,6 @@
       <legend id="who-legend">Qui sera là&nbsp;?</legend>
       <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle sera présente. Quelqu'un ne peut pas venir&nbsp;? Dites-le simplement ici.</p>
       <div id="people" class="people"></div>
-      <button type="button" class="add-person" id="add-person">+ Ajouter une personne</button>
     </fieldset>
 
     <div id="details" hidden>
@@ -379,7 +378,7 @@
 
     <fieldset>
       <legend>Un mot pour nous</legend>
-      <textarea id="message" name="message" placeholder="Facultatif — une blague, une chanson à réclamer au DJ, un mot doux…"></textarea>
+      <textarea id="message" name="message" placeholder="Facultatif — une blague, une chanson à réclamer au DJ, un mot doux… Quelqu'un vous accompagne ? Dites-le-nous ici."></textarea>
     </fieldset>
 
     <p class="form-error" id="form-error" role="alert" hidden></p>
@@ -504,7 +503,6 @@
       : "Une seule réponse par couple ou famille — allergies / restrictions alimentaires, brunch du lendemain, nuit au château et petit verre de vin. Deux minutes montre en main.";
     $("who-legend").innerHTML = solo ? "Serez-vous là&nbsp;?" : "Qui sera là&nbsp;?";
     $("who-hint").hidden = solo;
-    $("add-person").textContent = solo ? "+ Vous venez accompagné·e ?" : "+ Ajouter une personne";
     personRows().forEach((row) => {
       const i = row.dataset.i;
       row.querySelector('label[for="pres-' + i + '-oui"]').textContent = solo ? "Je serai là" : "Sera là";
@@ -539,11 +537,6 @@
     const c = document.querySelector('input[name="chateau"]:checked');
     $("chateau-count-wrap").hidden = !(c && c.value === "oui");
   }));
-  $("add-person").addEventListener("click", () => {
-    const row = addPerson("", true);
-    row.querySelector(".p-name").focus();
-    refresh();
-  });
 
   (MEMBERS.length ? MEMBERS : (GROUP_PARAM ? [GROUP_PARAM] : [""])).forEach(n => addPerson(n, false));
 
@@ -565,7 +558,7 @@
     for (let k = 1; k <= n; k++) {
       const name = d["n" + k] || "";
       let row = personRows().find(r => r.querySelector(".p-name").value.trim().toLowerCase() === name.toLowerCase());
-      if (!row) row = addPerson(name, true);
+      if (!row) continue;
       setRadio("pres-" + row.dataset.i, d["p" + k]);
       row.querySelector(".p-allergies").value = d["a" + k] || "";
       setRadio("brunch-" + row.dataset.i, d["b" + k]);
