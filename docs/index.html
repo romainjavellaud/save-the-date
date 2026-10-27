@@ -385,7 +385,7 @@
     if (!name) return;
     const members = (q.get("m") || "").split(",").map(s => s.trim()).filter(Boolean);
     const g = document.getElementById("greeting");
-    g.textContent = members.length > 1 ? "Pour " + name : "Cher·ère " + name + ",";
+    g.textContent = "Pour " + name;
     const saturdayOnly = q.get("f") === "s2" || q.get("f") === "mariage";
     const rsvpText = document.getElementById("rsvp-text");
     if (members.length > 1) {
