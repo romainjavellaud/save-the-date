@@ -229,7 +229,6 @@
     cursor:pointer;
   }
   .add-person:hover{background:var(--paper);}
-  #chateau-count-wrap.is-hidden{display:none!important;}
   .form-error{
     margin:0;
     color:var(--burgundy-strong);
@@ -316,7 +315,7 @@
 <div class="paper-wrap">
 <div class="page">
   <p class="eyebrow">Lola &amp; Romain · 21 août 2027</p>
-  <h1>Serez-vous des&nbsp;nôtres&nbsp;?</h1>
+  <h1 id="page-title">Serez-vous des&nbsp;nôtres&nbsp;?</h1>
   <p class="sub" id="page-sub">Une seule réponse par couple ou famille — les disponibilités de chacun, allergies / restrictions alimentaires, nuit au château et petit verre de vin. Deux minutes montre en main.</p>
 
   <div class="divider" aria-hidden="true">
@@ -351,22 +350,8 @@
     </fieldset>
 
     <div id="details" hidden>
-      <fieldset id="chateau-fs">
-        <legend>Dormir au château</legend>
-        <div class="pillgroup" role="radiogroup" aria-label="Dormir au château" id="chateau-group">
-          <input type="radio" id="chateau-oui" name="chateau" value="oui">
-          <label for="chateau-oui">Oui, avec joie</label>
-          <input type="radio" id="chateau-non" name="chateau" value="non">
-          <label for="chateau-non">Non, on dort ailleurs</label>
-        </div>
-        <div class="stack" id="chateau-count-wrap" hidden style="margin-top:6px;">
-          <label class="field-label" for="chateau-count">Nombre de personnes à loger</label>
-          <input type="number" id="chateau-count" class="num-input" name="chateau_count" min="1" max="12" value="1" inputmode="numeric">
-        </div>
-      </fieldset>
-
       <fieldset>
-        <legend>Un petit verre de vin&nbsp;?</legend>
+        <legend id="vin-legend">Un petit verre de vin&nbsp;?</legend>
         <div class="pillgroup" role="radiogroup" aria-label="Vin">
           <input type="radio" id="vin-oui" name="vin" value="oui">
           <label for="vin-oui">Oui, volontiers</label>
@@ -426,12 +411,17 @@
   ];
   const EVENTS_BY_FORMULE = { vendredi: ["v", "s", "b"], brunch: ["s", "b"], mariage: ["s"] };
   // Guests invited on Saturday only are not offered the château night.
-  const SHOW_CHATEAU = FORMULE !== "mariage";
+  // Château nights offered per formula (a night is only asked if the guest attends that day).
+  const NIGHTS_BY_FORMULE = { vendredi: ["nv", "ns"], brunch: ["ns"], mariage: [] };
+  const ALL_NIGHTS = [
+    { key: "nv", ev: "v", label: "Nuit du vendredi 20 août" },
+    { key: "ns", ev: "s", label: "Nuit du samedi 21 août" }
+  ];
+  const NIGHTS = ALL_NIGHTS.filter(n => (NIGHTS_BY_FORMULE[FORMULE] || ["ns"]).indexOf(n.key) !== -1);
   const EVENT_KEYS = EVENTS_BY_FORMULE[FORMULE] || ["s", "b"];
   const EVENTS = ALL_EVENTS.filter(e => EVENT_KEYS.indexOf(e.key) !== -1);
 
   const $ = (id) => document.getElementById(id);
-  if (!SHOW_CHATEAU) $("chateau-fs").hidden = true;
   const form = $("rsvp-form");
   const peopleEl = $("people");
   const details = $("details");
@@ -488,6 +478,14 @@
       }).join('') +
       '<div class="person-extra" hidden>' +
         '<input type="text" class="p-allergies" placeholder="Allergies / restrictions alimentaires (vide si aucune)" aria-label="Allergies / restrictions alimentaires">' +
+        NIGHTS.map(function (nt) {
+          const id = 'nt-' + i + '-' + nt.key;
+          return '<div class="ev night" data-ev="' + nt.ev + '" data-night="' + nt.key + '" hidden><span class="ev-name"><strong>' + nt.label + '</strong> <small>au château</small></span>' +
+            '<div class="pillgroup" role="radiogroup" aria-label="' + nt.label + ' au château">' +
+              '<input type="radio" id="' + id + '-oui" name="' + id + '" value="oui"><label for="' + id + '-oui">Oui</label>' +
+              '<input type="radio" id="' + id + '-non" name="' + id + '" value="non"><label for="' + id + '-non">Non</label>' +
+            '</div></div>';
+        }).join('') +
       '</div>';
     row.querySelector(".p-name").value = name || "";
     const rm = row.querySelector(".p-remove");
@@ -503,6 +501,10 @@
     return c ? c.value : "";
   }
   // "oui" as soon as one moment is attended, "non" once every moment is declined
+  function nightValue(row, key) {
+    const c = row.querySelector('input[name="nt-' + row.dataset.i + '-' + key + '"]:checked');
+    return c ? c.value : "";
+  }
   function presence(row) {
     const vals = EVENTS.map(ev => evValue(row, ev.key));
     if (vals.indexOf("oui") !== -1) return "oui";
@@ -516,40 +518,45 @@
   let hasSaved = false;
   function applyMode(isSolo, present) {
     solo = isSolo;
+    const nights = NIGHTS.length === 0 ? "" : (NIGHTS.length > 1 ? "nuits au château" : "nuit au château");
+    const several = EVENTS.length > 1;
     $("page-sub").textContent = solo
-      ? (SHOW_CHATEAU ? "Vos disponibilités, allergies / restrictions alimentaires, nuit au château et petit verre de vin." : "Votre disponibilité, allergies / restrictions alimentaires et petit verre de vin.") + " Deux minutes montre en main."
-      : "Une seule réponse par couple ou famille — " + (SHOW_CHATEAU ? "les disponibilités de chacun, allergies / restrictions alimentaires, nuit au château et petit verre de vin." : "la disponibilité de chacun, allergies / restrictions alimentaires et petit verre de vin.") + " Deux minutes montre en main.";
-    $("who-legend").innerHTML = solo ? "Serez-vous là&nbsp;?" : "Qui sera là&nbsp;?";
+      ? (several ? "Tes disponibilités" : "Ta disponibilité") + ", tes allergies / restrictions alimentaires" + (nights ? (NIGHTS.length > 1 ? ", tes " : ", ta ") + nights : "") + " et un petit verre de vin. Deux minutes montre en main."
+      : "Une seule réponse par couple ou famille — " + (several ? "les disponibilités" : "la disponibilité") + " de chacun, allergies / restrictions alimentaires" + (nights ? ", " + nights : "") + " et petit verre de vin. Deux minutes montre en main.";
+    $("page-title").innerHTML = solo ? "Seras-tu des&nbsp;nôtres&nbsp;?" : "Serez-vous des&nbsp;nôtres&nbsp;?";
+    $("who-legend").innerHTML = solo ? "Seras-tu là&nbsp;?" : "Qui sera là&nbsp;?";
+    $("vin-legend").innerHTML = solo ? "Un petit verre de vin, ça te dit&nbsp;?" : "Un petit verre de vin, ça vous dit&nbsp;?";
+    const notes = document.querySelectorAll(".resend-note");
+    if (notes[0]) notes[0].textContent = solo
+      ? "Un changement de programme ? Rouvre ce même lien et renvoie le formulaire : ta nouvelle réponse remplace la précédente (pense à tout remplir à nouveau)."
+      : "Un changement de programme ? Rouvrez ce même lien et renvoyez le formulaire : votre nouvelle réponse remplace la précédente (pensez à tout remplir à nouveau).";
+    if (notes[1]) notes[1].textContent = solo
+      ? "Une erreur, un changement ? Tu peux modifier ta réponse à tout moment : la nouvelle remplacera la précédente."
+      : "Une erreur, un changement ? Vous pouvez modifier votre réponse à tout moment : la nouvelle remplacera la précédente.";
     $("who-hint").hidden = solo;
-    // a single person present: no headcount for the château, no "depends who" for the wine
-    $("chateau-count-wrap").classList.toggle("is-hidden", present <= 1);
+    // a single person present: no "depends who" for the wine
     $("vin-partiel").hidden = present <= 1;
     $("vin-partiel-label").hidden = present <= 1;
     $("edit-btn").textContent = solo ? "Modifier ma réponse" : "Modifier notre réponse";
     if (!submitBtn.disabled && submitBtn.textContent !== "Envoi…") submitBtn.textContent = hasSaved ? labelUpdate() : labelNew();
   }
 
-  let chateauTouched = false;
   function refresh() {
     let present = 0;
     personRows().forEach((row) => {
       const yes = presence(row) === "oui";
       row.querySelector(".person-extra").hidden = !yes;
       row.classList.toggle("is-away", presence(row) === "non");
+      row.querySelectorAll(".night").forEach((nt) => {
+        const show = yes && evValue(row, nt.dataset.ev) === "oui";
+        nt.hidden = !show;
+        if (!show) nt.querySelectorAll("input").forEach(r => { r.checked = false; });
+      });
       if (yes) present++;
     });
     details.hidden = present === 0;
     applyMode(personRows().length === 1, present);
-    const cc = $("chateau-count");
-    cc.max = String(Math.max(present, 1));
-    if (!chateauTouched || Number(cc.value) > present) cc.value = String(Math.max(present, 1));
   }
-
-  $("chateau-count").addEventListener("input", () => { chateauTouched = true; });
-  document.querySelectorAll('input[name="chateau"]').forEach(r => r.addEventListener("change", () => {
-    const c = document.querySelector('input[name="chateau"]:checked');
-    $("chateau-count-wrap").hidden = !(c && c.value === "oui");
-  }));
 
   (MEMBERS.length ? MEMBERS : (GROUP_PARAM ? [GROUP_PARAM] : [""])).forEach(n => addPerson(n, false));
 
@@ -574,15 +581,16 @@
       if (!row) continue;
       EVENTS.forEach(ev => setRadio("ev-" + row.dataset.i + "-" + ev.key, d[ev.key + k]));
       row.querySelector(".p-allergies").value = d["a" + k] || "";
-    }
-    setRadio("chateau", d.chateau);
-    if (d.chateau === "oui") {
-      $("chateau-count-wrap").hidden = false;
-      if (d.chateau_count) { $("chateau-count").value = d.chateau_count; chateauTouched = true; }
+      NIGHTS.forEach(nt => setRadio("nt-" + row.dataset.i + "-" + nt.key, d[nt.key + k]));
     }
     setRadio("vin", d.vin);
     $("message").value = d.message || "";
     refresh();
+    // the night rows were just revealed by refresh(): restore their answers now
+    for (let k = 1; k <= n; k++) {
+      const row = personRows().find(r => r.querySelector(".p-name").value.trim().toLowerCase() === (d["n" + k] || "").toLowerCase());
+      if (row) NIGHTS.forEach(nt => setRadio("nt-" + row.dataset.i + "-" + nt.key, d[nt.key + k]));
+    }
   }
 
   // ---- Collect / validate -----------------------------------------------
@@ -596,16 +604,19 @@
       data["n" + n] = row.querySelector(".p-name").value.trim();
       data["p" + n] = pres;
       EVENTS.forEach(ev => { data[ev.key + n] = evValue(row, ev.key); });
+      NIGHTS.forEach(nt => { data[nt.key + n] = nightValue(row, nt.key); });
       if (pres === "oui") {
         present++;
         data["a" + n] = row.querySelector(".p-allergies").value.trim();
       }
     });
     if (present) {
-      const c = SHOW_CHATEAU ? document.querySelector('input[name="chateau"]:checked') : null;
       const v = document.querySelector('input[name="vin"]:checked');
-      data.chateau = c ? c.value : "";
-      data.chateau_count = c && c.value === "oui" ? $("chateau-count").value : "";
+      if (NIGHTS.length) {
+        const sleepers = rows.filter(row => NIGHTS.some(nt => nightValue(row, nt.key) === "oui")).length;
+        data.chateau = sleepers ? "oui" : "non";
+        data.chateau_count = sleepers ? String(sleepers) : "";
+      }
       data.vin = v ? v.value : "";
     }
     data.message = $("message").value.trim();
@@ -617,6 +628,7 @@
     for (let k = 1; k <= Number(data.count); k++) {
       if (!data["n" + k]) return "Merci d'indiquer le nom de chaque personne.";
       if (EVENTS.some(ev => !data[ev.key + k])) return "Indiquez les disponibilités de " + data["n" + k] + " pour chaque moment.";
+      if (NIGHTS.some(nt => data[nt.ev + k] === "oui" && !data[nt.key + k])) return "Indiquez si " + data["n" + k] + " dort au château.";
     }
     return "";
   }
@@ -625,10 +637,10 @@
     const lines = ["Réponse au save the date — Lola & Romain, 21 août 2027", "", "Groupe : " + d.group, ""];
     for (let k = 1; k <= Number(d.count); k++) {
       let l = "- " + d["n" + k] + " : " + EVENTS.map(ev => ev.label + " " + (d[ev.key + k] || "?")).join(" · ");
+      NIGHTS.forEach(nt => { if (d[nt.key + k]) l += " · " + nt.label.toLowerCase() + " au château : " + d[nt.key + k]; });
       if (d["p" + k] === "oui") l += " · allergies / restrictions : " + (d["a" + k] || "aucune");
       lines.push(l);
     }
-    if (d.chateau) lines.push("", "Dormir au château : " + (d.chateau === "oui" ? "oui (" + (d.chateau_count || "1") + " pers.)" : "non"));
     if (d.vin) lines.push("Vin : " + (d.vin === "ca depend qui" ? "ça dépend qui" : d.vin));
     if (d.message) lines.push("", "Message : " + d.message);
     return lines.join("\n");
@@ -659,7 +671,7 @@
         // no-cors: the reply can't be read, but the script runs and
         // stores the answer; a network failure still rejects.
         await fetch(FORM_ENDPOINT + "?" + new URLSearchParams(data).toString(), { mode: "no-cors" });
-        $("confirm-text").textContent = "Votre réponse a bien été envoyée. À très bientôt !";
+        $("confirm-text").textContent = solo ? "Ta réponse a bien été envoyée. À très bientôt !" : "Votre réponse a bien été envoyée. À très bientôt !";
       } catch (err) {
         sendByMail(data);
       }
