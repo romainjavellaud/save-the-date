@@ -236,20 +236,18 @@
   .song-n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--paper);border:1px solid var(--line);color:var(--burgundy);font-family:"Bodoni Moda", Georgia, serif;font-size:0.9rem;display:grid;place-items:center;}
   .ac{position:relative;flex:1;min-width:0;}
   .ac-list{
-    position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);
-    margin:0;padding:4px;list-style:none;
+    margin:6px 0 0;padding:4px;list-style:none;
     background:var(--paper-raised);
     border:1px solid var(--line);border-radius:12px;
-    box-shadow:0 14px 28px rgba(23,17,15,0.18);
-    max-height:320px;overflow:auto;
+    box-shadow:0 8px 18px rgba(23,17,15,0.12);
   }
+  .ac-status{margin:6px 4px 0;font-size:0.8rem;color:var(--ink-soft);}
   .ac-list li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;}
   .ac-list li.is-active,.ac-list li:hover{background:var(--paper);}
   .ac-list img{width:36px;height:36px;border-radius:6px;background:var(--grey);flex:none;object-fit:cover;}
   .ac-list span{display:flex;flex-direction:column;min-width:0;}
   .ac-list strong{font-weight:600;font-size:0.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .ac-list small{color:var(--ink-soft);font-size:0.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .ac-list.is-up{top:auto;bottom:calc(100% + 4px);}
   .song-input{scroll-margin-top:84px;}
   .ac-credit{margin:2px 4px 0;font-size:0.7rem;color:var(--ink-soft);}
   .ev{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;}
@@ -702,20 +700,35 @@
 
   // ---- Songs with suggestions (iTunes Search API: public, no key) ------------
   const SONG_COUNT = 5;
-  function attachAutocomplete(input, list) {
-    let timer = null, ctl = null, items = [], active = -1;
-    const close = () => { list.hidden = true; active = -1; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); };
-    const pick = (it) => { input.value = it.trackName + " — " + it.artistName; close(); items = []; };
-    // On a phone the keyboard covers the space under the field: open the list above when needed.
-    function place() {
-      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      const r = input.getBoundingClientRect();
-      const below = vh - r.bottom - 10;
-      const above = r.top - 10;
-      const up = below < 200 && above > below;
-      list.classList.toggle("is-up", up);
-      list.style.maxHeight = Math.max(120, Math.min(320, up ? above : below)) + "px";
+  // JSONP fallback (works even when a browser refuses the cross-origin fetch)
+  function jsonp(url) {
+    return new Promise((resolve, reject) => {
+      const cb = "__itunes_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+      const s = document.createElement("script");
+      const timer = setTimeout(() => { cleanup(); reject(new Error("timeout")); }, 7000);
+      function cleanup() { clearTimeout(timer); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
+      window[cb] = (data) => { cleanup(); resolve(data); };
+      s.onerror = () => { cleanup(); reject(new Error("jsonp")); };
+      s.src = url + "&callback=" + cb;
+      document.head.appendChild(s);
+    });
+  }
+  async function searchSongs(q) {
+    const url = "https://itunes.apple.com/search?media=music&entity=song&limit=8&country=FR&term=" + encodeURIComponent(q);
+    try {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error("http");
+      return await r.json();
+    } catch (e) {
+      return await jsonp(url);
     }
+  }
+
+  function attachAutocomplete(input, list, status) {
+    let timer = null, items = [], active = -1, reqId = 0;
+    const setStatus = (msg) => { status.textContent = msg || ""; status.hidden = !msg; };
+    const close = () => { list.hidden = true; list.innerHTML = ""; items = []; active = -1; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); };
+    const pick = (it) => { input.value = it.trackName + " — " + it.artistName; close(); setStatus(""); };
     function render() {
       list.innerHTML = "";
       items.forEach((it, k) => {
@@ -724,17 +737,19 @@
         li.id = list.id + "-" + k;
         if (k === active) li.classList.add("is-active");
         const img = document.createElement("img");
-        img.alt = ""; img.loading = "lazy"; img.src = it.artworkUrl60 || "";
+        img.alt = ""; img.src = it.artworkUrl60 || "";
         const box = document.createElement("span");
         const b = document.createElement("strong"); b.textContent = it.trackName;
         const s = document.createElement("small"); s.textContent = it.artistName + (it.collectionName ? " · " + it.collectionName : "");
-        box.append(b, s);
-        li.append(img, box);
-        // pointerdown covers mouse and touch; preventDefault keeps the field focused
-        li.addEventListener("pointerdown", (e) => { e.preventDefault(); pick(it); });
+        box.appendChild(b); box.appendChild(s);
+        li.appendChild(img); li.appendChild(box);
+        // pointerdown/touchstart/click: whichever the browser fires first wins
+        const choose = (e) => { e.preventDefault(); pick(it); };
+        li.addEventListener("pointerdown", choose);
+        li.addEventListener("touchstart", choose, { passive: false });
+        li.addEventListener("click", choose);
         list.appendChild(li);
       });
-      if (items.length) place();
       list.hidden = items.length === 0;
       input.setAttribute("aria-expanded", String(items.length > 0));
       if (active >= 0) input.setAttribute("aria-activedescendant", list.id + "-" + active);
@@ -743,13 +758,13 @@
     input.addEventListener("input", () => {
       clearTimeout(timer);
       const q = input.value.trim();
-      if (q.length < 3) { items = []; render(); return; }
+      if (q.length < 3) { close(); setStatus(""); return; }
       timer = setTimeout(async () => {
-        if (ctl) ctl.abort();
-        ctl = new AbortController();
+        const mine = ++reqId;
+        setStatus("Recherche…");
         try {
-          const r = await fetch("https://itunes.apple.com/search?media=music&entity=song&limit=8&country=FR&term=" + encodeURIComponent(q), { signal: ctl.signal });
-          const j = await r.json();
+          const j = await searchSongs(q);
+          if (mine !== reqId) return;
           const seen = {};
           items = (j.results || []).filter((x) => {
             if (!x.trackName || !x.artistName) return false;
@@ -757,13 +772,16 @@
             if (seen[key]) return false;
             seen[key] = true;
             return true;
-          }).slice(0, 6);
+          }).slice(0, 5);
           active = -1;
           render();
+          setStatus(items.length ? "" : "Aucune suggestion : vous pouvez écrire le titre librement.");
         } catch (e) {
-          if (e.name !== "AbortError") { items = []; render(); }
+          if (mine !== reqId) return;
+          items = []; render();
+          setStatus("Suggestions indisponibles pour le moment : vous pouvez écrire le titre librement.");
         }
-      }, 250);
+      }, 300);
     });
     input.addEventListener("keydown", (e) => {
       if (list.hidden) return;
@@ -772,12 +790,12 @@
       else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(items[active]); }
       else if (e.key === "Escape") { close(); }
     });
-    input.addEventListener("blur", () => setTimeout(close, 180));
+    input.addEventListener("blur", () => setTimeout(() => { if (document.activeElement !== input) { list.hidden = true; } }, 300));
     input.addEventListener("focus", () => {
-      // bring the field near the top of the visible area so the suggestions have room
+      if (list.children.length) list.hidden = false;
+      // bring the field near the top of the visible area so the suggestions have room above the keyboard
       if (window.innerWidth < 700) setTimeout(() => input.scrollIntoView({ block: "start", behavior: "smooth" }), 250);
     });
-    if (window.visualViewport) window.visualViewport.addEventListener("resize", () => { if (!list.hidden) place(); });
   }
   (function buildSongs() {
     const box = $("songs");
@@ -800,10 +818,13 @@
       list.className = "ac-list"; list.id = "song-list-" + k; list.hidden = true;
       list.setAttribute("role", "listbox");
       input.setAttribute("aria-controls", list.id);
-      wrap.append(input, list);
+      const status = document.createElement("p");
+      status.className = "ac-status"; status.hidden = true;
+      status.setAttribute("aria-live", "polite");
+      wrap.append(input, status, list);
       row.append(n, wrap);
       box.appendChild(row);
-      attachAutocomplete(input, list);
+      attachAutocomplete(input, list, status);
     }
     const credit = document.createElement("p");
     credit.className = "ac-credit";
