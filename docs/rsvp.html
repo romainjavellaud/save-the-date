@@ -415,14 +415,13 @@
     <div id="details" hidden>
       <fieldset class="rect">
         <legend id="vin-legend">Un petit verre de vin&nbsp;?</legend>
-        <div class="pillgroup" role="radiogroup" aria-label="Vin">
+        <div class="pillgroup" role="radiogroup" aria-label="Vin" id="vin-single">
           <input type="radio" id="vin-oui" name="vin" value="oui">
           <label for="vin-oui" id="vin-oui-label">Oui, volontiers</label>
           <input type="radio" id="vin-non" name="vin" value="non">
           <label for="vin-non">Non merci</label>
-          <input type="radio" id="vin-partiel" name="vin" value="ca depend qui">
-          <label for="vin-partiel" id="vin-partiel-label">Ça dépend qui</label>
         </div>
+        <div id="people-wine" class="pblocks" hidden></div>
       </fieldset>
     </div>
     <div class="nav">
@@ -569,6 +568,14 @@
     al.className = "pblock"; al.hidden = true; al.dataset.i = i;
     al.innerHTML = '<p class="pname"></p>' +
       '<input type="text" class="p-allergies" placeholder="Allergies / restrictions alimentaires (vide si aucune)" aria-label="Allergies / restrictions alimentaires">';
+    // wine: own line per person (shown when several people attend)
+    const wi = document.createElement("div");
+    wi.className = "ev wine"; wi.hidden = true; wi.dataset.i = i;
+    wi.innerHTML = '<span class="ev-name"><strong class="pname-w"></strong></span>' +
+      '<div class="pillgroup" role="radiogroup" aria-label="Vin">' +
+        '<input type="radio" id="wn-' + i + '-oui" name="wn-' + i + '" value="oui"><label for="wn-' + i + '-oui">Oui</label>' +
+        '<input type="radio" id="wn-' + i + '-non" name="wn-' + i + '" value="non"><label for="wn-' + i + '-non">Non</label>' +
+      '</div>';
     const nameInput = row.querySelector(".p-name");
     nameInput.value = name || "";
     const sync = () => {
@@ -576,16 +583,18 @@
       ch.querySelector(".pname").textContent = v;
       al.querySelector(".pname").textContent = v;
       al.querySelector(".p-allergies").setAttribute("aria-label", "Allergies / restrictions alimentaires de " + v);
+      wi.querySelector(".pname-w").textContent = v;
     };
     nameInput.addEventListener("input", sync);
     sync();
-    row._ch = ch; row._al = al;
+    row._ch = ch; row._al = al; row._wi = wi;
     const rm = row.querySelector(".p-remove");
-    if (rm) rm.addEventListener("click", () => { row.remove(); ch.remove(); al.remove(); refresh(); });
+    if (rm) rm.addEventListener("click", () => { row.remove(); ch.remove(); al.remove(); wi.remove(); refresh(); });
     row.addEventListener("change", refresh);
     peopleEl.appendChild(row);
     $("people-chateau").appendChild(ch);
     $("people-allergies").appendChild(al);
+    $("people-wine").appendChild(wi);
     return row;
   }
 
@@ -597,6 +606,10 @@
   // "oui" as soon as one moment is attended, "non" once every moment is declined
   function nightValue(row, key) {
     const c = row._ch.querySelector('input[name="nt-' + row.dataset.i + '-' + key + '"]:checked');
+    return c ? c.value : "";
+  }
+  function wineValue(row) {
+    const c = document.querySelector('input[name="wn-' + row.dataset.i + '"]:checked');
     return c ? c.value : "";
   }
   function presence(row) {
@@ -624,7 +637,7 @@
       ? "Facultatif — commence à écrire un titre et des suggestions apparaissent. Tu peux aussi écrire librement."
       : "Facultatif — commencez à écrire un titre et des suggestions apparaissent. Vous pouvez aussi écrire librement.";
     $("vin-oui-label").textContent = solo ? "Oui, je veux bien" : "Oui, volontiers";
-    $("vin-legend").innerHTML = solo ? "Un petit verre de vin, ça te dit&nbsp;?" : "Un petit verre de vin, ça vous dit&nbsp;?";
+    $("vin-legend").innerHTML = present >= 2 ? "Qui boit un petit verre de vin&nbsp;?" : (solo ? "Un petit verre de vin, ça te dit&nbsp;?" : "Un petit verre de vin, ça vous dit&nbsp;?");
     const notes = document.querySelectorAll(".resend-note");
     if (notes[0]) notes[0].textContent = solo
       ? "Un changement de programme ? Rouvre ce même lien et renvoie le formulaire : ta nouvelle réponse remplace la précédente (pense à tout remplir à nouveau)."
@@ -639,9 +652,6 @@
       ? "Si tu dors au château, compte 60\u00a0€ par nuit."
       : "Dormir au château : 60\u00a0€ par personne et par nuit.";
     $("allergies-hint").textContent = solo ? "Laisse vide si tu n'as aucune allergie ni restriction." : "Laissez vide s'il n'y en a aucune.";
-    // a single person present: no "depends who" for the wine
-    $("vin-partiel").hidden = present <= 1;
-    $("vin-partiel-label").hidden = present <= 1;
     $("edit-btn").textContent = solo ? "Modifier ma réponse" : "Modifier notre réponse";
     if (!submitBtn.disabled && submitBtn.textContent !== "Envoi…") submitBtn.textContent = hasSaved ? labelUpdate() : labelNew();
   }
@@ -664,6 +674,10 @@
       if (rowNight) anyNight = true;
       if (yes) present++;
     });
+    const multi = present >= 2;
+    $("vin-single").hidden = multi;
+    $("people-wine").hidden = !multi;
+    personRows().forEach(row => { row._wi.hidden = !(multi && presence(row) === "oui"); });
     $("chateau-fs").hidden = !anyNight;
     $("allergies-fs").hidden = present === 0;
     details.hidden = present === 0;
@@ -789,8 +803,9 @@
       EVENTS.forEach(ev => setRadio("ev-" + row.dataset.i + "-" + ev.key, d[ev.key + k]));
       row._al.querySelector(".p-allergies").value = d["a" + k] || "";
       NIGHTS.forEach(nt => setRadio("nt-" + row.dataset.i + "-" + nt.key, d[nt.key + k]));
+      setRadio("wn-" + row.dataset.i, d["w" + k]);
+      if (d["w" + k] && (d.vin === "oui" || d.vin === "non" || n === 1)) setRadio("vin", d["w" + k]);
     }
-    setRadio("vin", d.vin);
     for (let k = 1; k <= SONG_COUNT; k++) $("song-" + k).value = d["song" + k] || "";
     $("message").value = d.message || "";
     refresh();
@@ -825,7 +840,14 @@
         data.chateau = sleepers ? "oui" : "non";
         data.chateau_count = sleepers ? String(sleepers) : "";
       }
-      data.vin = v ? v.value : "";
+      // wine: one answer per attending person (the single question when only one attends)
+      const attending = rows.filter(row => presence(row) === "oui");
+      attending.forEach(row => {
+        const n = rows.indexOf(row) + 1;
+        data["w" + n] = attending.length >= 2 ? wineValue(row) : (v ? v.value : "");
+      });
+      const ws = attending.map(row => data["w" + (rows.indexOf(row) + 1)]);
+      data.vin = ws.some(x => !x) ? "" : (ws.every(x => x === "oui") ? "oui" : ws.every(x => x === "non") ? "non" : "ca depend qui");
     }
     for (let k = 1; k <= SONG_COUNT; k++) {
       const s = $("song-" + k).value.trim();
@@ -835,12 +857,20 @@
     return data;
   }
 
-  function validate(data) {
+  function validate(data, wineToo) {
     if (!data.group) return "Merci d'indiquer votre nom.";
     for (let k = 1; k <= Number(data.count); k++) {
       if (!data["n" + k]) return "Merci d'indiquer le nom de chaque personne.";
       if (EVENTS.some(ev => !data[ev.key + k])) return "Indiquez les disponibilités de " + data["n" + k] + " pour chaque moment.";
       if (NIGHTS.some(nt => data[nt.ev + k] === "oui" && !data[nt.key + k])) return "Indiquez si " + data["n" + k] + " dort au château.";
+    }
+    if (wineToo) {
+      const attending = [];
+      for (let k = 1; k <= Number(data.count); k++) if (data["p" + k] === "oui") attending.push(k);
+      if (attending.length >= 2) {
+        const missing = attending.filter(k => !data["w" + k]);
+        if (missing.length) return "Indiquez qui boit du vin : il manque " + data["n" + missing[0]] + ".";
+      }
     }
     return "";
   }
@@ -850,10 +880,9 @@
     for (let k = 1; k <= Number(d.count); k++) {
       let l = "- " + d["n" + k] + " : " + EVENTS.map(ev => ev.label + " " + (d[ev.key + k] || "?")).join(" · ");
       NIGHTS.forEach(nt => { if (d[nt.key + k]) l += " · " + nt.label.toLowerCase() + " au château : " + d[nt.key + k]; });
-      if (d["p" + k] === "oui") l += " · allergies / restrictions : " + (d["a" + k] || "aucune");
+      if (d["p" + k] === "oui") l += " · vin : " + (d["w" + k] || "?") + " · allergies / restrictions : " + (d["a" + k] || "aucune");
       lines.push(l);
     }
-    if (d.vin) lines.push("Vin : " + (d.vin === "ca depend qui" ? "ça dépend qui" : d.vin));
     const songs = [1, 2, 3, 4, 5].map(k => d["song" + k]).filter(Boolean);
     if (songs.length) lines.push("", "Musiques : " + songs.join(" / "));
     if (d.message) lines.push("", "Message : " + d.message);
@@ -887,7 +916,7 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   function goNext() {
-    const problem = validate(collect());
+    const problem = validate(collect(), step === 2);
     errorEl.hidden = !problem;
     errorEl.textContent = problem;
     if (problem) return;
@@ -905,7 +934,7 @@
     e.preventDefault();
     if (step !== stepList()[stepList().length - 1]) { goNext(); return; }
     const data = collect();
-    const problem = validate(data);
+    const problem = validate(data, true);
     errorEl.hidden = !problem;
     errorEl.textContent = problem;
     if (problem) return;
