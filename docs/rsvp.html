@@ -568,8 +568,8 @@
     ch.innerHTML = '<p class="pname"></p>' +
       NIGHTS.map(function (nt) {
         const id = 'nt-' + i + '-' + nt.key;
-        return '<div class="ev night" data-ev="' + nt.ev + '" data-night="' + nt.key + '" hidden><span class="ev-name"><strong>' + nt.label + '</strong> <small>au château · 60\u00a0€</small></span>' +
-          '<div class="pillgroup" role="radiogroup" aria-label="' + nt.label + ' au château, 60 euros">' +
+        return '<div class="ev night" data-ev="' + nt.ev + '" data-night="' + nt.key + '" hidden><span class="ev-name"><strong>' + nt.label + '</strong> <small>au château</small></span>' +
+          '<div class="pillgroup" role="radiogroup" aria-label="' + nt.label + ' au château">' +
             '<input type="radio" id="' + id + '-oui" name="' + id + '" value="oui"><label for="' + id + '-oui">Oui</label>' +
             '<input type="radio" id="' + id + '-non" name="' + id + '" value="non"><label for="' + id + '-non">Non</label>' +
           '</div></div>';
