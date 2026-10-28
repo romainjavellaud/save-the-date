@@ -406,12 +406,14 @@
       <legend id="who-legend">Qui sera là&nbsp;?</legend>
       <p class="hint" id="who-hint">Une seule réponse par couple ou famille : indiquez pour chaque personne si elle est disponible à chaque moment. Quelqu'un ne peut pas venir&nbsp;? Répondez simplement « Non ».</p>
       <div id="people" class="people"></div>
+      <button type="button" class="add-person btn-all" id="all-yes-avail" hidden>✓ Tout le monde est là, à chaque moment</button>
     </fieldset>
 
     <fieldset class="rect" id="chateau-fs" hidden>
       <legend id="chateau-legend">Qui dort au château&nbsp;?</legend>
       <p class="price-note" id="chateau-hint">Dormir au château : 60&nbsp;€ par personne et par nuit.</p>
       <div id="people-chateau" class="pblocks"></div>
+      <button type="button" class="add-person btn-all" id="all-yes-chateau" hidden>✓ Oui pour tous</button>
     </fieldset>
 
     <fieldset class="rect" id="allergies-fs" hidden>
@@ -433,6 +435,7 @@
           <label for="vin-non">Non merci</label>
         </div>
         <div id="people-wine" class="pblocks" hidden></div>
+        <button type="button" class="add-person btn-all" id="all-yes-wine" hidden>✓ Oui pour tous</button>
       </fieldset>
     </div>
     <div class="nav">
@@ -690,12 +693,21 @@
     $("vin-single").hidden = multi;
     $("people-wine").hidden = !multi;
     personRows().forEach(row => { row._wi.hidden = !(multi && presence(row) === "oui"); });
+    $("all-yes-avail").hidden = personRows().length < 2;
+    $("all-yes-wine").hidden = !multi;
+    $("all-yes-chateau").hidden = document.querySelectorAll("#people-chateau .night:not([hidden])").length < 2;
     $("chateau-fs").hidden = !anyNight;
     $("allergies-fs").hidden = present === 0;
     details.hidden = present === 0;
     if (typeof updateProgress === "function") updateProgress();
     applyMode(personRows().length === 1, present);
   }
+
+  // "Oui pour tous" shortcuts (groups): tick every visible Oui in the section, then refresh
+  const tickYes = (sel) => document.querySelectorAll(sel).forEach(r => { r.checked = true; });
+  $("all-yes-avail").addEventListener("click", () => { tickYes('#people .ev input[value="oui"]'); refresh(); });
+  $("all-yes-chateau").addEventListener("click", () => { tickYes('#people-chateau .night:not([hidden]) input[value="oui"]'); refresh(); });
+  $("all-yes-wine").addEventListener("click", () => { tickYes('#people-wine .wine:not([hidden]) input[value="oui"]'); refresh(); });
 
   (MEMBERS.length ? MEMBERS : (GROUP_PARAM ? [GROUP_PARAM] : [""])).forEach(n => addPerson(n, false));
 
