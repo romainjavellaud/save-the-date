@@ -471,7 +471,7 @@
     <button type="button" class="fallback-copy" id="edit-btn">Modifier notre réponse</button>
   </div>
 
-  <p class="backlink" style="margin-bottom:0;opacity:.6;font-size:.7rem">Version 28.10-d</p>
+  <p class="backlink" style="margin-bottom:0;opacity:.6;font-size:.7rem">Version 28.10-e</p>
   <p class="backlink">← <a href="#" id="back-link">Retour au faire-part</a></p>
 </div>
 </div>
@@ -718,7 +718,7 @@
     return new Promise((resolve, reject) => {
       const cb = "__itunes_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
       const s = document.createElement("script");
-      const timer = setTimeout(() => { cleanup(); reject(new Error("timeout")); }, 7000);
+      const timer = setTimeout(() => { cleanup(); reject(new Error("timeout")); }, 6000);
       function cleanup() { clearTimeout(timer); delete window[cb]; if (s.parentNode) s.parentNode.removeChild(s); }
       window[cb] = (data) => { cleanup(); resolve(data); };
       s.onerror = () => { cleanup(); reject(new Error("jsonp")); };
@@ -726,15 +726,52 @@
       document.head.appendChild(s);
     });
   }
-  async function searchSongs(q) {
-    const url = "https://itunes.apple.com/search?media=music&entity=song&limit=8&country=FR&term=" + encodeURIComponent(q);
-    try {
-      const r = await fetch(url);
-      if (!r.ok) throw new Error("http");
-      return await r.json();
-    } catch (e) {
-      return await jsonp(url);
+  // Several free music-search services are queried at the same time; the first one that answers wins.
+  // (A phone network or a content blocker may refuse one of them, so we never depend on a single one.)
+  const normalize = (title, artist, album, cover) => ({ trackName: title, artistName: artist, collectionName: album || "", artworkUrl60: cover || "" });
+  const providers = [
+    // Apple Music / iTunes (fetch)
+    async (q) => {
+      const r = await fetch("https://itunes.apple.com/search?media=music&entity=song&limit=8&country=FR&term=" + encodeURIComponent(q));
+      if (!r.ok) throw new Error("itunes");
+      const j = await r.json();
+      return (j.results || []).map(x => normalize(x.trackName, x.artistName, x.collectionName, x.artworkUrl60));
+    },
+    // Apple Music / iTunes (script tag)
+    async (q) => {
+      const j = await jsonp("https://itunes.apple.com/search?media=music&entity=song&limit=8&country=FR&term=" + encodeURIComponent(q));
+      return (j.results || []).map(x => normalize(x.trackName, x.artistName, x.collectionName, x.artworkUrl60));
+    },
+    // Deezer (script tag)
+    async (q) => {
+      const j = await jsonp("https://api.deezer.com/search?limit=8&output=jsonp&q=" + encodeURIComponent(q));
+      return (j.data || []).map(x => normalize(x.title, x.artist && x.artist.name, x.album && x.album.title, x.album && x.album.cover_small));
+    },
+    // MusicBrainz (fetch)
+    async (q) => {
+      const r = await fetch("https://musicbrainz.org/ws/2/recording/?fmt=json&limit=8&query=" + encodeURIComponent(q));
+      if (!r.ok) throw new Error("musicbrainz");
+      const j = await r.json();
+      return (j.recordings || []).map(x => normalize(x.title, x["artist-credit"] && x["artist-credit"][0] && x["artist-credit"][0].name, x.releases && x.releases[0] && x.releases[0].title, ""));
     }
+  ];
+  function searchSongs(q) {
+    return new Promise((resolve, reject) => {
+      let settled = 0, errors = 0, won = false;
+      const total = providers.length;
+      const done = () => { settled++; if (settled === total && !won) { if (errors === total) reject(new Error("all")); else resolve([]); } };
+      const run = (p) => {
+        p(q).then((list) => {
+          const ok = list.filter(x => x.trackName && x.artistName);
+          if (ok.length) { won = true; resolve(ok); } else done();
+        }).catch(() => { errors++; done(); });
+      };
+      providers.forEach((p, k) => {
+        // the last provider (MusicBrainz, rate-limited) only starts if the others have not answered after 2 s
+        if (k === total - 1) setTimeout(() => { if (won) { done(); } else { run(p); } }, 2000);
+        else run(p);
+      });
+    });
   }
 
   function attachAutocomplete(input, list, status) {
@@ -778,10 +815,10 @@
       timer = setTimeout(async () => {
         const mine = ++reqId;
         try {
-          const j = await searchSongs(q);
+          const found = await searchSongs(q);
           if (mine !== reqId) return;
           const seen = {};
-          items = (j.results || []).filter((x) => {
+          items = found.filter((x) => {
             if (!x.trackName || !x.artistName) return false;
             const key = (x.trackName + "|" + x.artistName).toLowerCase();
             if (seen[key]) return false;
