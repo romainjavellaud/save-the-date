@@ -35,7 +35,7 @@
   body{
     background:var(--grain), var(--paper);
     color:var(--ink);
-    font-family:"Jost", ui-sans-serif, system-ui, sans-serif;
+    font-family:"Bodoni Moda", Georgia, serif;
     -webkit-font-smoothing:antialiased;
     padding:0 16px 64px;
     display:flex;
@@ -416,12 +416,12 @@
   legend,fieldset.rect legend{font-family:"Bodoni Moda", Georgia, serif;font-style:normal;text-transform:uppercase;letter-spacing:0.14em;font-size:0.8rem;font-weight:500;}
   .for strong{font-style:normal;letter-spacing:0.04em;text-transform:uppercase;font-size:0.95rem;}
   .progress{letter-spacing:0.28em;}
-  fieldset.rect{background:none;border:1px solid rgba(23,17,15,0.55);border-radius:0;}
+  fieldset.rect{background:none;border:1px solid rgba(237,229,221,0.6);border-radius:0;}
   input[type="text"],input[type="number"],textarea,
   fieldset.rect input[type="text"],fieldset.rect input[type="number"],fieldset.rect textarea,
   .person input[type="text"]{background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;padding:11px 2px;}
-  textarea,fieldset.rect textarea{border:1px solid rgba(23,17,15,0.55);padding:12px;}
-  .pillgroup label,fieldset.rect .pillgroup label,.person .pillgroup label{border-radius:0;background:transparent;border:1px solid rgba(23,17,15,0.5);padding:8px 16px;font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;}
+  textarea,fieldset.rect textarea{border:1px solid rgba(237,229,221,0.6);padding:12px;}
+  .pillgroup label,fieldset.rect .pillgroup label,.person .pillgroup label{border-radius:0;background:transparent;border:1px solid rgba(237,229,221,0.55);padding:8px 16px;font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;}
   .pillgroup input:checked + label,fieldset.rect .pillgroup input:checked + label,.person .pillgroup input:checked + label{background:var(--burgundy);border-color:var(--burgundy);color:var(--paper-raised);}
   .btn-main,button[type="submit"]{border-radius:0;text-transform:uppercase;letter-spacing:0.16em;font-size:0.78rem;padding:18px 20px;}
   .add-person,.btn-all{border-radius:0;border-style:solid;border-color:var(--ink);color:var(--ink);text-transform:uppercase;letter-spacing:0.1em;font-size:0.72rem;}
@@ -431,11 +431,25 @@
   .ac-list{border-radius:0;background:var(--paper-raised);border-color:var(--ink);box-shadow:none;}
   .ac-list img{border-radius:0;}
   .song-n{border-radius:0;background:none;}
-  .people .person + .person{border-top-color:rgba(23,17,15,0.25);}
+  .people .person + .person{border-top-color:rgba(237,229,221,0.25);}
+
+  /* ===== Palette du moodboard : fond bordeaux, boutons beige, police unique ===== */
+  :root{--ink:#ede5dd;--ink-soft:#d3c3ba;--paper:#6a0f1d;--paper-raised:#560512;--grey:#e0d6d3;--line:rgba(237,229,221,0.3);--burgundy:#ede5dd;--burgundy-strong:#e0d6d3;--burgundy-soft:#d3c3ba;--rose:#a28a82;--powder:#e3a0b2;--blush:#e8b5c0;--cream-rgb:86,5,18;--focus:#ede5dd;--light:#f5ede2;}
+  html{font-size:18px;}
+  body,input,textarea,button,select{font-family:"Bodoni Moda", Georgia, serif;}
+  body{background:#560512;}
+  .hero,.hero *,.mini-hero,.mini-hero *{color:var(--light);}
+  .hero-top .greeting,.mh-names .amp{color:var(--light);}
+  .mh-names .amp{color:var(--blush);}
+  .btn-main,button[type="submit"],.cta{background:#ede5dd;color:#560512;border:1px solid #ede5dd;}
+  .btn-main:hover,button[type="submit"]:hover,.cta:hover{background:#e0d6d3;}
+  .pillgroup input:checked + label,fieldset.rect .pillgroup input:checked + label,.person .pillgroup input:checked + label{background:#ede5dd;border-color:#ede5dd;color:#560512;}
+  .cal-btn:hover,.add-person:hover{background:#ede5dd;color:#560512;}
+  .cd-num{color:var(--powder);}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..500&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="col">

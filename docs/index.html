@@ -39,7 +39,7 @@
     margin:0;
     background:var(--paper);
     color:var(--ink);
-    font-family:"Jost", ui-sans-serif, system-ui, sans-serif;
+    font-family:"Bodoni Moda", Georgia, serif;
     -webkit-font-smoothing:antialiased;
   }
   [hidden]{display:none!important;}
@@ -295,10 +295,24 @@
     *{transition:none !important;animation:none !important;}
     html{scroll-behavior:auto;}
   }
+
+  /* ===== Palette du moodboard : fond bordeaux, boutons beige, police unique ===== */
+  :root{--ink:#ede5dd;--ink-soft:#d3c3ba;--paper:#6a0f1d;--paper-raised:#560512;--grey:#e0d6d3;--line:rgba(237,229,221,0.3);--burgundy:#ede5dd;--burgundy-strong:#e0d6d3;--burgundy-soft:#d3c3ba;--rose:#a28a82;--powder:#e3a0b2;--blush:#e8b5c0;--cream-rgb:86,5,18;--focus:#ede5dd;--light:#f5ede2;}
+  html{font-size:18px;}
+  body,input,textarea,button,select{font-family:"Bodoni Moda", Georgia, serif;}
+  body{background:#560512;}
+  .hero,.hero *,.mini-hero,.mini-hero *{color:var(--light);}
+  .hero-top .greeting,.mh-names .amp{color:var(--light);}
+  .mh-names .amp{color:var(--blush);}
+  .btn-main,button[type="submit"],.cta{background:#ede5dd;color:#560512;border:1px solid #ede5dd;}
+  .btn-main:hover,button[type="submit"]:hover,.cta:hover{background:#e0d6d3;}
+  .pillgroup input:checked + label,fieldset.rect .pillgroup input:checked + label,.person .pillgroup input:checked + label{background:#ede5dd;border-color:#ede5dd;color:#560512;}
+  .cal-btn:hover,.add-person:hover{background:#ede5dd;color:#560512;}
+  .cd-num{color:var(--powder);}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..500&display=swap" rel="stylesheet">
 </head>
 <body>
 
