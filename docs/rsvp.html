@@ -403,6 +403,35 @@
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important;}
   }
+
+  /* ===== Direction éditoriale : à plat, angles droits, capitales en Didone ===== */
+  body{background:var(--paper-raised);}
+  body::before{display:none;}
+  .mini-hero{box-shadow:none;}
+  .paper-wrap,.col .paper-wrap{filter:none;max-width:none;}
+  .page{background:none;padding:44px clamp(20px, 6vw, 44px) 56px;}
+  h1{font-style:normal;text-transform:uppercase;letter-spacing:0.06em;font-weight:400;font-size:clamp(1.55rem, 6vw, 2.2rem);line-height:1.2;}
+  #confirm h1{font-size:1.5rem!important;}
+  .sub{font-size:0.95rem;}
+  legend,fieldset.rect legend{font-family:"Bodoni Moda", Georgia, serif;font-style:normal;text-transform:uppercase;letter-spacing:0.14em;font-size:0.8rem;font-weight:500;}
+  .for strong{font-style:normal;letter-spacing:0.04em;text-transform:uppercase;font-size:0.95rem;}
+  .progress{letter-spacing:0.28em;}
+  fieldset.rect{background:none;border:1px solid rgba(23,17,15,0.55);border-radius:0;}
+  input[type="text"],input[type="number"],textarea,
+  fieldset.rect input[type="text"],fieldset.rect input[type="number"],fieldset.rect textarea,
+  .person input[type="text"]{background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;padding:11px 2px;}
+  textarea,fieldset.rect textarea{border:1px solid rgba(23,17,15,0.55);padding:12px;}
+  .pillgroup label,fieldset.rect .pillgroup label,.person .pillgroup label{border-radius:0;background:transparent;border:1px solid rgba(23,17,15,0.5);padding:8px 16px;font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;}
+  .pillgroup input:checked + label,fieldset.rect .pillgroup input:checked + label,.person .pillgroup input:checked + label{background:var(--burgundy);border-color:var(--burgundy);color:var(--paper-raised);}
+  .btn-main,button[type="submit"]{border-radius:0;text-transform:uppercase;letter-spacing:0.16em;font-size:0.78rem;padding:18px 20px;}
+  .add-person,.btn-all{border-radius:0;border-style:solid;border-color:var(--ink);color:var(--ink);text-transform:uppercase;letter-spacing:0.1em;font-size:0.72rem;}
+  .add-person:hover{background:var(--ink);color:var(--paper-raised);}
+  .price-note{border-radius:0;background:transparent;border-left:2px solid var(--burgundy);}
+  .form-error{border-radius:0;background:transparent;}
+  .ac-list{border-radius:0;background:var(--paper-raised);border-color:var(--ink);box-shadow:none;}
+  .ac-list img{border-radius:0;}
+  .song-n{border-radius:0;background:none;}
+  .people .person + .person{border-top-color:rgba(23,17,15,0.25);}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -273,6 +273,24 @@
 
   a:focus-visible, button:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
 
+  /* ===== Direction éditoriale (hors première page) : à plat, angles droits, capitales en Didone ===== */
+  .paper-wrap{filter:none;}
+  .paper{background:none;padding:0;}
+  .date-sec{background:var(--paper-raised);padding-block:72px 76px;}
+  .kicker{letter-spacing:0.3em;}
+  .date-day{font-weight:400;letter-spacing:0.02em;}
+  .date-month{font-style:normal;text-transform:uppercase;letter-spacing:0.22em;font-size:clamp(1.3rem, 5.4vw, 1.8rem);color:var(--ink);margin:8px 0 6px;}
+  .date-year{letter-spacing:0.3em;}
+  .cd-num{font-weight:400;}
+  .cal-btn{border-radius:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.76rem;border-color:var(--ink);color:var(--ink);padding:12px 20px 12px 16px;}
+  .cal-btn:hover{background:var(--ink);color:var(--paper-raised);}
+  .rsvp-sec{background:var(--paper-raised);border-top:1px solid var(--ink);}
+  .rsvp-title{font-style:normal;text-transform:uppercase;letter-spacing:0.08em;font-weight:400;font-size:clamp(1.6rem, 6.6vw, 2.3rem);line-height:1.2;}
+  .cta{border-radius:0;text-transform:uppercase;letter-spacing:0.16em;font-size:0.78rem;padding:18px 36px;}
+  .foot{background:rgba(var(--cream-rgb),0.94);border-top:1px solid var(--ink);}
+  .foot-names{font-style:normal;text-transform:uppercase;letter-spacing:0.16em;font-size:0.82rem;}
+
+
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important;animation:none !important;}
     html{scroll-behavior:auto;}
