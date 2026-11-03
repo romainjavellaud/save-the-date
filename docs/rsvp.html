@@ -78,7 +78,7 @@
     z-index:2;margin:0;
     font-family:"Bodoni Moda", Georgia, serif;
     font-style:italic;font-weight:400;
-    font-size:clamp(3.2rem, 14vw, 5.4rem);
+    font-size:clamp(2.4rem, 14vw, 5.4rem);
     line-height:0.9;
     text-shadow:0 4px 30px rgba(23,17,15,0.5);
   }
@@ -446,6 +446,13 @@
   .pillgroup input:checked + label,fieldset.rect .pillgroup input:checked + label,.person .pillgroup input:checked + label{background:#ede5dd;border-color:#ede5dd;color:#560512;}
   .cal-btn:hover,.add-person:hover{background:#ede5dd;color:#560512;}
   .cd-num{color:var(--powder);}
+
+  /* adaptation tous écrans */
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+  @media (max-width:360px){html{font-size:16.5px;}}
+  @media (min-width:900px){html{font-size:19px;}}
+  button,.pillgroup label,.cta,.cal-btn{min-height:44px;}
+  body{padding-left:max(16px, env(safe-area-inset-left));padding-right:max(16px, env(safe-area-inset-right));}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
